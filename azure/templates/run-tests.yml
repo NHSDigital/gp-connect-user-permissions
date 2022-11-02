@@ -1,0 +1,40 @@
+parameters:
+  - name: full
+    type: boolean
+    default: false
+
+steps:
+  - bash: |
+      make install-python
+    workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+    displayName: Setup pytests
+    condition: always()
+
+  - ${{ if parameters.full }}:
+    - bash: |
+        APIGEE_ACCESS_TOKEN=$(secret.AccessToken) \
+        PROXY_NAME=$(FULLY_QUALIFIED_SERVICE_NAME) \
+        SOURCE_COMMIT_ID=$(Build.SourceVersion) \
+        make test
+      workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+      displayName: Run full test suite
+    - task: PublishTestResults@2
+      displayName: 'Publish test results'
+      condition: always()
+      inputs:
+        testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/test-report.xml'
+        failTaskOnFailedTests: true
+  - ${{ if not(parameters.full) }}:
+    - bash: |
+        APIGEE_ACCESS_TOKEN=$(secret.AccessToken) \
+        PROXY_NAME=$(FULLY_QUALIFIED_SERVICE_NAME) \
+        SOURCE_COMMIT_ID=$(Build.SourceVersion) \
+        make smoketest
+      workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+      displayName: Run smoketests
+    - task: PublishTestResults@2
+      displayName: 'Publish smoketest results'
+      condition: always()
+      inputs:
+        testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/smoketest-report.xml'
+        failTaskOnFailedTests: true
