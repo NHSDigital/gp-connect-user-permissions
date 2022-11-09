@@ -74,6 +74,13 @@ paths:
                   $ref: "#/components/examples/CurrentPermissionsWithRejectedRequestForDocuments"
                 "Mulitple medical record permission sets":
                   $ref: "#/components/examples/MultipleMedicalRecordPermissionSets"
+        "4XX":
+          description: Invalid request
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorCode"
+
   /update-permission:
     post:
       tags:
@@ -148,6 +155,111 @@ components:
             is accessible or not.
           items:
             $ref: "#/components/schemas/ServicePermission"
+
+    ErrorCode:
+      type: object
+      description: |
+        Outcome of an operation that does not result in a resource being returned
+      properties:
+        resourceType:
+          type: string
+          description: Resource type
+          example: "OperationOutcome"
+        # id:
+        #   type: string
+        #   description: Internal Apigee messageID
+        #   example: "rrt-2959959087381887325-c-geu2-24001-82918062-1"
+        # meta:
+        #   type: object
+        #   description: to do
+        #   example: {"lastUpdated": "2021-04-14T11:35:00+00:00"}
+        #   get rid of all syntax on examples?
+        issue:
+          type: array
+          description: List of issues that have occurred
+          minItems: 1
+          items:
+            type: object
+            required: 
+              - severity
+              - code
+            properties:
+              severity:
+                type: string
+                description: Severity of error
+                enum:
+                  - fatal
+                  - error
+                  - warning
+                  - information
+                example: "error"
+              code:
+                type: string
+                description: Error code
+                enum: 
+                  - invalid
+                  - structure
+                  - required
+                  - value
+                  - invariant
+                  - security
+                  - login
+                  - unknown
+                  - expired
+                  - forbidden
+                  - suppressed
+                  - processing
+                  - not-supported
+                  - duplicate
+                  - multiple-matches
+                  - not-found
+                  - deleted
+                  - too-long
+                  - code-invalid
+                  - extension
+                  - too-costly
+                  - business-rule
+                  - conflict
+                  - transient
+                  - lock-error
+                  - no-store
+                  - exception
+                  - timeout
+                  - incomplete
+                  - throttled
+                  - informational
+                example: "value"
+              details:
+                type: object
+                description: Internal error code
+                properties: 
+                  coding:
+                    type: array
+                    items:
+                      type: object
+                      properties: 
+                        system:
+                          type: string
+                          description: URI of the coding system specification
+                          example: "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode"
+                        version:
+                          type: string
+                          description: Version of the coding system in use
+                          example: "1"
+                        # version not in FHIR example we looked at, remove?
+                        code: 
+                          type: string
+                          description: Symbol in syntax defined in system
+                          example: "INVALID_VALUE"
+                        display: 
+                          type: string
+                          description: Representation defined by system
+                          example: "Provided value is invalid"
+              expression:
+                type: string
+                description: FHIRPath of element(s) related to the error
+                example: patient.name.given
+                # location deprecated and replaced by expression - remove if lcoation not needed?
 
     MedicalRecordPermission:
       type: object
