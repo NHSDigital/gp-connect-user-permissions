@@ -79,7 +79,7 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/ErrorCode"
+                $ref: "#/components/schemas/ErrorResponse"
               examples:
                 "Invalid request error response":
                   $ref: "#/components/examples/InvalidRequestError"
@@ -88,7 +88,7 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/ErrorCode"
+                $ref: "#/components/schemas/ErrorResponse"
               examples:
                 "Server error response":
                   $ref: "#/components/examples/ServerError"     
@@ -147,7 +147,7 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/ErrorCode"
+                $ref: "#/components/schemas/ErrorResponse"
               examples:
                 "Invalid request error response":
                   $ref: "#/components/examples/InvalidRequestError"
@@ -156,7 +156,7 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/ErrorCode"
+                $ref: "#/components/schemas/ErrorResponse"
               examples:
                 "Server error response":
                   $ref: "#/components/examples/ServerError"   
@@ -186,9 +186,9 @@ components:
           items:
             $ref: "#/components/schemas/ServicePermission"
 
-    ErrorCode:
+    ErrorResponse:
       type: object
-      description: |
+      description: >
         Outcome of an operation that does not result in a resource being returned
       properties:
         resourceType:
