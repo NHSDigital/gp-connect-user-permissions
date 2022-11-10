@@ -80,12 +80,16 @@ paths:
             application/json:
               schema: 
                 $ref: "#/components/schemas/ErrorCode"
+              examples:
+                "Invalid request error response":
+                  $ref: "#/components/examples/InvalidRequestErrorResponse"
         "5XX":
           description: Server error
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/ErrorCode"       
+                $ref: "#/components/schemas/ErrorCode"
+                   
 
   /update-permission:
     post:
@@ -175,7 +179,8 @@ components:
         meta:
           type: object
           description: UTC date and time stamp of when error occurred
-          example: {"lastUpdated": "2021-04-14T11:35:00+00:00"}
+          example: 
+            "lastUpdated": "2022-11-01T00:00:00+00:00"
         issue:
           type: array
           description: List of issues that have occurred
@@ -566,7 +571,14 @@ components:
             accessLevel: full
           - id: medication
             accessLevel: full
-
+    InvalidRequestErrorResponse:
+      value:
+        resourceType: OperationOutcome
+        meta: 
+          "lastUpdated": "2021-04-14T11:35:00+00:00"
+        issue:
+          - code: timeout
+            diagnostics: Request has timed out
   requestBodies:
     UpdatePermission:
       description: >
