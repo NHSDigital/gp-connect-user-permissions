@@ -220,37 +220,37 @@ components:
                 type: string
                 description: FHIR error code
                 enum:
-                  - invalid
-                  - structure
-                  - required
-                  - value
-                  - invariant
-                  - security
-                  - login
-                  - unknown
-                  - expired
-                  - forbidden
-                  - suppressed
-                  - processing
-                  - not-supported
-                  - duplicate
-                  - multiple-matches
-                  - not-found
-                  - deleted
-                  - too-long
-                  - code-invalid
-                  - extension
-                  - too-costly
                   - business-rule
+                  - code-invalid
                   - conflict
-                  - transient
-                  - lock-error
-                  - no-store
+                  - deleted
+                  - duplicate
                   - exception
-                  - timeout
+                  - expired
+                  - extension
+                  - forbidden
                   - incomplete
-                  - throttled
                   - informational
+                  - invalid
+                  - invariant
+                  - lock-error
+                  - login
+                  - multiple-matches
+                  - no-store
+                  - not-found
+                  - not-supported
+                  - processing
+                  - required
+                  - security
+                  - structure
+                  - suppressed
+                  - throttled
+                  - timeout
+                  - too-costly
+                  - too-long
+                  - transient
+                  - unknown
+                  - value
                 example: value
               diagnostics:
                 type: string
