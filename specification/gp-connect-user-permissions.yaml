@@ -13,17 +13,18 @@ info:
     
     Use this API to access an NHS patient's permissions for healthcare information and services. Patient facing applications can get a patient's permissions from GP Systems with this API.
     
-    If a patient has an NHS Login ID, you can:
+    You can:
     
-    * get their current permissions (available and restricted)
-    * request for changes to patient's permissions
+    * get a patient's current permissions (available and restricted)
+    * request for changes to a patient's permissions
     
     You cannot currently use this API to:
     
-    * receive notifications when patient permissions are updated in the GP System.
+    * receive notifications when patient permissions are updated in the GP System
     * update patient permissions in GP Systems
-    * get current permissions for proxy patient access.
-    * manage type 1 opt out
+    * get current permissions for proxy patient access
+    * manage permissions for type 1 opt out
+    * manage permissions for national data opt out
     
     ## Who can use this API
     To be completed.
