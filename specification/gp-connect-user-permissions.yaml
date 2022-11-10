@@ -169,17 +169,13 @@ components:
       properties:
         resourceType:
           type: string
-          description: Resource type
-          example: "OperationOutcome"
-        # id:
-        #   type: string
-        #   description: Internal Apigee messageID
-        #   example: "rrt-2959959087381887325-c-geu2-24001-82918062-1"
-        # meta:
-        #   type: object
-        #   description: to do
-        #   example: {"lastUpdated": "2021-04-14T11:35:00+00:00"}
-        #   get rid of all syntax on examples?
+          description: FHIR resource type
+          enum: 
+            - OperationOutcome
+        meta:
+          type: object
+          description: UTC date and time stamp of when error occurred
+          example: {"lastUpdated": "2021-04-14T11:35:00+00:00"}
         issue:
           type: array
           description: List of issues that have occurred
@@ -187,21 +183,11 @@ components:
           items:
             type: object
             required: 
-              - severity
               - code
             properties:
-              severity:
-                type: string
-                description: Severity of error
-                enum:
-                  - fatal
-                  - error
-                  - warning
-                  - information
-                example: "error"
               code:
                 type: string
-                description: Error code
+                description: FHIR error code
                 enum: 
                   - invalid
                   - structure
@@ -234,34 +220,12 @@ components:
                   - incomplete
                   - throttled
                   - informational
-                example: "value"
-              details:
-                type: object
-                description: Internal error code
-                properties: 
-                  coding:
-                    type: array
-                    items:
-                      type: object
-                      properties: 
-                        system:
-                          type: string
-                          description: URI of the coding system specification
-                          example: "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode"
-                        version:
-                          type: string
-                          description: Version of the coding system in use
-                          example: "1"
-                        # version not in FHIR example we looked at, remove?
-                        code: 
-                          type: string
-                          description: Symbol in syntax defined in system
-                          example: "INVALID_VALUE"
-                        display: 
-                          type: string
-                          description: Representation defined by system
-                          example: "Provided value is invalid"
-             
+                example: value
+              diagnostics: 
+                type: string
+                description: Representation defined by system
+                example: Provided value is invalid
+                        
     MedicalRecordPermission:
       type: object
       description: >
