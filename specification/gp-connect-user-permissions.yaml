@@ -82,14 +82,16 @@ paths:
                 $ref: "#/components/schemas/ErrorCode"
               examples:
                 "Invalid request error response":
-                  $ref: "#/components/examples/InvalidRequestErrorResponse"
+                  $ref: "#/components/examples/InvalidRequestError"
         "5XX":
           description: Server error
           content: 
             application/json:
               schema: 
                 $ref: "#/components/schemas/ErrorCode"
-                   
+              examples:
+                "Server error response":
+                  $ref: "#/components/examples/ServerError"     
 
   /update-permission:
     post:
@@ -571,7 +573,7 @@ components:
             accessLevel: full
           - id: medication
             accessLevel: full
-    InvalidRequestErrorResponse:
+    InvalidRequestError:
       value:
         resourceType: OperationOutcome
         meta: 
@@ -579,6 +581,14 @@ components:
         issue:
           - code: timeout
             diagnostics: Request has timed out
+    ServerError:
+      value:
+        resourceType: OperationOutcome
+        meta: 
+          "lastUpdated": "2017-10-17T12:22:00+00:00"
+        issue:
+          - code: transient
+            diagnostics: A downstream server is offline
   requestBodies:
     UpdatePermission:
       description: >
