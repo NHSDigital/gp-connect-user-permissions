@@ -79,7 +79,7 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/ErrorCode"
+                $ref: "#/components/schemas/ErrorCode"        
 
   /update-permission:
     post:
@@ -255,12 +255,7 @@ components:
                           type: string
                           description: Representation defined by system
                           example: "Provided value is invalid"
-              expression:
-                type: string
-                description: FHIRPath of element(s) related to the error
-                example: patient.name.given
-                # location deprecated and replaced by expression - remove if lcoation not needed?
-
+             
     MedicalRecordPermission:
       type: object
       description: >
