@@ -198,7 +198,9 @@ components:
       properties:
         resourceType:
           type: string
-          description: FHIR resource type
+          description: >
+            The type of FHIR resource - primarily used by FHIR clients and used
+            in non-FHIR APIs for consistency across the platform.
           enum:
             - OperationOutcome
         meta:
@@ -222,7 +224,9 @@ components:
             properties:
               code:
                 type: string
-                description: FHIR error code
+                description: >
+                  A FHIR error code - primarily used by FHIR clients and used in
+                  non-FHIR APIs for consistency across the platform.
                 enum:
                   - business-rule
                   - code-invalid
@@ -255,11 +259,11 @@ components:
                   - transient
                   - unknown
                   - value
-                example: value
+                example: forbidden
               diagnostics:
                 type: string
                 description: Error message.
-                example: Provided value is invalid.
+                example: User is forbidden to perform action.
 
     MedicalRecordPermission:
       type: object
