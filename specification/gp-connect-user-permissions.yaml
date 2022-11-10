@@ -142,6 +142,24 @@ paths:
                     status: approved
                     message: >
                       Request for view access to medication service approved.
+        "4XX":
+          description: Invalid request
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorCode"
+              examples:
+                "Invalid request error response":
+                  $ref: "#/components/examples/InvalidRequestError"
+        "5XX":
+          description: Server error
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorCode"
+              examples:
+                "Server error response":
+                  $ref: "#/components/examples/ServerError"   
 
 components:
   schemas:
