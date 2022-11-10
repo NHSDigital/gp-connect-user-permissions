@@ -189,7 +189,8 @@ components:
     ErrorResponse:
       type: object
       description: >
-        Outcome of an operation that does not result in a resource being returned
+        Outcome of an operation that does not result in a resource being
+        returned.
       properties:
         resourceType:
           type: string
@@ -198,15 +199,17 @@ components:
             - OperationOutcome
         meta:
           type: object
-          description: UTC date and time stamp of when error occurred
+          description: Object to hold meta information about the error.
+          required:
+            - lastUpdated
           properties:
             lastUpdated:
               type: string
-              description: UTC date and time stamp of when error occurred
+              description: UTC date and time stamp when the error occurred.
               example: "2022-11-01T00:00:00+00:00"
         issue:
           type: array
-          description: List of issues that have occurred
+          description: List of issues that have occurred.
           minItems: 1
           items:
             type: object
@@ -251,8 +254,8 @@ components:
                 example: value
               diagnostics:
                 type: string
-                description: Representation defined by system
-                example: Provided value is invalid
+                description: Error message.
+                example: Provided value is invalid.
 
     MedicalRecordPermission:
       type: object
