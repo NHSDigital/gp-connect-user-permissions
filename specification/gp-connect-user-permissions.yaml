@@ -79,7 +79,13 @@ paths:
           content: 
             application/json:
               schema: 
-                $ref: "#/components/schemas/ErrorCode"        
+                $ref: "#/components/schemas/ErrorCode"
+        "5XX":
+          description: Server error
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ErrorCode"       
 
   /update-permission:
     post:
