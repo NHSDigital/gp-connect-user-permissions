@@ -10,9 +10,21 @@ info:
     email: api.management@nhs.net
   description: >
     ## Overview
-    Add a fully fledged description here with markdown syntax.
-    For help completing the content of your API spec, see our guidance on the minimum standard (bronze) details
-    to include [here](https://nhsd-confluence.digital.nhs.uk/display/APM/Writing+a+bronze+API+cover+page). You should also base your content on our exemplar API - [PDS FHIR](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir).
+    
+    Use this API to access an NHS patient's permissions for healthcare information and services. Patient facing applications can get a patient's permissions from GP Systems with this API.
+    
+    If a patient has an NHS Login ID, you can:
+    
+    * get their current permissions (available and restricted)
+    * request for changes to patient's permissions
+    
+    You cannot currently use this API to:
+    
+    * receive notifications when patient permissions are updated in the GP System.
+    * update patient permissions in GP Systems
+    * get current permissions for proxy patient access.
+    * manage type 1 opt out
+    
     ## Who can use this API
     To be completed.
     ## Related APIs
