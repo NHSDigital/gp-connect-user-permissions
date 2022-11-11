@@ -59,12 +59,11 @@ extends:
     #     proxy_path: sandbox
     #     post_deploy:
     #       - template: ./templates/run-tests.yml
-    # # Enable int environment when ready by uncommenting:
-    #   - environment: int
-    #     depends_on:
-    #       - internal_qa
-    #       - internal_qa_sandbox
-    #     post_deploy:
-    #       - template: ./templates/run-tests.yml
-    #         parameters:
-    #           full: true
+      - environment: int
+        depends_on:
+          - internal_qa
+          - internal_qa_sandbox
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              full: true
