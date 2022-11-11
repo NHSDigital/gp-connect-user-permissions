@@ -74,6 +74,25 @@ paths:
                   $ref: "#/components/examples/CurrentPermissionsWithRejectedRequestForDocuments"
                 "Mulitple medical record permission sets":
                   $ref: "#/components/examples/MultipleMedicalRecordPermissionSets"
+        "4XX":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                "Invalid request error response":
+                  $ref: "#/components/examples/InvalidRequestError"
+        "5XX":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                "Server error response":
+                  $ref: "#/components/examples/ServerError"
+
   /update-permission:
     post:
       tags:
@@ -123,6 +142,24 @@ paths:
                     status: approved
                     message: >
                       Request for view access to medication service approved.
+        "4XX":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                "Invalid request error response":
+                  $ref: "#/components/examples/InvalidRequestError"
+        "5XX":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                "Server error response":
+                  $ref: "#/components/examples/ServerError"
 
 components:
   schemas:
@@ -148,6 +185,85 @@ components:
             is accessible or not.
           items:
             $ref: "#/components/schemas/ServicePermission"
+
+    ErrorResponse:
+      type: object
+      description: >
+        Outcome of an operation that does not result in a resource being
+        returned.
+      required:
+        - resourceType
+        - meta
+        - issue
+      properties:
+        resourceType:
+          type: string
+          description: >
+            The type of FHIR resource - primarily used by FHIR clients and used
+            in non-FHIR APIs for consistency across the platform.
+          enum:
+            - OperationOutcome
+        meta:
+          type: object
+          description: Object to hold meta information about the error.
+          required:
+            - lastUpdated
+          properties:
+            lastUpdated:
+              type: string
+              description: UTC date and time stamp when the error occurred.
+              example: "2022-11-01T00:00:00+00:00"
+        issue:
+          type: array
+          description: List of issues that have occurred.
+          minItems: 1
+          items:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: string
+                description: >
+                  A FHIR error code - primarily used by FHIR clients and used in
+                  non-FHIR APIs for consistency across the platform.
+                enum:
+                  - business-rule
+                  - code-invalid
+                  - conflict
+                  - deleted
+                  - duplicate
+                  - exception
+                  - expired
+                  - extension
+                  - forbidden
+                  - incomplete
+                  - informational
+                  - invalid
+                  - invariant
+                  - lock-error
+                  - login
+                  - multiple-matches
+                  - no-store
+                  - not-found
+                  - not-supported
+                  - processing
+                  - required
+                  - security
+                  - structure
+                  - suppressed
+                  - throttled
+                  - timeout
+                  - too-costly
+                  - too-long
+                  - transient
+                  - unknown
+                  - value
+                example: forbidden
+              diagnostics:
+                type: string
+                description: Error message.
+                example: User is forbidden to perform action.
 
     MedicalRecordPermission:
       type: object
@@ -489,7 +605,22 @@ components:
             accessLevel: full
           - id: medication
             accessLevel: full
-
+    InvalidRequestError:
+      value:
+        resourceType: OperationOutcome
+        meta:
+          "lastUpdated": "2021-04-14T11:35:00+00:00"
+        issue:
+          - code: timeout
+            diagnostics: Request has timed out
+    ServerError:
+      value:
+        resourceType: OperationOutcome
+        meta:
+          "lastUpdated": "2017-10-17T12:22:00+00:00"
+        issue:
+          - code: transient
+            diagnostics: A downstream server is offline
   requestBodies:
     UpdatePermission:
       description: >
