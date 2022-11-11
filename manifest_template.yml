@@ -7,7 +7,7 @@ APIGEE_ENVIRONMENTS:
     has_mock_auth: true
   - name: internal-qa
     display_name: Internal QA
-    has_mock_auth: true 
+    has_mock_auth: true
   - name: ref
     display_name: Reference
     has_mock_auth: true
