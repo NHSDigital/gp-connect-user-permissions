@@ -76,22 +76,22 @@ paths:
                   $ref: "#/components/examples/MultipleMedicalRecordPermissionSets"
         "4XX":
           description: Invalid request
-          content: 
+          content:
             application/json:
-              schema: 
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 "Invalid request error response":
                   $ref: "#/components/examples/InvalidRequestError"
         "5XX":
           description: Server error
-          content: 
+          content:
             application/json:
-              schema: 
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 "Server error response":
-                  $ref: "#/components/examples/ServerError"     
+                  $ref: "#/components/examples/ServerError"
 
   /update-permission:
     post:
@@ -144,22 +144,22 @@ paths:
                       Request for view access to medication service approved.
         "4XX":
           description: Invalid request
-          content: 
+          content:
             application/json:
-              schema: 
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 "Invalid request error response":
                   $ref: "#/components/examples/InvalidRequestError"
         "5XX":
           description: Server error
-          content: 
+          content:
             application/json:
-              schema: 
+              schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 "Server error response":
-                  $ref: "#/components/examples/ServerError"   
+                  $ref: "#/components/examples/ServerError"
 
 components:
   schemas:
@@ -189,68 +189,82 @@ components:
     ErrorResponse:
       type: object
       description: >
-        Outcome of an operation that does not result in a resource being returned
+        Outcome of an operation that does not result in a resource being
+        returned.
+      required:
+        - resourceType
+        - meta
+        - issue
       properties:
         resourceType:
           type: string
-          description: FHIR resource type
-          enum: 
+          description: >
+            The type of FHIR resource - primarily used by FHIR clients and used
+            in non-FHIR APIs for consistency across the platform.
+          enum:
             - OperationOutcome
         meta:
           type: object
-          description: UTC date and time stamp of when error occurred
-          example: 
-            "lastUpdated": "2022-11-01T00:00:00+00:00"
+          description: Object to hold meta information about the error.
+          required:
+            - lastUpdated
+          properties:
+            lastUpdated:
+              type: string
+              description: UTC date and time stamp when the error occurred.
+              example: "2022-11-01T00:00:00+00:00"
         issue:
           type: array
-          description: List of issues that have occurred
+          description: List of issues that have occurred.
           minItems: 1
           items:
             type: object
-            required: 
+            required:
               - code
             properties:
               code:
                 type: string
-                description: FHIR error code
-                enum: 
-                  - invalid
-                  - structure
-                  - required
-                  - value
-                  - invariant
-                  - security
-                  - login
-                  - unknown
-                  - expired
-                  - forbidden
-                  - suppressed
-                  - processing
-                  - not-supported
-                  - duplicate
-                  - multiple-matches
-                  - not-found
-                  - deleted
-                  - too-long
-                  - code-invalid
-                  - extension
-                  - too-costly
+                description: >
+                  A FHIR error code - primarily used by FHIR clients and used in
+                  non-FHIR APIs for consistency across the platform.
+                enum:
                   - business-rule
+                  - code-invalid
                   - conflict
-                  - transient
-                  - lock-error
-                  - no-store
+                  - deleted
+                  - duplicate
                   - exception
-                  - timeout
+                  - expired
+                  - extension
+                  - forbidden
                   - incomplete
-                  - throttled
                   - informational
-                example: value
-              diagnostics: 
+                  - invalid
+                  - invariant
+                  - lock-error
+                  - login
+                  - multiple-matches
+                  - no-store
+                  - not-found
+                  - not-supported
+                  - processing
+                  - required
+                  - security
+                  - structure
+                  - suppressed
+                  - throttled
+                  - timeout
+                  - too-costly
+                  - too-long
+                  - transient
+                  - unknown
+                  - value
+                example: forbidden
+              diagnostics:
                 type: string
-                description: Representation defined by system
-                example: Provided value is invalid
-                        
+                description: Error message.
+                example: User is forbidden to perform action.
+
     MedicalRecordPermission:
       type: object
       description: >
@@ -594,7 +608,7 @@ components:
     InvalidRequestError:
       value:
         resourceType: OperationOutcome
-        meta: 
+        meta:
           "lastUpdated": "2021-04-14T11:35:00+00:00"
         issue:
           - code: timeout
@@ -602,7 +616,7 @@ components:
     ServerError:
       value:
         resourceType: OperationOutcome
-        meta: 
+        meta:
           "lastUpdated": "2017-10-17T12:22:00+00:00"
         issue:
           - code: transient
