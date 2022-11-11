@@ -185,8 +185,6 @@ paths:
                   $ref: "#/components/examples/ServiceWithPendingRequests"
                 "Current permissions with pending request for documents":
                   $ref: "#/components/examples/CurrentPermissionsWithPendingRequestForDocuments"
-                "Mulitple medical record permission sets":
-                  $ref: "#/components/examples/MultipleMedicalRecordPermissionSets"
         4XX:
           description: Invalid request
           content:
@@ -291,14 +289,7 @@ components:
         - services
       properties:
         medicalRecord:
-          type: array
-          description: |
-            List of permission sets from the beginning of the medical record to
-            the current date. Each permission set should have a `beginDate` and
-            an `endDate` with the exception of the current permission set which
-            should not contain an `endDate`.
-          items:
-            $ref: "#/components/schemas/MedicalRecordPermission"
+          $ref: "#/components/schemas/MedicalRecordPermission"
         services:
           type: array
           description: |
@@ -430,41 +421,25 @@ components:
 
     MedicalRecordPermission:
       type: object
-      description: |
-        Contains the access level the user has to the medical record and
-        whether they have access to documents. Permissions are effective from
-        `beginDate`.
-        An optional `request` object can be used to describe pending
-        requests.
+      description: >
+        Contains the access level the user has to the medical record. This is
+        split into `currentAccessLevel` and `previousAccessLevel` with a
+        `currentAccessEffectiveDate` for when the current access level took
+        affect.
+        An optional `request` object can be used to describe pending requests.
       required:
-        - id
-        - beginDate
-        - accessLevel
+        - currentAccessEffectiveDate
+        - currentAccessLevel
+        - previousAccessLevel
       properties:
-        id:
-          type: string
-          description: |
-            The id of the permission set. This will be used in the request to
-            update permissions. The id is arbitary and should not be used by
-            consuming applications for anything other than being included in
-            the request to update a permission.
-            The id could change between sessions but the receiving application
-            must know what permission set the id is associated to. For this
-            reason it is suggested `beginDate` is used as this will be unique
-            across all permission sets and have a well known association
-            between id and permission set.
-          example: "2022-11-01T00:00:00+00:00"
-        beginDate:
+        currentAccessEffectiveDate:
           type: string
           description: The date when the permission set was active.
           format: date-time
           example: "2022-11-01T00:00:00+00:00"
-        endDate:
-          type: string
-          description: The date when the permission set was no longer active.
-          format: date-time
-          example: "2022-11-01T00:00:00+00:00"
-        accessLevel:
+        currentAccessLevel:
+          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+        previousAccessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
         request:
           $ref: "#/components/schemas/MedicalRecordRequest"
@@ -649,9 +624,9 @@ components:
     CurrentPermissionsWithServices:
       value:
         medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: full
+          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
+          currentAccessLevel: full
+          previousAccessLevel: summary
         services:
           - id: appointments
             accessLevel: full
@@ -660,18 +635,14 @@ components:
     HistoricalPermissionsWithPendingRequest:
       value:
         medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: full
-          - id: historical-permissions-id
-            beginDate: "2002-06-11T09:30:00+00:00"
+          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
+          currentAccessLevel: full
+          previousAccessLevel: summary
+          request:
+            status: pending
             endDate: "2022-10-31T23:59:59+00:00"
-            accessLevel: summary
-            request:
-              status: pending
-              endDate: "2022-10-31T23:59:59+00:00"
-              message: Requires review by HCP
-              accessLevel: detailed
+            message: Requires review by HCP
+            accessLevel: detailed
         services:
           - id: appointments
             accessLevel: full
@@ -680,9 +651,9 @@ components:
     ServiceWithPendingRequests:
       value:
         medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: full
+          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
+          currentAccessLevel: full
+          previousAccessLevel: summary
         services:
           - id: appointments
             accessLevel: view
@@ -696,42 +667,19 @@ components:
     CurrentPermissionsWithPendingRequestForDocuments:
       value:
         medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: detailed
-            request:
-              status: pending
-              endDate: "2022-11-30T23:59:59+00:00"
-              message: Requires review by HCP
-              accessLevel: documents
+          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
+          currentAccessLevel: detailed
+          previousAccessLevel: summary
+          request:
+            status: pending
+            endDate: "2022-11-30T23:59:59+00:00"
+            message: Requires review by HCP
+            accessLevel: documents
         services:
           - id: appointments
             accessLevel: full
           - id: medication
             accessLevel: view
-    MultipleMedicalRecordPermissionSets:
-      value:
-        medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: full
-          - id: historical-permissions-id-1
-            beginDate: "2020-11-01T00:00:00+00:00"
-            endDate: "2022-10-31T23:59:59+00:00"
-            accessLevel: detailed
-          - id: historical-permissions-id-2
-            beginDate: "2015-11-01T00:00:00+00:00"
-            endDate: "2020-10-31T23:59:59+00:00"
-            accessLevel: detailed
-          - id: historical-permissions-id-3
-            beginDate: "2002-06-11T09:30:00+00:00"
-            endDate: "2015-10-31T23:59:59+00:00"
-            accessLevel: summary
-        services:
-          - id: appointments
-            accessLevel: full
-          - id: medication
-            accessLevel: full
     InvalidRequestError:
       value:
         resourceType: OperationOutcome
@@ -776,7 +724,7 @@ components:
     UpdatePermission:
       description: |
         Object containing the `type` and `id` of the permission to update along
-        with the `accessLevel` to update to.
+        with the `currentAccessLevel` to update to.
       required: true
       content:
         application/json:
