@@ -12,10 +12,10 @@ info:
     ## Overview
 
     Use this API to access an NHS patient's permissions for their medical
-    record and GP services. These permissions are held in GP systems. 
-      
+    record and GP services. These permissions are held in GP systems.
+
     If you are a patient-facing application, you can:
-      
+
     - get a patient's current permissions
     - get a patient's maximum level of permission available to them
     - allow patients to request changes to their permissions
@@ -23,10 +23,10 @@ info:
     If you are a GP system, you can:
 
     - receive requests from patients to change their permissions
-    - control what permissions patients can request 
-      
+    - control what permissions patients can request
+
     You cannot currently use this API to:
-      
+
     - allow patients to reduce permission levels
     - receive notifications when patient permissions are updated in the GP System
     - get permissions for proxy patient access
@@ -185,8 +185,6 @@ paths:
                   $ref: "#/components/examples/ServiceWithPendingRequests"
                 "Current permissions with pending request for documents":
                   $ref: "#/components/examples/CurrentPermissionsWithPendingRequestForDocuments"
-                "Current permissions with rejected request for documents":
-                  $ref: "#/components/examples/CurrentPermissionsWithRejectedRequestForDocuments"
                 "Mulitple medical record permission sets":
                   $ref: "#/components/examples/MultipleMedicalRecordPermissionSets"
         4XX:
@@ -441,7 +439,6 @@ components:
       required:
         - id
         - beginDate
-        - documentAccess
         - accessLevel
       properties:
         id:
@@ -467,11 +464,6 @@ components:
           description: The date when the permission set was no longer active.
           format: date-time
           example: "2022-11-01T00:00:00+00:00"
-        documentAccess:
-          type: boolean
-          description: |
-            Indicates if the user has access to the medical record documents.
-          example: true
         accessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
         request:
@@ -634,6 +626,7 @@ components:
         - none
         - summary
         - detailed
+        - documents
         - full
       example: detailed
     ServiceAccessLevelEnum:
@@ -658,7 +651,6 @@ components:
         medicalRecord:
           - id: current-permissions-id
             beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: true
             accessLevel: full
         services:
           - id: appointments
@@ -670,12 +662,10 @@ components:
         medicalRecord:
           - id: current-permissions-id
             beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: true
             accessLevel: full
           - id: historical-permissions-id
             beginDate: "2002-06-11T09:30:00+00:00"
             endDate: "2022-10-31T23:59:59+00:00"
-            documentAccess: false
             accessLevel: summary
             request:
               status: pending
@@ -692,7 +682,6 @@ components:
         medicalRecord:
           - id: current-permissions-id
             beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: true
             accessLevel: full
         services:
           - id: appointments
@@ -709,27 +698,9 @@ components:
         medicalRecord:
           - id: current-permissions-id
             beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: false
-            accessLevel: full
+            accessLevel: detailed
             request:
               status: pending
-              endDate: "2022-11-30T23:59:59+00:00"
-              message: Requires review by HCP
-              accessLevel: documents
-        services:
-          - id: appointments
-            accessLevel: full
-          - id: medication
-            accessLevel: view
-    CurrentPermissionsWithRejectedRequestForDocuments:
-      value:
-        medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: false
-            accessLevel: full
-            request:
-              status: rejected
               endDate: "2022-11-30T23:59:59+00:00"
               message: Requires review by HCP
               accessLevel: documents
@@ -743,22 +714,18 @@ components:
         medicalRecord:
           - id: current-permissions-id
             beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: false
             accessLevel: full
           - id: historical-permissions-id-1
             beginDate: "2020-11-01T00:00:00+00:00"
             endDate: "2022-10-31T23:59:59+00:00"
-            documentAccess: true
             accessLevel: detailed
           - id: historical-permissions-id-2
             beginDate: "2015-11-01T00:00:00+00:00"
             endDate: "2020-10-31T23:59:59+00:00"
-            documentAccess: false
             accessLevel: detailed
           - id: historical-permissions-id-3
             beginDate: "2002-06-11T09:30:00+00:00"
             endDate: "2015-10-31T23:59:59+00:00"
-            documentAccess: false
             accessLevel: summary
         services:
           - id: appointments
