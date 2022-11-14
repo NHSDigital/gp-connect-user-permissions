@@ -207,7 +207,7 @@ components:
         id:
           type: string
           description: Internal Apigee messageID.
-          example: "rrt-2959959087381887325-c-geu2-24001-82918062-1"
+          example: rrt-2959959087381887325-c-geu2-24001-82918062-1
         meta:
           type: object
           description: Object to hold meta information about the error.
@@ -657,11 +657,22 @@ components:
     InvalidRequestError:
       value:
         resourceType: OperationOutcome
+        id: rrt-2959959087381887325-c-geu2-24001-82918062-1
         meta:
           "lastUpdated": "2021-04-14T11:35:00+00:00"
         issue:
-          - code: timeout
-            diagnostics: Request has timed out
+          - severity: error
+            code: value
+            details:
+              "coding":
+                - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
+                  version: "1"
+                  code: INVALID_VALUE
+                  display: Provided value is invalid.
+              "diagnostics": (invalid_request) firstName is missing.
+              "expression":
+                - /data/attributes/firstName
+              
     ServerError:
       value:
         resourceType: OperationOutcome
