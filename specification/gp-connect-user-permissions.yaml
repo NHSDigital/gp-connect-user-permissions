@@ -428,19 +428,27 @@ components:
         affect.
         An optional `request` object can be used to describe pending requests.
       required:
-        - currentAccessEffectiveDate
-        - currentAccessLevel
-        - previousAccessLevel
+        - current
       properties:
-        currentAccessEffectiveDate:
-          type: string
-          description: The date when the permission set was active.
-          format: date-time
-          example: "2022-11-01T00:00:00+00:00"
-        currentAccessLevel:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        previousAccessLevel:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+        current:
+          type: object
+          required:
+            - accessLevel
+            - effectiveDate
+          properties:
+            accessLevel:
+              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+            effectiveDate:
+              type: string
+              format: date/time
+              example: "2022-11-01T00:00:00+00:00"
+        previous:
+          type: object
+          required:
+            - accessLevel
+          properties:
+            accessLevel:
+              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
 
     ServicePermission:
       description: A service and the level of access a user has to it.
