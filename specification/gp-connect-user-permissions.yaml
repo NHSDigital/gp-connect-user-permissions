@@ -423,9 +423,8 @@ components:
       type: object
       description: |
         Contains the access level the user has to the medical record. This is
-        split into `currentAccessLevel` and `previousAccessLevel` with a
-        `currentAccessEffectiveDate` for when the current access level took
-        affect.
+        split into `current.accessLevel` and `previous.accessLevel` with a
+        `current.effectiveDate` for when the current access level took effect.
         An optional `request` object can be used to describe pending requests.
       required:
         - current
@@ -668,9 +667,11 @@ components:
     FullPermissions:
       value:
         medicalRecord:
-          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
-          currentAccessLevel: full
-          previousAccessLevel: summary
+          current:
+            effectiveDate: "2022-11-01T00:00:00+00:00"
+            accessLevel: full
+          previous:
+            accessLevel: summary
         services:
           - id: appointments
             accessLevel: full
@@ -679,9 +680,11 @@ components:
     PendingRequestForDocumentsAccess:
       value:
         medicalRecord:
-          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
-          currentAccessLevel: full
-          previousAccessLevel: summary
+          current:
+            effectiveDate: "2022-11-01T00:00:00+00:00"
+            accessLevel: full
+          previous:
+            accessLevel: summary
         services:
           - id: appointments
             accessLevel: full
@@ -697,9 +700,11 @@ components:
     PendingRequestForFullAccessAppointments:
       value:
         medicalRecord:
-          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
-          currentAccessLevel: full
-          previousAccessLevel: summary
+          current:
+            effectiveDate: "2022-11-01T00:00:00+00:00"
+            accessLevel: full
+          previous:
+            accessLevel: summary
         services:
           - id: appointments
             accessLevel: view
@@ -715,9 +720,11 @@ components:
     MultiplePendingRequests:
       value:
         medicalRecord:
-          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
-          currentAccessLevel: full
-          previousAccessLevel: summary
+          current:
+            effectiveDate: "2022-11-01T00:00:00+00:00"
+            accessLevel: full
+          previous:
+            accessLevel: summary
         services:
           - id: appointments
             accessLevel: view
