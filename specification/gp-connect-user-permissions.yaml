@@ -606,10 +606,19 @@ components:
       example: detailed
     ServiceAccessLevelEnum:
       type: string
-      description: Indicates the level of access the user has to the service.
+      description: |
+        Indicates the level of access the user has to the service.
+
+        | level | description |
+        | ----- | ----------- |
+        | none  | no access |
+        | view  | view only |
+        | action | can perform main action for service e.g. book appointments or order prescriptions |
+        | full | can amend/cancel existing appointments or prescriptions |
       enum:
         - none
         - view
+        - action
         - full
       example: view
     ServiceIdEnum:
