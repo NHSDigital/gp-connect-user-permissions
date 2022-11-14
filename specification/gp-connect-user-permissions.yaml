@@ -552,6 +552,13 @@ components:
           example: current-permissions-id
         accessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+        date:
+          type: string
+          description: |
+            The date to move the current effective permission date to. Only
+            applicable when access level is `full` and id `current`.
+          format: date-time
+          example: "2022-11-01T00:00:00+00:00"
     ServicePermissionUpdate:
       type: object
       description: |
@@ -789,16 +796,17 @@ components:
                 medical: "#/components/schemas/MedicalRecordPermissionUpdate"
                 service: "#/components/schemas/ServicePermissionUpdate"
           examples:
-            ? "Request document access for specific medical record permission set"
-            : value:
-                type: medical
-                id: historical-permissions-id
-                accessLevel: documents
-            "Request full access for current medical record":
+            "Request documents access for previous access level":
               value:
                 type: medical
-                id: current-permissions-id
+                id: previous
+                accessLevel: documents
+            "Request full access is moved back to date":
+              value:
+                type: medical
+                id: current
                 accessLevel: full
+                date: "2022-11-01T00:00:00+00:00"
             "Request full access to appointments service":
               value:
                 type: service
