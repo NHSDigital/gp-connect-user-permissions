@@ -672,15 +672,25 @@ components:
               "diagnostics": (invalid_request) firstName is missing.
               "expression":
                 - /data/attributes/firstName
-              
     ServerError:
       value:
         resourceType: OperationOutcome
+        id: rrt-2959959087381887325-c-geu2-24001-82918062-2
         meta:
           "lastUpdated": "2017-10-17T12:22:00+00:00"
         issue:
-          - code: transient
-            diagnostics: A downstream server is offline
+          - severity: error
+            code: exception
+            details:
+              "coding":
+                - system: https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1
+                  version: "1"
+                  code: INTERNAL_SERVER_ERROR
+                  display: Internal server error.
+              "diagnostics": "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
+              # "expression":
+              #   - /data/attributes/firstName
+              # get rid of expression for serverErrors as NA? Or get rid of entirely?
   requestBodies:
     UpdatePermission:
       description: >
