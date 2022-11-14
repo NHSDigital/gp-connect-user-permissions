@@ -223,38 +223,28 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                "Historical permissions with document access pending":
+                "Document access pending for previous permissions":
                   value:
                     type: medical
-                    id: historical-permissions-id
+                    id: previous
                     accessLevel: documents
                     status: pending
-                    message: Request to access documents is pending.
+                    message: Request to access documents pending.
                     dateCreated: "2022-11-01T00:00:00+00:00"
-                "Full access to current medical record permissions approved":
+                "Request to move full access back to requested date":
                   value:
                     type: medical
-                    id: current-permissions-id
+                    id: current
                     accessLevel: full
-                    status: approved
-                    message: |
-                      Request for full access to current medical record
-                      approved.
-                "Detailed coded access to historical permissions rejected":
-                  value:
-                    type: medical
-                    id: historical-permissions-id
-                    accessLevel: detailed
-                    status: rejected
-                    message: |
-                      Request for detailed coded access to historical medical
-                      record rejected.
-                "View access to prescriptions service approved":
+                    date: ""
+                    status: pending
+                    message: Request to move effective date back accepted.
+                "Request to have full access to prescriptions service":
                   value:
                     type: service
                     id: prescriptions
-                    accessLevel: view
-                    status: approved
+                    accessLevel: full
+                    status: pending
                     message: |
                       Request for view access to prescriptions service approved.
         4XX:
