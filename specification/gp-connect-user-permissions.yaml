@@ -177,14 +177,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserPermission"
               examples:
-                "Current permissions with services":
-                  $ref: "#/components/examples/CurrentPermissionsWithServices"
-                ? "Medical record with historical permissions and a pending request"
-                : $ref: "#/components/examples/HistoricalPermissionsWithPendingRequest"
-                "Services with pending requests":
-                  $ref: "#/components/examples/ServiceWithPendingRequests"
-                "Current permissions with pending request for documents":
-                  $ref: "#/components/examples/CurrentPermissionsWithPendingRequestForDocuments"
+                "Full permissions to medical record and services":
+                  $ref: "#/components/examples/FullPermissions"
+                "Pending request to get documents access to previous record":
+                  $ref: "#/components/examples/PendingRequestForDocumentsAccess"
+                "Pending request for full access to appointments":
+                  $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
+                "Multiple pending requests":
+                  $ref: "#/components/examples/MultiplePendingRequests"
         4XX:
           description: Invalid request
           content:
@@ -287,6 +287,7 @@ components:
       required:
         - medicalRecord
         - services
+        - requests
       properties:
         medicalRecord:
           $ref: "#/components/schemas/MedicalRecordPermission"
@@ -297,6 +298,15 @@ components:
             is accessible or not.
           items:
             $ref: "#/components/schemas/ServicePermission"
+        requests:
+          type: array
+          description: |
+            List of outstanding requests that have been made to update either
+            the medical record or services permissions.
+          items:
+            anyOf:
+              - $ref: "#/components/schemas/MedicalRecordRequest"
+              - $ref: "#/components/schemas/ServiceRequest"
 
     ErrorResponse:
       type: object
@@ -441,8 +451,6 @@ components:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
         previousAccessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        request:
-          $ref: "#/components/schemas/MedicalRecordRequest"
 
     ServicePermission:
       description: A service and the level of access a user has to it.
@@ -454,8 +462,6 @@ components:
           $ref: "#/components/schemas/ServiceIdEnum"
         accessLevel:
           $ref: "#/components/schemas/ServiceAccessLevelEnum"
-        request:
-          $ref: "#/components/schemas/ServiceRequest"
 
     BaseRequest:
       description: |
@@ -483,18 +489,6 @@ components:
           enum:
             - pending
             - rejected
-    ServiceRequest:
-      description: |
-        An object containing information pertaining to any pending or rejected
-        requests for changes to service permissions.
-      allOf:
-        - $ref: "#/components/schemas/BaseRequest"
-        - type: object
-          required:
-            - accessLevel
-          properties:
-            accessLevel:
-              $ref: "#/components/schemas/ServiceAccessLevelEnum"
     MedicalRecordRequest:
       description: |
         An object containing information pertaining to any pending or rejected
@@ -504,9 +498,39 @@ components:
         - type: object
           required:
             - accessLevel
+            - id
+            - type
           properties:
             accessLevel:
               $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+            id:
+              $ref: "#/components/schemas/MedicalRecordPermissionTypeIdEnum"
+            type:
+              type: string
+              description: The type of request.
+              enum:
+                - medical
+    ServiceRequest:
+      description: |
+        An object containing information pertaining to any pending or rejected
+        requests for changes to service permissions.
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          required:
+            - accessLevel
+            - id
+            - type
+          properties:
+            accessLevel:
+              $ref: "#/components/schemas/ServiceAccessLevelEnum"
+            id:
+              $ref: "#/components/schemas/ServiceIdEnum"
+            type:
+              type: string
+              description: The type of request.
+              enum:
+                - service
 
     MedicalRecordPermissionUpdate:
       type: object
@@ -603,6 +627,13 @@ components:
         - documents
         - full
       example: detailed
+    MedicalRecordPermissionTypeIdEnum:
+      type: string
+      description: The type of the permission.
+      enum:
+        - current
+        - previous
+      example: current
     ServiceAccessLevelEnum:
       type: string
       description: |
@@ -629,7 +660,18 @@ components:
       example: appointments
 
   examples:
-    CurrentPermissionsWithServices:
+    FullPermissions:
+      value:
+        medicalRecord:
+          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
+          currentAccessLevel: full
+          previousAccessLevel: summary
+        services:
+          - id: appointments
+            accessLevel: full
+          - id: prescriptions
+            accessLevel: full
+    PendingRequestForDocumentsAccess:
       value:
         medicalRecord:
           currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
@@ -640,23 +682,14 @@ components:
             accessLevel: full
           - id: prescriptions
             accessLevel: view
-    HistoricalPermissionsWithPendingRequest:
-      value:
-        medicalRecord:
-          currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
-          currentAccessLevel: full
-          previousAccessLevel: summary
-          request:
-            status: pending
+        requests:
+          - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
             message: Requires review by HCP
-            accessLevel: detailed
-        services:
-          - id: appointments
-            accessLevel: full
-          - id: prescriptions
-            accessLevel: view
-    ServiceWithPendingRequests:
+            accessLevel: documents
+            id: previous
+            type: medical
+    PendingRequestForFullAccessAppointments:
       value:
         medicalRecord:
           currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
@@ -665,29 +698,39 @@ components:
         services:
           - id: appointments
             accessLevel: view
-            request:
-              status: pending
-              dateCreated: "2022-10-31T23:59:59+00:00"
-              message: Requires review by HCP
-              accessLevel: full
           - id: prescriptions
             accessLevel: view
-    CurrentPermissionsWithPendingRequestForDocuments:
+        requests:
+          - status: pending
+            dateCreated: "2022-10-31T23:59:59+00:00"
+            message: Requires review by HCP
+            accessLevel: full
+            id: appointments
+            type: service
+    MultiplePendingRequests:
       value:
         medicalRecord:
           currentAccessEffectiveDate: "2022-11-01T00:00:00+00:00"
-          currentAccessLevel: detailed
+          currentAccessLevel: full
           previousAccessLevel: summary
-          request:
-            status: pending
-            dateCreated: "2022-11-30T23:59:59+00:00"
-            message: Requires review by HCP
-            accessLevel: documents
         services:
           - id: appointments
-            accessLevel: full
+            accessLevel: view
           - id: prescriptions
             accessLevel: view
+        requests:
+          - status: pending
+            dateCreated: "2022-10-31T23:59:59+00:00"
+            message: Requires review by HCP
+            accessLevel: full
+            id: appointments
+            type: service
+          - status: pending
+            dateCreated: "2022-10-31T23:59:59+00:00"
+            message: Requires review by HCP
+            accessLevel: documents
+            id: previous
+            type: medical
     InvalidRequestError:
       value:
         resourceType: OperationOutcome
