@@ -223,30 +223,34 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                "Document access pending for before permissions":
-                  value:
+                ? "Request for documents access for before effective date is pending"
+                : value:
                     type: medical
                     id: before
                     accessLevel: documents
                     status: pending
-                    message: Request to access documents pending.
+                    message: |
+                      Request accepted to update access before effective date
+                      to documents.
                     dateCreated: "2022-11-01T00:00:00+00:00"
-                "Request to move full access back to requested date":
+                "Request to move effective date back to requested date":
                   value:
                     type: medical
                     id: present
                     accessLevel: full
-                    date: ""
+                    date: "2021-11-01T00:00:00+00:00"
                     status: pending
-                    message: Request to move effective date back accepted.
-                "Request to have full access to prescriptions service":
+                    message: Request received to move effective date to date.
+                    dateCreated: "2022-11-01T00:00:00+00:00"
+                "Request for full access to prescriptions service":
                   value:
                     type: service
                     id: prescriptions
                     accessLevel: full
                     status: pending
                     message: |
-                      Request for view access to prescriptions service approved.
+                      Request received for full access to prescriptions service.
+                    dateCreated: "2022-11-01T00:00:00+00:00"
         4XX:
           description: Invalid request
           content:
@@ -824,22 +828,22 @@ components:
                 medical: "#/components/schemas/MedicalRecordPermissionUpdate"
                 service: "#/components/schemas/ServicePermissionUpdate"
           examples:
-            "Request documents access for before access level":
+            "Request documents access for medical record before effective date":
               value:
                 type: medical
                 id: before
                 accessLevel: documents
-            "Request full access is moved back to date":
+            "Request effective date is moved back to date":
               value:
                 type: medical
                 id: present
                 accessLevel: full
                 date: "2022-11-01T00:00:00+00:00"
-            "Request full access to appointments service":
+            "Request action access to appointments service":
               value:
                 type: service
                 id: appointments
-                accessLevel: full
+                accessLevel: action
 
   securitySchemes:
     BearerAuthorization:
