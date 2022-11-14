@@ -77,7 +77,7 @@ paths:
         "4XX":
           description: Invalid request
           content:
-            application/json:
+            application/fhir+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
@@ -193,6 +193,7 @@ components:
         returned.
       required:
         - resourceType
+        - id
         - meta
         - issue
       properties:
@@ -203,6 +204,10 @@ components:
             in non-FHIR APIs for consistency across the platform.
           enum:
             - OperationOutcome
+        id:
+          type: string
+          description: Internal Apigee messageID.
+          example: "rrt-2959959087381887325-c-geu2-24001-82918062-1"
         meta:
           type: object
           description: Object to hold meta information about the error.
@@ -220,8 +225,19 @@ components:
           items:
             type: object
             required:
+              - severity
               - code
+              - details
             properties:
+              severity:
+                type: string
+                description: Severity of the error.
+                enum:
+                 - fatal
+                 - error
+                 - warning
+                 - information
+                example: error
               code:
                 type: string
                 description: >
@@ -260,10 +276,43 @@ components:
                   - unknown
                   - value
                 example: forbidden
-              diagnostics:
-                type: string
-                description: Error message.
-                example: User is forbidden to perform action.
+              details:
+                type: object
+                description: Internal error code.
+                properties:
+                  coding:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        system:
+                          type: string
+                          description: URI of the coding system specification.
+                          example: >
+                            https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                        version:
+                          type: string
+                          description: Version of the coding system in use.
+                          example: "1"
+                        code:
+                          type: string
+                          description: Symbol in syntax defined by the system.
+                          example: INVALID_VALUE
+                        display:
+                          type: string
+                          description: Representation defined by the system.
+                          example: Provided value is invalid.
+                  diagnostics:
+                    type: string
+                    description: >
+                      Additional diagnostic information about the issue.
+                    example: (invalid_request) firstName is missing.
+                  expression: 
+                    type: array
+                    description: JSON pointer of element(s) related to the error.
+                    items:
+                      type: string
+                      example: /data/attributes/firstName
 
     MedicalRecordPermission:
       type: object
