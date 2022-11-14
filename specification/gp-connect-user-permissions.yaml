@@ -251,6 +251,16 @@ paths:
                     message: |
                       Request received for full access to prescriptions service.
                     dateCreated: "2022-11-01T00:00:00+00:00"
+                "Request rejected for full access to appointments service":
+                  value:
+                    type: service
+                    id: prescriptions
+                    accessLevel: full
+                    status: rejected
+                    message: |
+                      Request received for full access to prescriptions
+                      service.
+                    dateCreated: "2022-11-01T00:00:00+00:00"
         4XX:
           description: Invalid request
           content:
@@ -443,7 +453,7 @@ components:
             accessLevel:
               $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
             maxAccessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
             effectiveDate:
               type: string
               format: date/time
@@ -457,7 +467,7 @@ components:
             accessLevel:
               $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
             maxAccessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
 
     ServicePermission:
       description: A service and the level of access a user has to it.
@@ -471,7 +481,7 @@ components:
         accessLevel:
           $ref: "#/components/schemas/ServiceAccessLevelEnum"
         maxAccessLevel:
-          $ref: "#/components/schemas/ServiceAccessLevelEnum"
+          $ref: "#/components/schemas/MaxServiceAccessLevelEnum"
 
     BaseRequest:
       description: |
@@ -606,7 +616,6 @@ components:
               type: string
               description: The status of the update request.
               enum:
-                - approved
                 - rejected
                 - pending
               example: pending
@@ -642,6 +651,17 @@ components:
         - documents
         - full
       example: detailed
+    MaxMedicalRecordAccessLevelEnum:
+      type: string
+      description: |
+        The maximum access level the user can have to the medical record.
+      enum:
+        - none
+        - summary
+        - detailed
+        - documents
+        - full
+      example: documents
     MedicalRecordPermissionTypeIdEnum:
       type: string
       description: The type of the permission.
@@ -666,6 +686,23 @@ components:
         - action
         - full
       example: view
+    MaxServiceAccessLevelEnum:
+      type: string
+      description: |
+        Indicates the maximum level of access the user can have to the service.
+
+        | level  | description                                                                       |
+        | -----  | -----------                                                                       |
+        | none   | no access                                                                         |
+        | view   | view only                                                                         |
+        | action | can perform main action for service e.g. book appointments or order prescriptions |
+        | full   | can amend/cancel existing appointments or prescriptions                           |
+      enum:
+        - none
+        - view
+        - action
+        - full
+      example: action
     ServiceIdEnum:
       type: string
       description: The id of the service.
