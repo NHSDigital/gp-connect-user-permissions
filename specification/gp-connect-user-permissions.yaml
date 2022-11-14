@@ -434,8 +434,11 @@ components:
           required:
             - accessLevel
             - effectiveDate
+            - maxAccessLevel
           properties:
             accessLevel:
+              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+            maxAccessLevel:
               $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
             effectiveDate:
               type: string
@@ -445,8 +448,11 @@ components:
           type: object
           required:
             - accessLevel
+            - maxAccessLevel
           properties:
             accessLevel:
+              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+            maxAccessLevel:
               $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
 
     ServicePermission:
@@ -454,10 +460,13 @@ components:
       required:
         - id
         - accessLevel
+        - maxAccessLevel
       properties:
         id:
           $ref: "#/components/schemas/ServiceIdEnum"
         accessLevel:
+          $ref: "#/components/schemas/ServiceAccessLevelEnum"
+        maxAccessLevel:
           $ref: "#/components/schemas/ServiceAccessLevelEnum"
 
     BaseRequest:
@@ -668,26 +677,34 @@ components:
           present:
             effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
+            maxAccessLevel: full
           before:
             accessLevel: summary
+            maxAccessLevel: documents
         services:
           - id: appointments
-            accessLevel: full
+            accessLevel: view
+            maxAccessLevel: full
           - id: prescriptions
-            accessLevel: full
+            accessLevel: action
+            maxAccessLevel: full
     PendingRequestForDocumentsAccess:
       value:
         medicalRecord:
           present:
             effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
+            maxAccessLevel: full
           before:
             accessLevel: summary
+            maxAccessLevel: documents
         services:
           - id: appointments
-            accessLevel: full
+            accessLevel: action
+            maxAccessLevel: action
           - id: prescriptions
             accessLevel: view
+            maxAccessLevel: action
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
@@ -701,18 +718,22 @@ components:
           present:
             effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
+            maxAccessLevel: full
           before:
             accessLevel: summary
+            maxAccessLevel: detailed
         services:
           - id: appointments
             accessLevel: view
+            maxAccessLevel: action
           - id: prescriptions
             accessLevel: view
+            maxAccessLevel: action
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
             message: Requires review by HCP
-            accessLevel: full
+            accessLevel: action
             id: appointments
             type: service
     MultiplePendingRequests:
@@ -721,24 +742,28 @@ components:
           present:
             effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
+            maxAccessLevel: full
           before:
             accessLevel: summary
+            maxAccessLevel: detailed
         services:
           - id: appointments
             accessLevel: view
+            maxAccessLevel: action
           - id: prescriptions
             accessLevel: view
+            maxAccessLevel: action
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
             message: Requires review by HCP
-            accessLevel: full
+            accessLevel: action
             id: appointments
             type: service
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
             message: Requires review by HCP
-            accessLevel: documents
+            accessLevel: detailed
             id: before
             type: medical
     InvalidRequestError:
