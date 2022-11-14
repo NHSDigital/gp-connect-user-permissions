@@ -609,12 +609,12 @@ components:
       description: |
         Indicates the level of access the user has to the service.
 
-        | level | description |
-        | ----- | ----------- |
-        | none  | no access |
-        | view  | view only |
+        | level  | description                                                                       |
+        | -----  | -----------                                                                       |
+        | none   | no access                                                                         |
+        | view   | view only                                                                         |
         | action | can perform main action for service e.g. book appointments or order prescriptions |
-        | full | can amend/cancel existing appointments or prescriptions |
+        | full   | can amend/cancel existing appointments or prescriptions                           |
       enum:
         - none
         - view
