@@ -230,7 +230,7 @@ paths:
                     accessLevel: documents
                     status: pending
                     message: Request to access documents is pending.
-                    endDate: "2022-11-01T00:00:00+00:00"
+                    dateCreated: "2022-11-01T00:00:00+00:00"
                 "Full access to current medical record permissions approved":
                   value:
                     type: medical
@@ -464,14 +464,13 @@ components:
       type: object
       required:
         - status
-        - endDate
+        - dateCreated
         - message
       properties:
-        endDate:
+        dateCreated:
           type: string
           description: |
-            The date/time when the request will have either been actioned or
-            becomes eligible to be requested again.
+            The date/time when the request for change was created.
           format: date-time
           example: "2022-11-01T00:00:00+00:00"
         message:
@@ -574,14 +573,14 @@ components:
               example: pending
             message:
               type: string
-              description: Message pertaining to the result of the request.
-              example: Request to allow access to documents is pending.
-            endDate:
+              description: |
+                Message pertaining to the result of the request.
+              example: |
+                Request to allow access to documents is pending.
+            dateCreated:
               type: string
               description: |
-                Only required for `pending` responses. Indicates that date time
-                when the request is expected to have been processed and an
-                `approved` or `rejected` status has been achieved.
+                Indicates that date time when the request was created.
               format: date-time
               example: "2022-11-01T00:00:00+00:00"
     MedicalRecordPermissionUpdateResponse:
@@ -649,7 +648,7 @@ components:
           previousAccessLevel: summary
           request:
             status: pending
-            endDate: "2022-10-31T23:59:59+00:00"
+            dateCreated: "2022-10-31T23:59:59+00:00"
             message: Requires review by HCP
             accessLevel: detailed
         services:
@@ -668,7 +667,7 @@ components:
             accessLevel: view
             request:
               status: pending
-              endDate: "2022-10-31T23:59:59+00:00"
+              dateCreated: "2022-10-31T23:59:59+00:00"
               message: Requires review by HCP
               accessLevel: full
           - id: prescriptions
@@ -681,7 +680,7 @@ components:
           previousAccessLevel: summary
           request:
             status: pending
-            endDate: "2022-11-30T23:59:59+00:00"
+            dateCreated: "2022-11-30T23:59:59+00:00"
             message: Requires review by HCP
             accessLevel: documents
         services:
