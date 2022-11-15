@@ -20,7 +20,7 @@ info:
     - get a patient's maximum level of permission available to them
     - allow patients to request changes to their permissions
 
-    If you are a GP system, you will be able to:
+    If you are a GP system, you can:
 
     - receive requests from patients to change their permissions
     - control what permissions patients can request 
