@@ -86,7 +86,7 @@ paths:
         "5XX":
           description: Server error
           content:
-            application/json:
+            application/fhir+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
@@ -145,7 +145,7 @@ paths:
         "4XX":
           description: Invalid request
           content:
-            application/json:
+            application/fhir+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
@@ -154,7 +154,7 @@ paths:
         "5XX":
           description: Server error
           content:
-            application/json:
+            application/fhir+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
@@ -193,7 +193,6 @@ components:
         returned.
       required:
         - resourceType
-        - id
         - meta
         - issue
       properties:
@@ -204,10 +203,6 @@ components:
             in non-FHIR APIs for consistency across the platform.
           enum:
             - OperationOutcome
-        id:
-          type: string
-          description: Internal Apigee messageID.
-          example: rrt-2959959087381887325-c-geu2-24001-82918062-1
         meta:
           type: object
           description: Object to hold meta information about the error.
@@ -227,7 +222,6 @@ components:
             required:
               - severity
               - code
-              - details
             properties:
               severity:
                 type: string
@@ -657,7 +651,6 @@ components:
     InvalidRequestError:
       value:
         resourceType: OperationOutcome
-        id: rrt-2959959087381887325-c-geu2-24001-82918062-1
         meta:
           "lastUpdated": "2021-04-14T11:35:00+00:00"
         issue:
@@ -675,7 +668,6 @@ components:
     ServerError:
       value:
         resourceType: OperationOutcome
-        id: rrt-2959959087381887325-c-geu2-24001-82918062-2
         meta:
           "lastUpdated": "2017-10-17T12:22:00+00:00"
         issue:
@@ -688,9 +680,7 @@ components:
                   code: INTERNAL_SERVER_ERROR
                   display: Internal server error.
               "diagnostics": "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
-              # "expression":
-              #   - /data/attributes/firstName
-              # get rid of expression for serverErrors as NA? Or get rid of entirely?
+  
   requestBodies:
     UpdatePermission:
       description: >
