@@ -38,7 +38,7 @@ info:
     - be a member of a GP practice
     - be registered with NHS Login
 
-    ### Access modes
+    ### Access modes
 
     This API has a single access mode:
 
@@ -55,7 +55,7 @@ info:
     you have a valid use case before you go too far with your development. You
     must demonstrate you have a valid use case as part of digital onboarding.
 
-    You must do this before you can go live (see ‘Onboarding’ below).
+    You must do this before you can go live (see `Onboarding` below).
 
     ### Who can access patient's permissions
 
@@ -79,7 +79,7 @@ info:
     - it is not available for production use
     - we might make breaking changes, but only if we cannot avoid it, and we will give advance notice
 
-    ## Service level
+    ## Service level
 
     This API is a silver service, meaning it is operational 24 x 7 x 365 but
     only supported during business hours (8am to 6pm), Monday to Friday
@@ -115,7 +115,7 @@ info:
 
     - [User-restricted RESTful APIs - NHS login separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-login-separate-authentication-and-authorisation)
 
-    ## Environments and testing
+    ## Environments and testing
 
     | Purpose          | URL                                                   |
     | -------          | ---                                                   |
@@ -811,18 +811,18 @@ components:
       value:
         resourceType: OperationOutcome
         meta:
-          "lastUpdated": "2021-04-14T11:35:00+00:00"
+          lastUpdated: "2021-04-14T11:35:00+00:00"
         issue:
           - severity: error
             code: value
             details:
-              "coding":
+              coding:
                 - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
                   version: "1"
                   code: INVALID_VALUE
                   display: Provided value is invalid.
-              "diagnostics": (invalid_request) firstName is missing.
-              "expression":
+              diagnostics: (invalid_request) firstName is missing.
+              expression:
                 - /data/attributes/firstName
     ServerError:
       value:
@@ -833,17 +833,17 @@ components:
           - severity: error
             code: exception
             details:
-              "coding":
+              coding:
                 - system: https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1
                   version: "1"
                   code: INTERNAL_SERVER_ERROR
                   display: Internal server error.
-              "diagnostics": "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
+              diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
     ErrorResponseWithOnlyTheRequiredFields:
       value:
         resourceType: OperationOutcome
         meta:
-          "lastUpdated": "2022-11-15T11:10:00+00:00"
+          lastUpdated: "2022-11-15T11:10:00+00:00"
         issue:
           - severity: error
             code: expired
