@@ -107,7 +107,7 @@ info:
     The end user must be:
 
     - a patient
-    - authenicated with NHS login
+    - authenticated with NHS login
 
     The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to
     authorise the calling system. It supports the following security patterns
