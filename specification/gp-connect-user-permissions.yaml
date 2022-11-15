@@ -12,7 +12,7 @@ info:
     ## Overview
 
     Use this API to access an NHS patient's permissions for their medical
-    record and services at the GP. These permissions are held in GP systems. 
+    record and GP services. These permissions are held in GP systems. 
       
     If you are a patient-facing application, you can:
       
