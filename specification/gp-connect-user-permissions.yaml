@@ -283,7 +283,7 @@ paths:
                   $ref: "#/components/examples/ServerError"
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-                  
+
 components:
   schemas:
     UserPermission:
@@ -350,10 +350,10 @@ components:
                 type: string
                 description: Severity of the error.
                 enum:
-                 - fatal
-                 - error
-                 - warning
-                 - information
+                  - fatal
+                  - error
+                  - warning
+                  - information
                 example: error
               code:
                 type: string
@@ -424,7 +424,7 @@ components:
                     description: >
                       Additional diagnostic information about the issue.
                     example: (invalid_request) firstName is missing.
-                  expression: 
+                  expression:
                     type: array
                     description: JSON pointer of element(s) related to the error.
                     items:
