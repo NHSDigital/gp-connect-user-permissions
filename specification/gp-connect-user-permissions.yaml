@@ -8,37 +8,152 @@ info:
     name: GP Connect - User Permissions API Support
     url: https://digital.nhs.uk/developer/help-and-support
     email: api.management@nhs.net
-  description: >
+  description: |
     ## Overview
-    Add a fully fledged description here with markdown syntax.
-    For help completing the content of your API spec, see our guidance on the minimum standard (bronze) details
-    to include [here](https://nhsd-confluence.digital.nhs.uk/display/APM/Writing+a+bronze+API+cover+page). You should also base your content on our exemplar API - [PDS FHIR](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir).
+
+    Use this API to access an NHS patient's permissions for their medical
+    record and services at the GP. These permissions are held in GP systems. 
+      
+    If you are a patient-facing application, you can:
+      
+    - get a patient's current permissions
+    - get a patient's maximum level of permission available to them
+    - allow patients to request changes to their permissions
+
+    If you are a GP system, you will be able to:
+
+    - receive requests from patients to change their permissions
+    - control what permissions patients can request 
+      
+    You cannot currently use this API to:
+      
+    - allow patients to reduce permission levels
+    - receive notifications when patient permissions are updated in the GP System
+    - get current permissions for proxy patient access
+    - manage permissions for type 1 opt out
+    - manage permissions for national data opt out
+
+    To use this API, patients must:
+
+    - be a member of a GP practice
+    - be registered with NHS Login
+
+    ### Access modes
+
+    This API has a single access mode:
+
+    | Access mode                                                                                                                | Functions | Availability |
+    | -----------                                                                                                                | --------- | ------------ |
+    | [Patient access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#patient-access-mode) | Get own permissions. Update own permissions. | TBC |
+
+    For further details about the access modes for this API, see
+    [Security and authorisation](#api-description__security-and-authorisation) below.
+
     ## Who can use this API
-    To be completed.
+
+    This API can only be used where there is a legal basis to do so. Make sure
+    you have a valid use case before you go too far with your development. You
+    must demonstrate you have a valid use case as part of digital onboarding.
+
+    You must do this before you can go live (see ‘Onboarding’ below).
+
+    ### Who can access patient's permissions
+
+    Use this API if you are a patient-facing application, like the NHS App and
+    use NHS login to authenticate users.
+
     ## Related APIs
-    To be completed.
-    ## API status and roadmap
-    To be completed.
-    ## Service level
-    To be completed.
+
+    The GP Connect suite of patient facing service (PFS) APIs include the
+    following related APIs:
+
+    - [GP Connect appointment management FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir)
+    - GP Connect view record API
+    - GP Connect prescriptions management API
+
+    ## API Status and roadmap
+
+    This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+
+    - it is available for testing in the integration environment
+    - it is not available for production use
+    - we might make breaking changes, but only if we cannot avoid it, and we will give advance notice
+
+    ## Service level
+
+    This API is a silver service, meaning it is operational 24 x 7 x 365 but
+    only supported during business hours (8am to 6pm), Monday to Friday
+    excluding bank holidays.
+
+    For more details, see [service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).
+
     ## Technology
-    To be completed.
+
+    This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest)
+
     ## Network access
-    To be completed.
+
+    This API is available on the internet.
+
+    For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
+
     ## Security and authorisation
-    To be completed.
-    ## Environments and testing
-    To be completed.
+
+    All communications must be encrypted using HTTP(S).
+
+    This API is user-restricted, meaning an end user must be present and
+    authenticated to use it.
+
+    The end user must be:
+
+    - a patient
+    - authenicated with NHS login
+
+    The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to
+    authorise the calling system. It supports the following security patterns
+    using NHS login:
+
+    - [User-restricted RESTful APIs - NHS login separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-login-separate-authentication-and-authorisation)
+
+    ## Environments and testing
+
+    | Purpose          | URL                                                   |
+    | -------          | ---                                                   |
+    | Sandbox          | `https://sandbox.api.service.nhs.uk/user-permissions` |
+    | Integration test | Not yet available                                     |
+    | Production       | Not yet available                                     |
+
+    ### Sandbox testing
+
+    Our [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):
+
+    - is for early developer testing
+    - only covers a limited set of scenarios
+    - is stateless, so it does not store data
+    - is open access, so does not allow you to test authorisation
+
+    For more details on sandbox testing, or to try out the sandbox using our
+    "Try this API" feature, see the documentation for each endpoint.
+
+    ### Integration testing (not yet available)
+
+    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+
+    - is for formal integration testing
+    - is stateful, so it does persist data
+    - includes authorisation
+
+    For more details see
+     [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
+
     ## Onboarding
-    To be completed.
+
+    We are hoping to make the assurance process as lightweight and as
+    self-service as possible.
 
 servers:
   - url: https://sandbox.api.service.nhs.uk/user-permissions
     description: Sandbox environment
-  - url: https://int.api.service.nhs.uk/user-permissions
-    description: Integration test environment
-  - url: https://api.service.nhs.uk/user-permissions
-    description: Production environment
 
 tags:
   - name: User Permissions
