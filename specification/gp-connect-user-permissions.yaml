@@ -29,7 +29,7 @@ info:
       
     - allow patients to reduce permission levels
     - receive notifications when patient permissions are updated in the GP System
-    - get current permissions for proxy patient access
+    - get permissions for proxy patient access
     - manage permissions for type 1 opt out
     - manage permissions for national data opt out
 
