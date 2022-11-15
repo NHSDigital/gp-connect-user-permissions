@@ -165,12 +165,12 @@ paths:
       tags:
         - User Permissions
       summary: GET a user's permissions.
-      description: >
+      description: |
         Returns a `UserPermission` object which includes a list of services and
         a list of medical record permission sets with a date range for when
         they are or have been applicable.
       responses:
-        "200":
+        200:
           description: Successful response
           content:
             application/json:
@@ -189,7 +189,7 @@ paths:
                   $ref: "#/components/examples/CurrentPermissionsWithRejectedRequestForDocuments"
                 "Mulitple medical record permission sets":
                   $ref: "#/components/examples/MultipleMedicalRecordPermissionSets"
-        "4XX":
+        4XX:
           description: Invalid request
           content:
             application/fhir+json:
@@ -200,7 +200,7 @@ paths:
                   $ref: "#/components/examples/InvalidRequestError"
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-        "5XX":
+        5XX:
           description: Server error
           content:
             application/fhir+json:
@@ -220,7 +220,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/UpdatePermission"
       responses:
-        "200":
+        200:
           description: Successful response
           content:
             application/json:
@@ -241,7 +241,7 @@ paths:
                     id: current-permissions-id
                     accessLevel: full
                     status: approved
-                    message: >
+                    message: |
                       Request for full access to current medical record
                       approved.
                 "Detailed coded access to historical permissions rejected":
@@ -250,7 +250,7 @@ paths:
                     id: historical-permissions-id
                     accessLevel: detailed
                     status: rejected
-                    message: >
+                    message: |
                       Request for detailed coded access to historical medical
                       record rejected.
                 "View access to medication service approved":
@@ -259,9 +259,9 @@ paths:
                     id: medication
                     accessLevel: view
                     status: approved
-                    message: >
+                    message: |
                       Request for view access to medication service approved.
-        "4XX":
+        4XX:
           description: Invalid request
           content:
             application/fhir+json:
@@ -272,7 +272,7 @@ paths:
                   $ref: "#/components/examples/InvalidRequestError"
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-        "5XX":
+        5XX:
           description: Server error
           content:
             application/fhir+json:
@@ -294,7 +294,7 @@ components:
       properties:
         medicalRecord:
           type: array
-          description: >
+          description: |
             List of permission sets from the beginning of the medical record to
             the current date. Each permission set should have a `beginDate` and
             an `endDate` with the exception of the current permission set which
@@ -303,7 +303,7 @@ components:
             $ref: "#/components/schemas/MedicalRecordPermission"
         services:
           type: array
-          description: >
+          description: |
             List of services available to the user including whether the service
             is accessible or not.
           items:
@@ -311,7 +311,7 @@ components:
 
     ErrorResponse:
       type: object
-      description: >
+      description: |
         Outcome of an operation that does not result in a resource being
         returned.
       required:
@@ -321,7 +321,7 @@ components:
       properties:
         resourceType:
           type: string
-          description: >
+          description: |
             The type of FHIR resource - primarily used by FHIR clients and used
             in non-FHIR APIs for consistency across the platform.
           enum:
@@ -357,7 +357,7 @@ components:
                 example: error
               code:
                 type: string
-                description: >
+                description: |
                   A FHIR error code - primarily used by FHIR clients and used in
                   non-FHIR APIs for consistency across the platform.
                 enum:
@@ -405,8 +405,7 @@ components:
                         system:
                           type: string
                           description: URI of the coding system specification.
-                          example: >
-                            https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                          example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
                         version:
                           type: string
                           description: Version of the coding system in use.
@@ -421,7 +420,7 @@ components:
                           example: Provided value is invalid.
                   diagnostics:
                     type: string
-                    description: >
+                    description: |
                       Additional diagnostic information about the issue.
                     example: (invalid_request) firstName is missing.
                   expression:
@@ -433,7 +432,7 @@ components:
 
     MedicalRecordPermission:
       type: object
-      description: >
+      description: |
         Contains the access level the user has to the medical record and
         whether they have access to documents. Permissions are effective from
         `beginDate`.
@@ -447,7 +446,7 @@ components:
       properties:
         id:
           type: string
-          description: >
+          description: |
             The id of the permission set. This will be used in the request to
             update permissions. The id is arbitary and should not be used by
             consuming applications for anything other than being included in
@@ -470,7 +469,7 @@ components:
           example: "2022-11-01T00:00:00+00:00"
         documentAccess:
           type: boolean
-          description: >
+          description: |
             Indicates if the user has access to the medical record documents.
           example: true
         accessLevel:
@@ -479,8 +478,7 @@ components:
           $ref: "#/components/schemas/MedicalRecordRequest"
 
     ServicePermission:
-      description: >
-        A service and the level of access a user has to it.
+      description: A service and the level of access a user has to it.
       required:
         - id
         - accessLevel
@@ -493,7 +491,7 @@ components:
           $ref: "#/components/schemas/ServiceRequest"
 
     BaseRequest:
-      description: >
+      description: |
         An object containing information pertaining to any pending or rejected
         requests.
       type: object
@@ -504,15 +502,14 @@ components:
       properties:
         endDate:
           type: string
-          description: >
+          description: |
             The date/time when the request will have either been actioned or
             becomes eligible to be requested again.
           format: date-time
           example: "2022-11-01T00:00:00+00:00"
         message:
           type: string
-          description: >
-            A message pertaining to the request and its status.
+          description: A message pertaining to the request and its status.
           example: Request requires review by HCP.
         status:
           type: string
@@ -521,7 +518,7 @@ components:
             - pending
             - rejected
     ServiceRequest:
-      description: >
+      description: |
         An object containing information pertaining to any pending or rejected
         requests for changes to service permissions.
       allOf:
@@ -533,7 +530,7 @@ components:
             accessLevel:
               $ref: "#/components/schemas/ServiceAccessLevelEnum"
     MedicalRecordRequest:
-      description: >
+      description: |
         An object containing information pertaining to any pending or rejected
         requests for changes to medical record permissions.
       allOf:
@@ -547,7 +544,7 @@ components:
 
     MedicalRecordPermissionUpdate:
       type: object
-      description: >
+      description: |
         Object containing the `type` and `id` of the permission to update along
         with the `accessLevel` to update to.
       required:
@@ -567,7 +564,7 @@ components:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
     ServicePermissionUpdate:
       type: object
-      description: >
+      description: |
         Object containing the `type` and `id` of the permission to update along
         with the `accessLevel` to update to.
       required:
@@ -610,17 +607,14 @@ components:
               example: pending
             message:
               type: string
-              description: >
-                Message pertaining to the result of the request.
-              example: >
-                Request to allow access to documents is pending.
+              description: Message pertaining to the result of the request.
+              example: Request to allow access to documents is pending.
             endDate:
               type: string
-              description: >
-                Only required for `pending` responses.
-                Indicates that date time when the request is expected
-                to have been processed and an `approved` or
-                `rejected` status has been achieved.
+              description: |
+                Only required for `pending` responses. Indicates that date time
+                when the request is expected to have been processed and an
+                `approved` or `rejected` status has been achieved.
               format: date-time
               example: "2022-11-01T00:00:00+00:00"
     MedicalRecordPermissionUpdateResponse:
@@ -813,7 +807,7 @@ components:
             code: expired
   requestBodies:
     UpdatePermission:
-      description: >
+      description: |
         Object containing the `type` and `id` of the permission to update along
         with the `accessLevel` to update to.
       required: true
@@ -848,7 +842,7 @@ components:
   securitySchemes:
     BearerAuthorization:
       type: http
-      description: >
+      description: |
         An
         [OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis)
         from NHS login.
