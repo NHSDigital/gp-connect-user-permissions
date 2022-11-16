@@ -12,10 +12,10 @@ info:
     ## Overview
 
     Use this API to access an NHS patient's permissions for their medical
-    record and GP services. These permissions are held in GP systems. 
-      
+    record and GP services. These permissions are held in GP systems.
+
     If you are a patient-facing application, you can:
-      
+
     - get a patient's current permissions
     - get a patient's maximum level of permission available to them
     - allow patients to request changes to their permissions
@@ -23,10 +23,10 @@ info:
     If you are a GP system, you can:
 
     - receive requests from patients to change their permissions
-    - control what permissions patients can request 
-      
+    - control what permissions patients can request
+
     You cannot currently use this API to:
-      
+
     - allow patients to reduce permission levels
     - receive notifications when patient permissions are updated in the GP System
     - get permissions for proxy patient access
@@ -38,7 +38,7 @@ info:
     - be a member of a GP practice
     - be registered with NHS Login
 
-    ### Access modes
+    ### Access modes
 
     This API has a single access mode:
 
@@ -55,7 +55,7 @@ info:
     you have a valid use case before you go too far with your development. You
     must demonstrate you have a valid use case as part of digital onboarding.
 
-    You must do this before you can go live (see ‘Onboarding’ below).
+    You must do this before you can go live (see `Onboarding` below).
 
     ### Who can access patient's permissions
 
@@ -79,7 +79,7 @@ info:
     - it is not available for production use
     - we might make breaking changes, but only if we cannot avoid it, and we will give advance notice
 
-    ## Service level
+    ## Service level
 
     This API is a silver service, meaning it is operational 24 x 7 x 365 but
     only supported during business hours (8am to 6pm), Monday to Friday
@@ -115,7 +115,7 @@ info:
 
     - [User-restricted RESTful APIs - NHS login separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-login-separate-authentication-and-authorisation)
 
-    ## Environments and testing
+    ## Environments and testing
 
     | Purpose          | URL                                                   |
     | -------          | ---                                                   |
@@ -177,18 +177,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserPermission"
               examples:
-                "Current permissions with services":
-                  $ref: "#/components/examples/CurrentPermissionsWithServices"
-                ? "Medical record with historical permissions and a pending request"
-                : $ref: "#/components/examples/HistoricalPermissionsWithPendingRequest"
-                "Services with pending requests":
-                  $ref: "#/components/examples/ServiceWithPendingRequests"
-                "Current permissions with pending request for documents":
-                  $ref: "#/components/examples/CurrentPermissionsWithPendingRequestForDocuments"
-                "Current permissions with rejected request for documents":
-                  $ref: "#/components/examples/CurrentPermissionsWithRejectedRequestForDocuments"
-                "Mulitple medical record permission sets":
-                  $ref: "#/components/examples/MultipleMedicalRecordPermissionSets"
+                "Full permissions to medical record and services":
+                  $ref: "#/components/examples/FullPermissions"
+                "Pending request to get documents access to before record":
+                  $ref: "#/components/examples/PendingRequestForDocumentsAccess"
+                "Pending request for full access to appointments":
+                  $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
+                "Multiple pending requests":
+                  $ref: "#/components/examples/MultiplePendingRequests"
         4XX:
           description: Invalid request
           content:
@@ -227,40 +223,44 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                "Historical permissions with document access pending":
-                  value:
+                ? "Request for documents access for before effective date is pending"
+                : value:
                     type: medical
-                    id: historical-permissions-id
+                    id: before
                     accessLevel: documents
                     status: pending
-                    message: Request to access documents is pending.
-                    endDate: "2022-11-01T00:00:00+00:00"
-                "Full access to current medical record permissions approved":
+                    message: |
+                      Request accepted to update access before effective date
+                      to documents.
+                    dateCreated: "2022-11-01T00:00:00+00:00"
+                "Request to move effective date back to requested date":
                   value:
                     type: medical
-                    id: current-permissions-id
+                    id: present
                     accessLevel: full
-                    status: approved
-                    message: |
-                      Request for full access to current medical record
-                      approved.
-                "Detailed coded access to historical permissions rejected":
-                  value:
-                    type: medical
-                    id: historical-permissions-id
-                    accessLevel: detailed
-                    status: rejected
-                    message: |
-                      Request for detailed coded access to historical medical
-                      record rejected.
-                "View access to medication service approved":
+                    date: "2021-11-01T00:00:00+00:00"
+                    status: pending
+                    message: Request received to move effective date to date.
+                    dateCreated: "2022-11-01T00:00:00+00:00"
+                "Request for full access to prescriptions service":
                   value:
                     type: service
-                    id: medication
-                    accessLevel: view
-                    status: approved
+                    id: prescriptions
+                    accessLevel: full
+                    status: pending
                     message: |
-                      Request for view access to medication service approved.
+                      Request received for full access to prescriptions service.
+                    dateCreated: "2022-11-01T00:00:00+00:00"
+                "Request rejected for full access to appointments service":
+                  value:
+                    type: service
+                    id: prescriptions
+                    accessLevel: full
+                    status: rejected
+                    message: |
+                      Request received for full access to prescriptions
+                      service.
+                    dateCreated: "2022-11-01T00:00:00+00:00"
         4XX:
           description: Invalid request
           content:
@@ -291,16 +291,10 @@ components:
       required:
         - medicalRecord
         - services
+        - requests
       properties:
         medicalRecord:
-          type: array
-          description: |
-            List of permission sets from the beginning of the medical record to
-            the current date. Each permission set should have a `beginDate` and
-            an `endDate` with the exception of the current permission set which
-            should not contain an `endDate`.
-          items:
-            $ref: "#/components/schemas/MedicalRecordPermission"
+          $ref: "#/components/schemas/MedicalRecordPermission"
         services:
           type: array
           description: |
@@ -308,6 +302,15 @@ components:
             is accessible or not.
           items:
             $ref: "#/components/schemas/ServicePermission"
+        requests:
+          type: array
+          description: |
+            List of outstanding requests that have been made to update either
+            the medical record or services permissions.
+          items:
+            anyOf:
+              - $ref: "#/components/schemas/MedicalRecordRequest"
+              - $ref: "#/components/schemas/ServiceRequest"
 
     ErrorResponse:
       type: object
@@ -433,62 +436,52 @@ components:
     MedicalRecordPermission:
       type: object
       description: |
-        Contains the access level the user has to the medical record and
-        whether they have access to documents. Permissions are effective from
-        `beginDate`.
-        An optional `request` object can be used to describe pending
-        requests.
+        Contains the access level the user has to the medical record. This is
+        split into `present.accessLevel` and `before.accessLevel` with a
+        `present.effectiveDate` for when the present access level took effect.
+        An optional `request` object can be used to describe pending requests.
       required:
-        - id
-        - beginDate
-        - documentAccess
-        - accessLevel
+        - present
       properties:
-        id:
-          type: string
-          description: |
-            The id of the permission set. This will be used in the request to
-            update permissions. The id is arbitary and should not be used by
-            consuming applications for anything other than being included in
-            the request to update a permission.
-            The id could change between sessions but the receiving application
-            must know what permission set the id is associated to. For this
-            reason it is suggested `beginDate` is used as this will be unique
-            across all permission sets and have a well known association
-            between id and permission set.
-          example: "2022-11-01T00:00:00+00:00"
-        beginDate:
-          type: string
-          description: The date when the permission set was active.
-          format: date-time
-          example: "2022-11-01T00:00:00+00:00"
-        endDate:
-          type: string
-          description: The date when the permission set was no longer active.
-          format: date-time
-          example: "2022-11-01T00:00:00+00:00"
-        documentAccess:
-          type: boolean
-          description: |
-            Indicates if the user has access to the medical record documents.
-          example: true
-        accessLevel:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        request:
-          $ref: "#/components/schemas/MedicalRecordRequest"
+        present:
+          type: object
+          required:
+            - accessLevel
+            - effectiveDate
+            - maxAccessLevel
+          properties:
+            accessLevel:
+              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+            maxAccessLevel:
+              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
+            effectiveDate:
+              type: string
+              format: date/time
+              example: "2022-11-01T00:00:00+00:00"
+        before:
+          type: object
+          required:
+            - accessLevel
+            - maxAccessLevel
+          properties:
+            accessLevel:
+              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+            maxAccessLevel:
+              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
 
     ServicePermission:
       description: A service and the level of access a user has to it.
       required:
         - id
         - accessLevel
+        - maxAccessLevel
       properties:
         id:
           $ref: "#/components/schemas/ServiceIdEnum"
         accessLevel:
           $ref: "#/components/schemas/ServiceAccessLevelEnum"
-        request:
-          $ref: "#/components/schemas/ServiceRequest"
+        maxAccessLevel:
+          $ref: "#/components/schemas/MaxServiceAccessLevelEnum"
 
     BaseRequest:
       description: |
@@ -497,14 +490,13 @@ components:
       type: object
       required:
         - status
-        - endDate
+        - dateCreated
         - message
       properties:
-        endDate:
+        dateCreated:
           type: string
           description: |
-            The date/time when the request will have either been actioned or
-            becomes eligible to be requested again.
+            The date/time when the request for change was created.
           format: date-time
           example: "2022-11-01T00:00:00+00:00"
         message:
@@ -517,18 +509,6 @@ components:
           enum:
             - pending
             - rejected
-    ServiceRequest:
-      description: |
-        An object containing information pertaining to any pending or rejected
-        requests for changes to service permissions.
-      allOf:
-        - $ref: "#/components/schemas/BaseRequest"
-        - type: object
-          required:
-            - accessLevel
-          properties:
-            accessLevel:
-              $ref: "#/components/schemas/ServiceAccessLevelEnum"
     MedicalRecordRequest:
       description: |
         An object containing information pertaining to any pending or rejected
@@ -538,9 +518,39 @@ components:
         - type: object
           required:
             - accessLevel
+            - id
+            - type
           properties:
             accessLevel:
               $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+            id:
+              $ref: "#/components/schemas/MedicalRecordPermissionTypeIdEnum"
+            type:
+              type: string
+              description: The type of request.
+              enum:
+                - medical
+    ServiceRequest:
+      description: |
+        An object containing information pertaining to any pending or rejected
+        requests for changes to service permissions.
+      allOf:
+        - $ref: "#/components/schemas/BaseRequest"
+        - type: object
+          required:
+            - accessLevel
+            - id
+            - type
+          properties:
+            accessLevel:
+              $ref: "#/components/schemas/ServiceAccessLevelEnum"
+            id:
+              $ref: "#/components/schemas/ServiceIdEnum"
+            type:
+              type: string
+              description: The type of request.
+              enum:
+                - service
 
     MedicalRecordPermissionUpdate:
       type: object
@@ -548,8 +558,8 @@ components:
         Object containing the `type` and `id` of the permission to update along
         with the `accessLevel` to update to.
       required:
-        - id
         - type
+        - id
         - accessLevel
       properties:
         type:
@@ -557,19 +567,24 @@ components:
           enum:
             - medical
         id:
-          type: string
-          description: Id of the medical record permission set to update.
-          example: current-permissions-id
+          $ref: "#/components/schemas/MedicalRecordPermissionTypeIdEnum"
         accessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+        date:
+          type: string
+          description: |
+            The date to move the present effective permission date to. Only
+            applicable when access level is `full` and id `present`.
+          format: date-time
+          example: "2022-11-01T00:00:00+00:00"
     ServicePermissionUpdate:
       type: object
       description: |
         Object containing the `type` and `id` of the permission to update along
         with the `accessLevel` to update to.
       required:
-        - id
         - type
+        - id
         - accessLevel
       properties:
         type:
@@ -601,20 +616,19 @@ components:
               type: string
               description: The status of the update request.
               enum:
-                - approved
                 - rejected
                 - pending
               example: pending
             message:
               type: string
-              description: Message pertaining to the result of the request.
-              example: Request to allow access to documents is pending.
-            endDate:
+              description: |
+                Message pertaining to the result of the request.
+              example: |
+                Request to allow access to documents is pending.
+            dateCreated:
               type: string
               description: |
-                Only required for `pending` responses. Indicates that date time
-                when the request is expected to have been processed and an
-                `approved` or `rejected` status has been achieved.
+                Indicates that date time when the request was created.
               format: date-time
               example: "2022-11-01T00:00:00+00:00"
     MedicalRecordPermissionUpdateResponse:
@@ -634,153 +648,181 @@ components:
         - none
         - summary
         - detailed
+        - documents
         - full
       example: detailed
+    MaxMedicalRecordAccessLevelEnum:
+      type: string
+      description: |
+        The maximum access level the user can have to the medical record.
+      enum:
+        - none
+        - summary
+        - detailed
+        - documents
+        - full
+      example: documents
+    MedicalRecordPermissionTypeIdEnum:
+      type: string
+      description: The type of the permission.
+      enum:
+        - present
+        - before
+      example: present
     ServiceAccessLevelEnum:
       type: string
-      description: Indicates the level of access the user has to the service.
+      description: |
+        Indicates the level of access the user has to the service.
+
+        | level  | description                                                                       |
+        | -----  | -----------                                                                       |
+        | none   | no access                                                                         |
+        | view   | view only                                                                         |
+        | action | can perform main action for service e.g. book appointments or order prescriptions |
+        | full   | can amend/cancel existing appointments or prescriptions                           |
       enum:
         - none
         - view
+        - action
         - full
       example: view
+    MaxServiceAccessLevelEnum:
+      type: string
+      description: |
+        Indicates the maximum level of access the user can have to the service.
+
+        | level  | description                                                                       |
+        | -----  | -----------                                                                       |
+        | none   | no access                                                                         |
+        | view   | view only                                                                         |
+        | action | can perform main action for service e.g. book appointments or order prescriptions |
+        | full   | can amend/cancel existing appointments or prescriptions                           |
+      enum:
+        - none
+        - view
+        - action
+        - full
+      example: action
     ServiceIdEnum:
       type: string
       description: The id of the service.
       enum:
         - appointments
-        - medication
+        - prescriptions
       example: appointments
 
   examples:
-    CurrentPermissionsWithServices:
+    FullPermissions:
       value:
         medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: true
+          present:
+            effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
-        services:
-          - id: appointments
-            accessLevel: full
-          - id: medication
-            accessLevel: view
-    HistoricalPermissionsWithPendingRequest:
-      value:
-        medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: true
-            accessLevel: full
-          - id: historical-permissions-id
-            beginDate: "2002-06-11T09:30:00+00:00"
-            endDate: "2022-10-31T23:59:59+00:00"
-            documentAccess: false
+            maxAccessLevel: full
+          before:
             accessLevel: summary
-            request:
-              status: pending
-              endDate: "2022-10-31T23:59:59+00:00"
-              message: Requires review by HCP
-              accessLevel: detailed
-        services:
-          - id: appointments
-            accessLevel: full
-          - id: medication
-            accessLevel: view
-    ServiceWithPendingRequests:
-      value:
-        medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: true
-            accessLevel: full
+            maxAccessLevel: documents
         services:
           - id: appointments
             accessLevel: view
-            request:
-              status: pending
-              endDate: "2022-10-31T23:59:59+00:00"
-              message: Requires review by HCP
-              accessLevel: full
-          - id: medication
-            accessLevel: view
-    CurrentPermissionsWithPendingRequestForDocuments:
+            maxAccessLevel: full
+          - id: prescriptions
+            accessLevel: action
+            maxAccessLevel: full
+    PendingRequestForDocumentsAccess:
       value:
         medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: false
+          present:
+            effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
-            request:
-              status: pending
-              endDate: "2022-11-30T23:59:59+00:00"
-              message: Requires review by HCP
-              accessLevel: documents
-        services:
-          - id: appointments
-            accessLevel: full
-          - id: medication
-            accessLevel: view
-    CurrentPermissionsWithRejectedRequestForDocuments:
-      value:
-        medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: false
-            accessLevel: full
-            request:
-              status: rejected
-              endDate: "2022-11-30T23:59:59+00:00"
-              message: Requires review by HCP
-              accessLevel: documents
-        services:
-          - id: appointments
-            accessLevel: full
-          - id: medication
-            accessLevel: view
-    MultipleMedicalRecordPermissionSets:
-      value:
-        medicalRecord:
-          - id: current-permissions-id
-            beginDate: "2022-11-01T00:00:00+00:00"
-            documentAccess: false
-            accessLevel: full
-          - id: historical-permissions-id-1
-            beginDate: "2020-11-01T00:00:00+00:00"
-            endDate: "2022-10-31T23:59:59+00:00"
-            documentAccess: true
-            accessLevel: detailed
-          - id: historical-permissions-id-2
-            beginDate: "2015-11-01T00:00:00+00:00"
-            endDate: "2020-10-31T23:59:59+00:00"
-            documentAccess: false
-            accessLevel: detailed
-          - id: historical-permissions-id-3
-            beginDate: "2002-06-11T09:30:00+00:00"
-            endDate: "2015-10-31T23:59:59+00:00"
-            documentAccess: false
+            maxAccessLevel: full
+          before:
             accessLevel: summary
+            maxAccessLevel: documents
         services:
           - id: appointments
+            accessLevel: action
+            maxAccessLevel: action
+          - id: prescriptions
+            accessLevel: view
+            maxAccessLevel: action
+        requests:
+          - status: pending
+            dateCreated: "2022-10-31T23:59:59+00:00"
+            message: Requires review by HCP
+            accessLevel: documents
+            id: before
+            type: medical
+    PendingRequestForFullAccessAppointments:
+      value:
+        medicalRecord:
+          present:
+            effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
-          - id: medication
+            maxAccessLevel: full
+          before:
+            accessLevel: summary
+            maxAccessLevel: detailed
+        services:
+          - id: appointments
+            accessLevel: view
+            maxAccessLevel: action
+          - id: prescriptions
+            accessLevel: view
+            maxAccessLevel: action
+        requests:
+          - status: pending
+            dateCreated: "2022-10-31T23:59:59+00:00"
+            message: Requires review by HCP
+            accessLevel: action
+            id: appointments
+            type: service
+    MultiplePendingRequests:
+      value:
+        medicalRecord:
+          present:
+            effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
+            maxAccessLevel: full
+          before:
+            accessLevel: summary
+            maxAccessLevel: detailed
+        services:
+          - id: appointments
+            accessLevel: view
+            maxAccessLevel: action
+          - id: prescriptions
+            accessLevel: view
+            maxAccessLevel: action
+        requests:
+          - status: pending
+            dateCreated: "2022-10-31T23:59:59+00:00"
+            message: Requires review by HCP
+            accessLevel: action
+            id: appointments
+            type: service
+          - status: pending
+            dateCreated: "2022-10-31T23:59:59+00:00"
+            message: Requires review by HCP
+            accessLevel: detailed
+            id: before
+            type: medical
     InvalidRequestError:
       value:
         resourceType: OperationOutcome
         meta:
-          "lastUpdated": "2021-04-14T11:35:00+00:00"
+          lastUpdated: "2021-04-14T11:35:00+00:00"
         issue:
           - severity: error
             code: value
             details:
-              "coding":
+              coding:
                 - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
                   version: "1"
                   code: INVALID_VALUE
                   display: Provided value is invalid.
-              "diagnostics": (invalid_request) firstName is missing.
-              "expression":
+              diagnostics: (invalid_request) firstName is missing.
+              expression:
                 - /data/attributes/firstName
     ServerError:
       value:
@@ -791,17 +833,17 @@ components:
           - severity: error
             code: exception
             details:
-              "coding":
+              coding:
                 - system: https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1
                   version: "1"
                   code: INTERNAL_SERVER_ERROR
                   display: Internal server error.
-              "diagnostics": "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
+              diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
     ErrorResponseWithOnlyTheRequiredFields:
       value:
         resourceType: OperationOutcome
         meta:
-          "lastUpdated": "2022-11-15T11:10:00+00:00"
+          lastUpdated: "2022-11-15T11:10:00+00:00"
         issue:
           - severity: error
             code: expired
@@ -809,7 +851,7 @@ components:
     UpdatePermission:
       description: |
         Object containing the `type` and `id` of the permission to update along
-        with the `accessLevel` to update to.
+        with the `currentAccessLevel` to update to.
       required: true
       content:
         application/json:
@@ -823,21 +865,22 @@ components:
                 medical: "#/components/schemas/MedicalRecordPermissionUpdate"
                 service: "#/components/schemas/ServicePermissionUpdate"
           examples:
-            ? "Request document access for specific medical record permission set"
-            : value:
-                type: medical
-                id: historical-permissions-id
-                accessLevel: documents
-            "Request full access for current medical record":
+            "Request documents access for medical record before effective date":
               value:
                 type: medical
-                id: current-permissions-id
+                id: before
+                accessLevel: documents
+            "Request effective date is moved back to date":
+              value:
+                type: medical
+                id: present
                 accessLevel: full
-            "Request full access to appointments service":
+                date: "2022-11-01T00:00:00+00:00"
+            "Request action access to appointments service":
               value:
                 type: service
                 id: appointments
-                accessLevel: full
+                accessLevel: action
 
   securitySchemes:
     BearerAuthorization:
