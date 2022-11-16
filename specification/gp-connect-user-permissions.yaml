@@ -8,37 +8,152 @@ info:
     name: GP Connect - User Permissions API Support
     url: https://digital.nhs.uk/developer/help-and-support
     email: api.management@nhs.net
-  description: >
+  description: |
     ## Overview
-    Add a fully fledged description here with markdown syntax.
-    For help completing the content of your API spec, see our guidance on the minimum standard (bronze) details
-    to include [here](https://nhsd-confluence.digital.nhs.uk/display/APM/Writing+a+bronze+API+cover+page). You should also base your content on our exemplar API - [PDS FHIR](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir).
+
+    Use this API to access an NHS patient's permissions for their medical
+    record and GP services. These permissions are held in GP systems. 
+      
+    If you are a patient-facing application, you can:
+      
+    - get a patient's current permissions
+    - get a patient's maximum level of permission available to them
+    - allow patients to request changes to their permissions
+
+    If you are a GP system, you can:
+
+    - receive requests from patients to change their permissions
+    - control what permissions patients can request 
+      
+    You cannot currently use this API to:
+      
+    - allow patients to reduce permission levels
+    - receive notifications when patient permissions are updated in the GP System
+    - get permissions for proxy patient access
+    - manage permissions for type 1 opt out
+    - manage permissions for national data opt out
+
+    To use this API, patients must:
+
+    - be a member of a GP practice
+    - be registered with NHS Login
+
+    ### Access modes
+
+    This API has a single access mode:
+
+    | Access mode                                                                                                                | Functions | Availability |
+    | -----------                                                                                                                | --------- | ------------ |
+    | [Patient access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#patient-access-mode) | Get own permissions. Update own permissions. | TBC |
+
+    For further details about the access modes for this API, see
+    [Security and authorisation](#api-description__security-and-authorisation) below.
+
     ## Who can use this API
-    To be completed.
+
+    This API can only be used where there is a legal basis to do so. Make sure
+    you have a valid use case before you go too far with your development. You
+    must demonstrate you have a valid use case as part of digital onboarding.
+
+    You must do this before you can go live (see ‘Onboarding’ below).
+
+    ### Who can access patient's permissions
+
+    Use this API if you are a patient-facing application, like the NHS App and
+    use NHS login to authenticate users.
+
     ## Related APIs
-    To be completed.
-    ## API status and roadmap
-    To be completed.
-    ## Service level
-    To be completed.
+
+    The GP Connect suite of patient facing service (PFS) APIs include the
+    following related APIs:
+
+    - [GP Connect appointment management FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir)
+    - GP Connect view record API
+    - GP Connect prescriptions management API
+
+    ## API Status and roadmap
+
+    This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+
+    - it is available for testing in the integration environment
+    - it is not available for production use
+    - we might make breaking changes, but only if we cannot avoid it, and we will give advance notice
+
+    ## Service level
+
+    This API is a silver service, meaning it is operational 24 x 7 x 365 but
+    only supported during business hours (8am to 6pm), Monday to Friday
+    excluding bank holidays.
+
+    For more details, see [service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).
+
     ## Technology
-    To be completed.
+
+    This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest)
+
     ## Network access
-    To be completed.
+
+    This API is available on the internet.
+
+    For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
+
     ## Security and authorisation
-    To be completed.
-    ## Environments and testing
-    To be completed.
+
+    All communications must be encrypted using HTTP(S).
+
+    This API is user-restricted, meaning an end user must be present and
+    authenticated to use it.
+
+    The end user must be:
+
+    - a patient
+    - authenticated with NHS login
+
+    The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to
+    authorise the calling system. It supports the following security patterns
+    using NHS login:
+
+    - [User-restricted RESTful APIs - NHS login separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-login-separate-authentication-and-authorisation)
+
+    ## Environments and testing
+
+    | Purpose          | URL                                                   |
+    | -------          | ---                                                   |
+    | Sandbox          | `https://sandbox.api.service.nhs.uk/user-permissions` |
+    | Integration test | Not yet available                                     |
+    | Production       | Not yet available                                     |
+
+    ### Sandbox testing
+
+    Our [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):
+
+    - is for early developer testing
+    - only covers a limited set of scenarios
+    - is stateless, so it does not store data
+    - is open access, so does not allow you to test authorisation
+
+    For more details on sandbox testing, or to try out the sandbox using our
+    "Try this API" feature, see the documentation for each endpoint.
+
+    ### Integration testing (not yet available)
+
+    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+
+    - is for formal integration testing
+    - is stateful, so it does persist data
+    - includes authorisation
+
+    For more details see
+     [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
+
     ## Onboarding
-    To be completed.
+
+    We are hoping to make the assurance process as lightweight and as
+    self-service as possible.
 
 servers:
   - url: https://sandbox.api.service.nhs.uk/user-permissions
     description: Sandbox environment
-  - url: https://int.api.service.nhs.uk/user-permissions
-    description: Integration test environment
-  - url: https://api.service.nhs.uk/user-permissions
-    description: Production environment
 
 tags:
   - name: User Permissions
@@ -50,12 +165,12 @@ paths:
       tags:
         - User Permissions
       summary: GET a user's permissions.
-      description: >
+      description: |
         Returns a `UserPermission` object which includes a list of services and
         a list of medical record permission sets with a date range for when
         they are or have been applicable.
       responses:
-        "200":
+        200:
           description: Successful response
           content:
             application/json:
@@ -74,7 +189,7 @@ paths:
                   $ref: "#/components/examples/CurrentPermissionsWithRejectedRequestForDocuments"
                 "Mulitple medical record permission sets":
                   $ref: "#/components/examples/MultipleMedicalRecordPermissionSets"
-        "4XX":
+        4XX:
           description: Invalid request
           content:
             application/fhir+json:
@@ -85,7 +200,7 @@ paths:
                   $ref: "#/components/examples/InvalidRequestError"
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-        "5XX":
+        5XX:
           description: Server error
           content:
             application/fhir+json:
@@ -105,7 +220,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/UpdatePermission"
       responses:
-        "200":
+        200:
           description: Successful response
           content:
             application/json:
@@ -126,7 +241,7 @@ paths:
                     id: current-permissions-id
                     accessLevel: full
                     status: approved
-                    message: >
+                    message: |
                       Request for full access to current medical record
                       approved.
                 "Detailed coded access to historical permissions rejected":
@@ -135,7 +250,7 @@ paths:
                     id: historical-permissions-id
                     accessLevel: detailed
                     status: rejected
-                    message: >
+                    message: |
                       Request for detailed coded access to historical medical
                       record rejected.
                 "View access to medication service approved":
@@ -144,9 +259,9 @@ paths:
                     id: medication
                     accessLevel: view
                     status: approved
-                    message: >
+                    message: |
                       Request for view access to medication service approved.
-        "4XX":
+        4XX:
           description: Invalid request
           content:
             application/fhir+json:
@@ -157,7 +272,7 @@ paths:
                   $ref: "#/components/examples/InvalidRequestError"
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-        "5XX":
+        5XX:
           description: Server error
           content:
             application/fhir+json:
@@ -168,7 +283,7 @@ paths:
                   $ref: "#/components/examples/ServerError"
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-                  
+
 components:
   schemas:
     UserPermission:
@@ -179,7 +294,7 @@ components:
       properties:
         medicalRecord:
           type: array
-          description: >
+          description: |
             List of permission sets from the beginning of the medical record to
             the current date. Each permission set should have a `beginDate` and
             an `endDate` with the exception of the current permission set which
@@ -188,7 +303,7 @@ components:
             $ref: "#/components/schemas/MedicalRecordPermission"
         services:
           type: array
-          description: >
+          description: |
             List of services available to the user including whether the service
             is accessible or not.
           items:
@@ -196,7 +311,7 @@ components:
 
     ErrorResponse:
       type: object
-      description: >
+      description: |
         Outcome of an operation that does not result in a resource being
         returned.
       required:
@@ -206,7 +321,7 @@ components:
       properties:
         resourceType:
           type: string
-          description: >
+          description: |
             The type of FHIR resource - primarily used by FHIR clients and used
             in non-FHIR APIs for consistency across the platform.
           enum:
@@ -235,14 +350,14 @@ components:
                 type: string
                 description: Severity of the error.
                 enum:
-                 - fatal
-                 - error
-                 - warning
-                 - information
+                  - fatal
+                  - error
+                  - warning
+                  - information
                 example: error
               code:
                 type: string
-                description: >
+                description: |
                   A FHIR error code - primarily used by FHIR clients and used in
                   non-FHIR APIs for consistency across the platform.
                 enum:
@@ -290,8 +405,7 @@ components:
                         system:
                           type: string
                           description: URI of the coding system specification.
-                          example: >
-                            https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                          example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
                         version:
                           type: string
                           description: Version of the coding system in use.
@@ -306,10 +420,10 @@ components:
                           example: Provided value is invalid.
                   diagnostics:
                     type: string
-                    description: >
+                    description: |
                       Additional diagnostic information about the issue.
                     example: (invalid_request) firstName is missing.
-                  expression: 
+                  expression:
                     type: array
                     description: JSON pointer of element(s) related to the error.
                     items:
@@ -318,7 +432,7 @@ components:
 
     MedicalRecordPermission:
       type: object
-      description: >
+      description: |
         Contains the access level the user has to the medical record and
         whether they have access to documents. Permissions are effective from
         `beginDate`.
@@ -332,7 +446,7 @@ components:
       properties:
         id:
           type: string
-          description: >
+          description: |
             The id of the permission set. This will be used in the request to
             update permissions. The id is arbitary and should not be used by
             consuming applications for anything other than being included in
@@ -355,7 +469,7 @@ components:
           example: "2022-11-01T00:00:00+00:00"
         documentAccess:
           type: boolean
-          description: >
+          description: |
             Indicates if the user has access to the medical record documents.
           example: true
         accessLevel:
@@ -364,8 +478,7 @@ components:
           $ref: "#/components/schemas/MedicalRecordRequest"
 
     ServicePermission:
-      description: >
-        A service and the level of access a user has to it.
+      description: A service and the level of access a user has to it.
       required:
         - id
         - accessLevel
@@ -378,7 +491,7 @@ components:
           $ref: "#/components/schemas/ServiceRequest"
 
     BaseRequest:
-      description: >
+      description: |
         An object containing information pertaining to any pending or rejected
         requests.
       type: object
@@ -389,15 +502,14 @@ components:
       properties:
         endDate:
           type: string
-          description: >
+          description: |
             The date/time when the request will have either been actioned or
             becomes eligible to be requested again.
           format: date-time
           example: "2022-11-01T00:00:00+00:00"
         message:
           type: string
-          description: >
-            A message pertaining to the request and its status.
+          description: A message pertaining to the request and its status.
           example: Request requires review by HCP.
         status:
           type: string
@@ -406,7 +518,7 @@ components:
             - pending
             - rejected
     ServiceRequest:
-      description: >
+      description: |
         An object containing information pertaining to any pending or rejected
         requests for changes to service permissions.
       allOf:
@@ -418,7 +530,7 @@ components:
             accessLevel:
               $ref: "#/components/schemas/ServiceAccessLevelEnum"
     MedicalRecordRequest:
-      description: >
+      description: |
         An object containing information pertaining to any pending or rejected
         requests for changes to medical record permissions.
       allOf:
@@ -432,7 +544,7 @@ components:
 
     MedicalRecordPermissionUpdate:
       type: object
-      description: >
+      description: |
         Object containing the `type` and `id` of the permission to update along
         with the `accessLevel` to update to.
       required:
@@ -452,7 +564,7 @@ components:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
     ServicePermissionUpdate:
       type: object
-      description: >
+      description: |
         Object containing the `type` and `id` of the permission to update along
         with the `accessLevel` to update to.
       required:
@@ -495,17 +607,14 @@ components:
               example: pending
             message:
               type: string
-              description: >
-                Message pertaining to the result of the request.
-              example: >
-                Request to allow access to documents is pending.
+              description: Message pertaining to the result of the request.
+              example: Request to allow access to documents is pending.
             endDate:
               type: string
-              description: >
-                Only required for `pending` responses.
-                Indicates that date time when the request is expected
-                to have been processed and an `approved` or
-                `rejected` status has been achieved.
+              description: |
+                Only required for `pending` responses. Indicates that date time
+                when the request is expected to have been processed and an
+                `approved` or `rejected` status has been achieved.
               format: date-time
               example: "2022-11-01T00:00:00+00:00"
     MedicalRecordPermissionUpdateResponse:
@@ -698,7 +807,7 @@ components:
             code: expired
   requestBodies:
     UpdatePermission:
-      description: >
+      description: |
         Object containing the `type` and `id` of the permission to update along
         with the `accessLevel` to update to.
       required: true
@@ -733,7 +842,7 @@ components:
   securitySchemes:
     BearerAuthorization:
       type: http
-      description: >
+      description: |
         An
         [OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis)
         from NHS login.
