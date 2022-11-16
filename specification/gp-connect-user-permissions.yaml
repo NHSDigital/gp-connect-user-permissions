@@ -161,6 +161,8 @@ tags:
 
 paths:
   /:
+    parameters:
+      - $ref: "#/components/parameters/Id"
     get:
       tags:
         - User Permissions
@@ -209,6 +211,8 @@ paths:
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
 
   /update-permission:
+    parameters:
+      - $ref: "#/components/parameters/Id"
     post:
       tags:
         - User Permissions
