@@ -206,7 +206,7 @@ paths:
         - User Permissions
       summary: Request a change to a permission.
       requestBody:
-        $ref: "components/requestBodies/UpdatePermission.yaml#/UpdatePermission"
+        $ref: "components/requestBodies.yaml#/UpdatePermission"
       responses:
         200:
           description: Successful response
