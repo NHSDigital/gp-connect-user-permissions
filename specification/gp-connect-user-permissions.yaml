@@ -14,24 +14,16 @@ info:
     Use this API to access an NHS patient's permissions for their medical
     record and GP services. These permissions are held in GP systems.
 
-    If you are a patient-facing application, you can:
+    You can:
 
-    - get a patient's current permissions
-    - get a patient's maximum level of permission available to them
-    - allow patients to request changes to their permissions
+    - get a patient's permissions
+    - update a patient's permissions to a higher level
 
-    If you are a GP system, you can:
+    You cannot:
 
-    - receive requests from patients to change their permissions
-    - control what permissions patients can request
-
-    You cannot currently use this API to:
-
-    - allow patients to reduce permission levels
-    - receive notifications when patient permissions are updated in the GP System
-    - get permissions for proxy patient access
-    - manage permissions for type 1 opt out
-    - manage permissions for national data opt out
+    - update a patient's permissions to a lower level
+    - get a patient's permissions using proxy access
+    - update a patient's permissions using proxy access
 
     To use this API, patients must:
 
