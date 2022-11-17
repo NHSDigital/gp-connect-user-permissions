@@ -742,7 +742,7 @@ components:
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker
+            message: Requires review by a healthcare worker.
             accessLevel: documents
             id: before
             type: medical
@@ -766,7 +766,7 @@ components:
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker
+            message: Requires review by a healthcare worker.
             accessLevel: action
             id: appointments
             type: service
@@ -790,13 +790,13 @@ components:
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker
+            message: Requires review by a healthcare worker.
             accessLevel: action
             id: appointments
             type: service
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker
+            message: Requires review by a healthcare worker.
             accessLevel: detailed
             id: before
             type: medical
