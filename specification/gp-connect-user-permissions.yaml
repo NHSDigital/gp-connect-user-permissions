@@ -160,7 +160,7 @@ tags:
     description: User permissions operations
 
 paths:
-  /:
+  /{id}:
     parameters:
       - $ref: "#/components/parameters/Id"
     get:
@@ -210,7 +210,7 @@ paths:
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
 
-  /update-permission:
+  /update-permission/{id}:
     parameters:
       - $ref: "#/components/parameters/Id"
     post:
