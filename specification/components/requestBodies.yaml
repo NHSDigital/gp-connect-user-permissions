@@ -7,13 +7,13 @@ UpdatePermission:
     application/json:
       schema:
         oneOf:
-          - $ref: "./schemas.yaml#/MedicalRecordPermissionUpdate"
-          - $ref: "./schemas.yaml#/ServicePermissionUpdate"
+          - $ref: "componets/schemas.yaml#/MedicalRecordPermissionUpdate"
+          - $ref: "componets/schemas.yaml#/ServicePermissionUpdate"
         discriminator:
           propertyName: type
           mapping:
-            medical: "./schemas.yaml#/MedicalRecordPermissionUpdate"
-            service: "./schemas.yaml#/ServicePermissionUpdate"
+            medical: "componets/schemas.yaml#/MedicalRecordPermissionUpdate"
+            service: "componets/schemas.yaml#/ServicePermissionUpdate"
       examples:
         "Request documents access for medical record before effective date":
           value:
