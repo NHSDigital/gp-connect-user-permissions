@@ -14,24 +14,16 @@ info:
     Use this API to access an NHS patient's permissions for their medical
     record and GP services. These permissions are held in GP systems.
 
-    If you are a patient-facing application, you can:
+    You can:
 
-    - get a patient's current permissions
-    - get a patient's maximum level of permission available to them
-    - allow patients to request changes to their permissions
+    - get a patient's permissions
+    - update a patient's permissions to a higher level
 
-    If you are a GP system, you can:
+    You cannot:
 
-    - receive requests from patients to change their permissions
-    - control what permissions patients can request
-
-    You cannot currently use this API to:
-
-    - allow patients to reduce permission levels
-    - receive notifications when patient permissions are updated in the GP System
-    - get permissions for proxy patient access
-    - manage permissions for type 1 opt out
-    - manage permissions for national data opt out
+    - update a patient's permissions to a lower level
+    - get a patient's permissions using proxy access
+    - update a patient's permissions using proxy access
 
     To use this API, patients must:
 
@@ -60,7 +52,7 @@ info:
     ### Who can access patient's permissions
 
     Use this API if you are a patient-facing application, like the NHS App and
-    use NHS login to authenticate users.
+    use NHS login to authenticate patients.
 
     ## Related APIs
 
@@ -298,8 +290,8 @@ components:
         services:
           type: array
           description: |
-            List of services available to the user including whether the service
-            is accessible or not.
+            List of services available to the patient including whether the
+            service is accessible or not.
           items:
             $ref: "#/components/schemas/ServicePermission"
         requests:
@@ -436,8 +428,8 @@ components:
     MedicalRecordPermission:
       type: object
       description: |
-        Contains the access level the user has to the medical record. This is
-        split into `present.accessLevel` and `before.accessLevel` with a
+        Contains the access level the patient has to the medical record. This
+        is split into `present.accessLevel` and `before.accessLevel` with a
         `present.effectiveDate` for when the present access level took effect.
         An optional `request` object can be used to describe pending requests.
       required:
@@ -470,7 +462,7 @@ components:
               $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
 
     ServicePermission:
-      description: A service and the level of access a user has to it.
+      description: A service and the level of access a patient has to it.
       required:
         - id
         - accessLevel
@@ -502,7 +494,7 @@ components:
         message:
           type: string
           description: A message pertaining to the request and its status.
-          example: Request requires review by HCP.
+          example: Request requires review by a healthcare worker.
         status:
           type: string
           description: The status of the request to update the permission.
@@ -643,7 +635,7 @@ components:
     # Enums
     MedicalRecordAccessLevelEnum:
       type: string
-      description: The access level the user has to the medical record.
+      description: The access level the patient has to the medical record.
       enum:
         - none
         - summary
@@ -654,7 +646,7 @@ components:
     MaxMedicalRecordAccessLevelEnum:
       type: string
       description: |
-        The maximum access level the user can have to the medical record.
+        The maximum access level the patient can have to the medical record.
       enum:
         - none
         - summary
@@ -672,7 +664,7 @@ components:
     ServiceAccessLevelEnum:
       type: string
       description: |
-        Indicates the level of access the user has to the service.
+        Indicates the level of access the patient has to the service.
 
         | level  | description                                                                       |
         | -----  | -----------                                                                       |
@@ -689,7 +681,8 @@ components:
     MaxServiceAccessLevelEnum:
       type: string
       description: |
-        Indicates the maximum level of access the user can have to the service.
+        Indicates the maximum level of access the patient can have to the
+        service.
 
         | level  | description                                                                       |
         | -----  | -----------                                                                       |
@@ -749,7 +742,7 @@ components:
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by HCP
+            message: Requires review by a healthcare worker.
             accessLevel: documents
             id: before
             type: medical
@@ -773,7 +766,7 @@ components:
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by HCP
+            message: Requires review by a healthcare worker.
             accessLevel: action
             id: appointments
             type: service
@@ -797,13 +790,13 @@ components:
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by HCP
+            message: Requires review by a healthcare worker.
             accessLevel: action
             id: appointments
             type: service
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by HCP
+            message: Requires review by a healthcare worker.
             accessLevel: detailed
             id: before
             type: medical
