@@ -167,38 +167,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserPermission"
+                $ref: '#/components/schemas/UserPermission'
               examples:
                 "Full permissions to medical record and services":
-                  $ref: "#/components/examples/FullPermissions"
+                  $ref: '#/components/examples/FullPermissions'
                 "Pending request to get documents access to before record":
-                  $ref: "#/components/examples/PendingRequestForDocumentsAccess"
+                  $ref: '#/components/examples/PendingRequestForDocumentsAccess'
                 "Pending request for full access to appointments":
-                  $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
+                  $ref: '#/components/examples/PendingRequestForFullAccessAppointments'
                 "Multiple pending requests":
-                  $ref: "#/components/examples/MultiplePendingRequests"
+                  $ref: '#/components/examples/MultiplePendingRequests'
         4XX:
           description: Invalid request
           content:
             application/fhir+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
                 "Invalid request error response":
-                  $ref: "#/components/examples/InvalidRequestError"
+                  $ref: '#/components/examples/InvalidRequestError'
                 "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
+                  $ref: '#/components/examples/ErrorResponseWithOnlyTheRequiredFields'
         5XX:
           description: Server error
           content:
             application/fhir+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
                 "Server error response":
-                  $ref: "#/components/examples/ServerError"
+                  $ref: '#/components/examples/ServerError'
                 "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
+                  $ref: '#/components/examples/ErrorResponseWithOnlyTheRequiredFields'
 
   /update-permission:
     post:
@@ -206,14 +206,14 @@ paths:
         - User Permissions
       summary: Request a change to a permission.
       requestBody:
-        $ref: "#/components/requestBodies/UpdatePermission"
+        $ref: '#/components/requestBodies/UpdatePermission'
       responses:
         200:
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PermissionUpdateResponse"
+                $ref: '#/components/schemas/PermissionUpdateResponse'
               examples:
                 ? "Request for documents access for before effective date is pending"
                 : value:
@@ -258,23 +258,23 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
                 "Invalid request error response":
-                  $ref: "#/components/examples/InvalidRequestError"
+                  $ref: '#/components/examples/InvalidRequestError'
                 "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
+                  $ref: '#/components/examples/ErrorResponseWithOnlyTheRequiredFields'
         5XX:
           description: Server error
           content:
             application/fhir+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: '#/components/schemas/ErrorResponse'
               examples:
                 "Server error response":
-                  $ref: "#/components/examples/ServerError"
+                  $ref: '#/components/examples/ServerError'
                 "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
+                  $ref: '#/components/examples/ErrorResponseWithOnlyTheRequiredFields'
 
 components:
   schemas:
@@ -286,14 +286,14 @@ components:
         - requests
       properties:
         medicalRecord:
-          $ref: "#/components/schemas/MedicalRecordPermission"
+          $ref: '#/components/schemas/MedicalRecordPermission'
         services:
           type: array
           description: |
             List of services available to the patient including whether the
             service is accessible or not.
           items:
-            $ref: "#/components/schemas/ServicePermission"
+            $ref: '#/components/schemas/ServicePermission'
         requests:
           type: array
           description: |
@@ -301,8 +301,8 @@ components:
             the medical record or services permissions.
           items:
             anyOf:
-              - $ref: "#/components/schemas/MedicalRecordRequest"
-              - $ref: "#/components/schemas/ServiceRequest"
+              - $ref: '#/components/schemas/MedicalRecordRequest'
+              - $ref: '#/components/schemas/ServiceRequest'
 
     ErrorResponse:
       type: object
@@ -443,9 +443,9 @@ components:
             - maxAccessLevel
           properties:
             accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+              $ref: '#/components/schemas/MedicalRecordAccessLevelEnum'
             maxAccessLevel:
-              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
+              $ref: '#/components/schemas/MaxMedicalRecordAccessLevelEnum'
             effectiveDate:
               type: string
               format: date/time
@@ -457,9 +457,9 @@ components:
             - maxAccessLevel
           properties:
             accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+              $ref: '#/components/schemas/MedicalRecordAccessLevelEnum'
             maxAccessLevel:
-              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
+              $ref: '#/components/schemas/MaxMedicalRecordAccessLevelEnum'
 
     ServicePermission:
       description: A service and the level of access a patient has to it.
@@ -469,11 +469,11 @@ components:
         - maxAccessLevel
       properties:
         id:
-          $ref: "#/components/schemas/ServiceIdEnum"
+          $ref: '#/components/schemas/ServiceIdEnum'
         accessLevel:
-          $ref: "#/components/schemas/ServiceAccessLevelEnum"
+          $ref: '#/components/schemas/ServiceAccessLevelEnum'
         maxAccessLevel:
-          $ref: "#/components/schemas/MaxServiceAccessLevelEnum"
+          $ref: '#/components/schemas/MaxServiceAccessLevelEnum'
 
     BaseRequest:
       description: |
@@ -506,7 +506,7 @@ components:
         An object containing information pertaining to any pending or rejected
         requests for changes to medical record permissions.
       allOf:
-        - $ref: "#/components/schemas/BaseRequest"
+        - $ref: '#/components/schemas/BaseRequest'
         - type: object
           required:
             - accessLevel
@@ -514,9 +514,9 @@ components:
             - type
           properties:
             accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+              $ref: '#/components/schemas/MedicalRecordAccessLevelEnum'
             id:
-              $ref: "#/components/schemas/MedicalRecordPermissionTypeIdEnum"
+              $ref: '#/components/schemas/MedicalRecordPermissionTypeIdEnum'
             type:
               type: string
               description: The type of request.
@@ -527,7 +527,7 @@ components:
         An object containing information pertaining to any pending or rejected
         requests for changes to service permissions.
       allOf:
-        - $ref: "#/components/schemas/BaseRequest"
+        - $ref: '#/components/schemas/BaseRequest'
         - type: object
           required:
             - accessLevel
@@ -535,9 +535,9 @@ components:
             - type
           properties:
             accessLevel:
-              $ref: "#/components/schemas/ServiceAccessLevelEnum"
+              $ref: '#/components/schemas/ServiceAccessLevelEnum'
             id:
-              $ref: "#/components/schemas/ServiceIdEnum"
+              $ref: '#/components/schemas/ServiceIdEnum'
             type:
               type: string
               description: The type of request.
@@ -559,9 +559,9 @@ components:
           enum:
             - medical
         id:
-          $ref: "#/components/schemas/MedicalRecordPermissionTypeIdEnum"
+          $ref: '#/components/schemas/MedicalRecordPermissionTypeIdEnum'
         accessLevel:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+          $ref: '#/components/schemas/MedicalRecordAccessLevelEnum'
         date:
           type: string
           description: |
@@ -584,19 +584,19 @@ components:
           enum:
             - service
         id:
-          $ref: "#/components/schemas/ServiceIdEnum"
+          $ref: '#/components/schemas/ServiceIdEnum'
         accessLevel:
-          $ref: "#/components/schemas/ServiceAccessLevelEnum"
+          $ref: '#/components/schemas/ServiceAccessLevelEnum'
 
     PermissionUpdateResponse:
       oneOf:
-        - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-        - $ref: "#/components/schemas/ServicePermissionUpdateResponse"
+        - $ref: '#/components/schemas/MedicalRecordPermissionUpdateResponse'
+        - $ref: '#/components/schemas/ServicePermissionUpdateResponse'
       discriminator:
         propertyName: type
         mapping:
-          medical: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-          service: "#/components/schemas/ServicePermissionUpdateResponse"
+          medical: '#/components/schemas/MedicalRecordPermissionUpdateResponse'
+          service: '#/components/schemas/ServicePermissionUpdateResponse'
     BasePermissionUpdateResponse:
       allOf:
         - type: object
@@ -625,12 +625,12 @@ components:
               example: "2022-11-01T00:00:00+00:00"
     MedicalRecordPermissionUpdateResponse:
       allOf:
-        - $ref: "#/components/schemas/BasePermissionUpdateResponse"
-        - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
+        - $ref: '#/components/schemas/BasePermissionUpdateResponse'
+        - $ref: '#/components/schemas/MedicalRecordPermissionUpdate'
     ServicePermissionUpdateResponse:
       allOf:
-        - $ref: "#/components/schemas/BasePermissionUpdateResponse"
-        - $ref: "#/components/schemas/ServicePermissionUpdate"
+        - $ref: '#/components/schemas/BasePermissionUpdateResponse'
+        - $ref: '#/components/schemas/ServicePermissionUpdate'
 
     # Enums
     MedicalRecordAccessLevelEnum:
@@ -850,13 +850,13 @@ components:
         application/json:
           schema:
             oneOf:
-              - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
-              - $ref: "#/components/schemas/ServicePermissionUpdate"
+              - $ref: '#/components/schemas/MedicalRecordPermissionUpdate'
+              - $ref: '#/components/schemas/ServicePermissionUpdate'
             discriminator:
               propertyName: type
               mapping:
-                medical: "#/components/schemas/MedicalRecordPermissionUpdate"
-                service: "#/components/schemas/ServicePermissionUpdate"
+                medical: '#/components/schemas/MedicalRecordPermissionUpdate'
+                service: '#/components/schemas/ServicePermissionUpdate'
           examples:
             "Request documents access for medical record before effective date":
               value:
