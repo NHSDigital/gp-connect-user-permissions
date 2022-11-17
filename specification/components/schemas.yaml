@@ -1,0 +1,417 @@
+UserPermission:
+  type: object
+  required:
+    - medicalRecord
+    - services
+    - requests
+  properties:
+    medicalRecord:
+      $ref: "#/MedicalRecordPermission"
+    services:
+      type: array
+      description: |
+        List of services available to the patient including whether the
+        service is accessible or not.
+      items:
+        $ref: "#/ServicePermission"
+    requests:
+      type: array
+      description: |
+        List of outstanding requests that have been made to update either
+        the medical record or services permissions.
+      items:
+        anyOf:
+          - $ref: "#/MedicalRecordRequest"
+          - $ref: "#/ServiceRequest"
+ErrorResponse:
+  type: object
+  description: |
+    Outcome of an operation that does not result in a resource being
+    returned.
+  required:
+    - resourceType
+    - meta
+    - issue
+  properties:
+    resourceType:
+      type: string
+      description: |
+        The type of FHIR resource - primarily used by FHIR clients and used
+        in non-FHIR APIs for consistency across the platform.
+      enum:
+        - OperationOutcome
+    meta:
+      type: object
+      description: Object to hold meta information about the error.
+      required:
+        - lastUpdated
+      properties:
+        lastUpdated:
+          type: string
+          description: UTC date and time stamp when the error occurred.
+          example: "2022-11-01T00:00:00+00:00"
+    issue:
+      type: array
+      description: List of issues that have occurred.
+      minItems: 1
+      items:
+        type: object
+        required:
+          - severity
+          - code
+        properties:
+          severity:
+            type: string
+            description: Severity of the error.
+            enum:
+              - fatal
+              - error
+              - warning
+              - information
+            example: error
+          code:
+            type: string
+            description: |
+              A FHIR error code - primarily used by FHIR clients and used in
+              non-FHIR APIs for consistency across the platform.
+            enum:
+              - business-rule
+              - code-invalid
+              - conflict
+              - deleted
+              - duplicate
+              - exception
+              - expired
+              - extension
+              - forbidden
+              - incomplete
+              - informational
+              - invalid
+              - invariant
+              - lock-error
+              - login
+              - multiple-matches
+              - no-store
+              - not-found
+              - not-supported
+              - processing
+              - required
+              - security
+              - structure
+              - suppressed
+              - throttled
+              - timeout
+              - too-costly
+              - too-long
+              - transient
+              - unknown
+              - value
+            example: forbidden
+          details:
+            type: object
+            description: Internal error code.
+            properties:
+              coding:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      description: URI of the coding system specification.
+                      example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                    version:
+                      type: string
+                      description: Version of the coding system in use.
+                      example: "1"
+                    code:
+                      type: string
+                      description: Symbol in syntax defined by the system.
+                      example: INVALID_VALUE
+                    display:
+                      type: string
+                      description: Representation defined by the system.
+                      example: Provided value is invalid.
+              diagnostics:
+                type: string
+                description: |
+                  Additional diagnostic information about the issue.
+                example: (invalid_request) firstName is missing.
+              expression:
+                type: array
+                description: JSON pointer of element(s) related to the error.
+                items:
+                  type: string
+                  example: /data/attributes/firstName
+MedicalRecordPermission:
+  type: object
+  description: |
+    Contains the access level the patient has to the medical record. This
+    is split into `present.accessLevel` and `before.accessLevel` with a
+    `present.effectiveDate` for when the present access level took effect.
+    An optional `request` object can be used to describe pending requests.
+  required:
+    - present
+  properties:
+    present:
+      type: object
+      required:
+        - accessLevel
+        - effectiveDate
+        - maxAccessLevel
+      properties:
+        accessLevel:
+          $ref: "#/MedicalRecordAccessLevelEnum"
+        maxAccessLevel:
+          $ref: "#/MaxMedicalRecordAccessLevelEnum"
+        effectiveDate:
+          type: string
+          format: date/time
+          example: "2022-11-01T00:00:00+00:00"
+    before:
+      type: object
+      required:
+        - accessLevel
+        - maxAccessLevel
+      properties:
+        accessLevel:
+          $ref: "#/MedicalRecordAccessLevelEnum"
+        maxAccessLevel:
+          $ref: "#/MaxMedicalRecordAccessLevelEnum"
+ServicePermission:
+  description: A service and the level of access a patient has to it.
+  required:
+    - id
+    - accessLevel
+    - maxAccessLevel
+  properties:
+    id:
+      $ref: "#/ServiceIdEnum"
+    accessLevel:
+      $ref: "#/ServiceAccessLevelEnum"
+    maxAccessLevel:
+      $ref: "#/MaxServiceAccessLevelEnum"
+BaseRequest:
+  description: |
+    An object containing information pertaining to any pending or rejected
+    requests.
+  type: object
+  required:
+    - status
+    - dateCreated
+    - message
+  properties:
+    dateCreated:
+      type: string
+      description: |
+        The date/time when the request for change was created.
+      format: date-time
+      example: "2022-11-01T00:00:00+00:00"
+    message:
+      type: string
+      description: A message pertaining to the request and its status.
+      example: Request requires review by a healthcare worker.
+    status:
+      type: string
+      description: The status of the request to update the permission.
+      enum:
+        - pending
+        - rejected
+MedicalRecordRequest:
+  description: |
+    An object containing information pertaining to any pending or rejected
+    requests for changes to medical record permissions.
+  allOf:
+    - $ref: "#/BaseRequest"
+    - type: object
+      required:
+        - accessLevel
+        - id
+        - type
+      properties:
+        accessLevel:
+          $ref: "#/MedicalRecordAccessLevelEnum"
+        id:
+          $ref: "#/MedicalRecordPermissionTypeIdEnum"
+        type:
+          type: string
+          description: The type of request.
+          enum:
+            - medical
+ServiceRequest:
+  description: |
+    An object containing information pertaining to any pending or rejected
+    requests for changes to service permissions.
+  allOf:
+    - $ref: "#/BaseRequest"
+    - type: object
+      required:
+        - accessLevel
+        - id
+        - type
+      properties:
+        accessLevel:
+          $ref: "#/ServiceAccessLevelEnum"
+        id:
+          $ref: "#/ServiceIdEnum"
+        type:
+          type: string
+          description: The type of request.
+          enum:
+            - service
+MedicalRecordPermissionUpdate:
+  type: object
+  description: |
+    Object containing the `type` and `id` of the permission to update along
+    with the `accessLevel` to update to.
+  required:
+    - type
+    - id
+    - accessLevel
+  properties:
+    type:
+      type: string
+      enum:
+        - medical
+    id:
+      $ref: "#/MedicalRecordPermissionTypeIdEnum"
+    accessLevel:
+      $ref: "#/MedicalRecordAccessLevelEnum"
+    date:
+      type: string
+      description: |
+        The date to move the present effective permission date to. Only
+        applicable when access level is `full` and id `present`.
+      format: date-time
+      example: "2022-11-01T00:00:00+00:00"
+ServicePermissionUpdate:
+  type: object
+  description: |
+    Object containing the `type` and `id` of the permission to update along
+    with the `accessLevel` to update to.
+  required:
+    - type
+    - id
+    - accessLevel
+  properties:
+    type:
+      type: string
+      enum:
+        - service
+    id:
+      $ref: "#/ServiceIdEnum"
+    accessLevel:
+      $ref: "#/ServiceAccessLevelEnum"
+PermissionUpdateResponse:
+  oneOf:
+    - $ref: "#/MedicalRecordPermissionUpdateResponse"
+    - $ref: "#/ServicePermissionUpdateResponse"
+  discriminator:
+    propertyName: type
+    mapping:
+      medical: "#/MedicalRecordPermissionUpdateResponse"
+      service: "#/ServicePermissionUpdateResponse"
+BasePermissionUpdateResponse:
+  allOf:
+    - type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: The status of the update request.
+          enum:
+            - rejected
+            - pending
+          example: pending
+        message:
+          type: string
+          description: |
+            Message pertaining to the result of the request.
+          example: |
+            Request to allow access to documents is pending.
+        dateCreated:
+          type: string
+          description: |
+            Indicates that date time when the request was created.
+          format: date-time
+          example: "2022-11-01T00:00:00+00:00"
+MedicalRecordPermissionUpdateResponse:
+  allOf:
+    - $ref: "#/BasePermissionUpdateResponse"
+    - $ref: "#/MedicalRecordPermissionUpdate"
+ServicePermissionUpdateResponse:
+  allOf:
+    - $ref: "#/BasePermissionUpdateResponse"
+    - $ref: "#/ServicePermissionUpdate"
+MedicalRecordAccessLevelEnum:
+  type: string
+  description: The access level the patient has to the medical record.
+  enum:
+    - none
+    - summary
+    - detailed
+    - documents
+    - full
+  example: detailed
+MaxMedicalRecordAccessLevelEnum:
+  type: string
+  description: |
+    The maximum access level the patient can have to the medical record.
+  enum:
+    - none
+    - summary
+    - detailed
+    - documents
+    - full
+  example: documents
+MedicalRecordPermissionTypeIdEnum:
+  type: string
+  description: The type of the permission.
+  enum:
+    - present
+    - before
+  example: present
+ServiceAccessLevelEnum:
+  type: string
+  description: |
+    Indicates the level of access the patient has to the service.
+
+    | level  | description                                                                       |
+    | -----  | -----------                                                                       |
+    | none   | no access                                                                         |
+    | view   | view only                                                                         |
+    | action | can perform main action for service e.g. book appointments or order prescriptions |
+    | full   | can amend/cancel existing appointments or prescriptions                           |
+  enum:
+    - none
+    - view
+    - action
+    - full
+  example: view
+MaxServiceAccessLevelEnum:
+  type: string
+  description: |
+    Indicates the maximum level of access the patient can have to the
+    service.
+
+    | level  | description                                                                       |
+    | -----  | -----------                                                                       |
+    | none   | no access                                                                         |
+    | view   | view only                                                                         |
+    | action | can perform main action for service e.g. book appointments or order prescriptions |
+    | full   | can amend/cancel existing appointments or prescriptions                           |
+  enum:
+    - none
+    - view
+    - action
+    - full
+  example: action
+ServiceIdEnum:
+  type: string
+  description: The id of the service.
+  enum:
+    - appointments
+    - prescriptions
+  example: appointments
