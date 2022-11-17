@@ -12,8 +12,8 @@ UpdatePermission:
         discriminator:
           propertyName: type
           mapping:
-            medical: "../schemas.yaml#/MedicalRecordPermissionUpdate"
-            service: "../schemas.yaml#/ServicePermissionUpdate"
+            medical: "schemas.yaml#/MedicalRecordPermissionUpdate"
+            service: "schemas.yaml#/ServicePermissionUpdate"
       examples:
         "Request documents access for medical record before effective date":
           value:
