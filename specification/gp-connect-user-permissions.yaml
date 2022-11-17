@@ -52,7 +52,7 @@ info:
     ### Who can access patient's permissions
 
     Use this API if you are a patient-facing application, like the NHS App and
-    use NHS login to authenticate users.
+    use NHS login to authenticate patients.
 
     ## Related APIs
 
@@ -290,8 +290,8 @@ components:
         services:
           type: array
           description: |
-            List of services available to the user including whether the service
-            is accessible or not.
+            List of services available to the patient including whether the
+            service is accessible or not.
           items:
             $ref: "#/components/schemas/ServicePermission"
         requests:
@@ -428,8 +428,8 @@ components:
     MedicalRecordPermission:
       type: object
       description: |
-        Contains the access level the user has to the medical record. This is
-        split into `present.accessLevel` and `before.accessLevel` with a
+        Contains the access level the patient has to the medical record. This
+        is split into `present.accessLevel` and `before.accessLevel` with a
         `present.effectiveDate` for when the present access level took effect.
         An optional `request` object can be used to describe pending requests.
       required:
@@ -462,7 +462,7 @@ components:
               $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
 
     ServicePermission:
-      description: A service and the level of access a user has to it.
+      description: A service and the level of access a patient has to it.
       required:
         - id
         - accessLevel
@@ -635,7 +635,7 @@ components:
     # Enums
     MedicalRecordAccessLevelEnum:
       type: string
-      description: The access level the user has to the medical record.
+      description: The access level the patient has to the medical record.
       enum:
         - none
         - summary
@@ -646,7 +646,7 @@ components:
     MaxMedicalRecordAccessLevelEnum:
       type: string
       description: |
-        The maximum access level the user can have to the medical record.
+        The maximum access level the patient can have to the medical record.
       enum:
         - none
         - summary
@@ -664,7 +664,7 @@ components:
     ServiceAccessLevelEnum:
       type: string
       description: |
-        Indicates the level of access the user has to the service.
+        Indicates the level of access the patient has to the service.
 
         | level  | description                                                                       |
         | -----  | -----------                                                                       |
@@ -681,7 +681,8 @@ components:
     MaxServiceAccessLevelEnum:
       type: string
       description: |
-        Indicates the maximum level of access the user can have to the service.
+        Indicates the maximum level of access the patient can have to the
+        service.
 
         | level  | description                                                                       |
         | -----  | -----------                                                                       |
