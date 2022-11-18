@@ -1,0 +1,60 @@
+oneOf:
+  - allOf:
+      # - $ref: "BasePermissionUpdateResponse.yaml"
+      # - $ref: "MedicalRecordPermissionUpdate.yaml"
+      - type: object
+        description: |
+          Object containing the `type` and `id` of the permission to update along
+          with the `accessLevel` to update to.
+        required:
+          - type
+          - id
+          - accessLevel
+        properties:
+          type:
+            type: string
+            enum:
+              - medical
+          id:
+            $ref: "MedicalRecordPermissionTypeIdEnum.yaml"
+          accessLevel:
+            $ref: "MedicalRecordAccessLevelEnum.yaml"
+          date:
+            type: string
+            description: |
+              The date to move the present effective permission date to. Only
+              applicable when access level is `full` and id `present`.
+            format: date-time
+            example: "2022-11-01T00:00:00+00:00"
+      - type: object
+        required:
+          - status
+          - message
+        properties:
+          status:
+            type: string
+            description: The status of the update request.
+            enum:
+              - rejected
+              - pending
+            example: pending
+          message:
+            type: string
+            description: |
+              Message pertaining to the result of the request.
+            example: |
+              Request to allow access to documents is pending.
+          dateCreated:
+            type: string
+            description: |
+              Indicates that date time when the request was created.
+            format: date-time
+            example: "2022-11-01T00:00:00+00:00"
+  - allOf:
+      - $ref: "BasePermissionUpdateResponse.yaml"
+      - $ref: "ServicePermissionUpdate.yaml"
+discriminator:
+  propertyName: type
+  mapping:
+    medical: "MedicalRecordPermissionUpdateResponse.yaml"
+    service: "ServicePermissionUpdateResponse.yaml"

@@ -1,0 +1,29 @@
+value:
+  medicalRecord:
+    present:
+      effectiveDate: "2022-11-01T00:00:00+00:00"
+      accessLevel: full
+      maxAccessLevel: full
+    before:
+      accessLevel: summary
+      maxAccessLevel: detailed
+  services:
+    - id: appointments
+      accessLevel: view
+      maxAccessLevel: action
+    - id: prescriptions
+      accessLevel: view
+      maxAccessLevel: action
+  requests:
+    - status: pending
+      dateCreated: "2022-10-31T23:59:59+00:00"
+      message: Requires review by a healthcare worker.
+      accessLevel: action
+      id: appointments
+      type: service
+    - status: pending
+      dateCreated: "2022-10-31T23:59:59+00:00"
+      message: Requires review by a healthcare worker.
+      accessLevel: detailed
+      id: before
+      type: medical

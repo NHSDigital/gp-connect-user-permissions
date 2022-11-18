@@ -1,0 +1,10 @@
+type: string
+description: |
+  The maximum access level the patient can have to the medical record.
+enum:
+  - none
+  - summary
+  - detailed
+  - documents
+  - full
+example: documents

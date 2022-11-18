@@ -1,0 +1,20 @@
+description: |
+  An object containing information pertaining to any pending or rejected
+  requests for changes to service permissions.
+allOf:
+  - $ref: "BaseRequest.yaml"
+  - type: object
+    required:
+      - accessLevel
+      - id
+      - type
+    properties:
+      accessLevel:
+        $ref: "ServiceAccessLevelEnum.yaml"
+      id:
+        $ref: "ServiceIdEnum.yaml"
+      type:
+        type: string
+        description: The type of request.
+        enum:
+          - service

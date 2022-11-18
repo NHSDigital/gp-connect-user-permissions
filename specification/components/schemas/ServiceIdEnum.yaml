@@ -1,0 +1,6 @@
+type: string
+description: The id of the service.
+enum:
+  - appointments
+  - prescriptions
+example: appointments

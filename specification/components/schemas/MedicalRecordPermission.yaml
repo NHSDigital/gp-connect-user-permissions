@@ -1,0 +1,34 @@
+type: object
+description: |
+  Contains the access level the patient has to the medical record. This
+  is split into `present.accessLevel` and `before.accessLevel` with a
+  `present.effectiveDate` for when the present access level took effect.
+  An optional `request` object can be used to describe pending requests.
+required:
+  - present
+properties:
+  present:
+    type: object
+    required:
+      - accessLevel
+      - effectiveDate
+      - maxAccessLevel
+    properties:
+      accessLevel:
+        $ref: "MedicalRecordAccessLevelEnum.yaml"
+      maxAccessLevel:
+        $ref: "MaxMedicalRecordAccessLevelEnum.yaml"
+      effectiveDate:
+        type: string
+        format: date/time
+        example: "2022-11-01T00:00:00+00:00"
+  before:
+    type: object
+    required:
+      - accessLevel
+      - maxAccessLevel
+    properties:
+      accessLevel:
+        $ref: "MedicalRecordAccessLevelEnum.yaml"
+      maxAccessLevel:
+        $ref: "MaxMedicalRecordAccessLevelEnum.yaml"

@@ -1,0 +1,24 @@
+type: object
+required:
+  - medicalRecord
+  - services
+  - requests
+properties:
+  medicalRecord:
+    $ref: "MedicalRecordPermission.yaml"
+  services:
+    type: array
+    description: |
+      List of services available to the patient including whether the
+      service is accessible or not.
+    items:
+      $ref: "ServicePermission.yaml"
+  requests:
+    type: array
+    description: |
+      List of outstanding requests that have been made to update either
+      the medical record or services permissions.
+    items:
+      anyOf:
+        - $ref: "MedicalRecordRequest.yaml"
+        - $ref: "ServiceRequest.yaml"

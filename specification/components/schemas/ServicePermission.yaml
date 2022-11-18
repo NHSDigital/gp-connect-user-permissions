@@ -1,0 +1,12 @@
+description: A service and the level of access a patient has to it.
+required:
+  - id
+  - accessLevel
+  - maxAccessLevel
+properties:
+  id:
+    $ref: "ServiceIdEnum.yaml"
+  accessLevel:
+    $ref: "ServiceAccessLevelEnum.yaml"
+  maxAccessLevel:
+    $ref: "MaxServiceAccessLevelEnum.yaml"

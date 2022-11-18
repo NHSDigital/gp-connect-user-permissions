@@ -1,0 +1,24 @@
+type: object
+description: |
+  Object containing the `type` and `id` of the permission to update along
+  with the `accessLevel` to update to.
+required:
+  - type
+  - id
+  - accessLevel
+properties:
+  type:
+    type: string
+    enum:
+      - medical
+  id:
+    $ref: "MedicalRecordPermissionTypeIdEnum.yaml"
+  accessLevel:
+    $ref: "MedicalRecordAccessLevelEnum.yaml"
+  date:
+    type: string
+    description: |
+      The date to move the present effective permission date to. Only
+      applicable when access level is `full` and id `present`.
+    format: date-time
+    example: "2022-11-01T00:00:00+00:00"

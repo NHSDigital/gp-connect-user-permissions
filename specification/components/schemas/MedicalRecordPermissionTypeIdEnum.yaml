@@ -1,0 +1,6 @@
+type: string
+description: The type of the permission.
+enum:
+  - present
+  - before
+example: present

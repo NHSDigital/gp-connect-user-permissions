@@ -1,0 +1,17 @@
+type: object
+description: |
+  Object containing the `type` and `id` of the permission to update along
+  with the `accessLevel` to update to.
+required:
+  - type
+  - id
+  - accessLevel
+properties:
+  type:
+    type: string
+    enum:
+      - service
+  id:
+    $ref: "ServiceIdEnum.yaml"
+  accessLevel:
+    $ref: "ServiceAccessLevelEnum.yaml"

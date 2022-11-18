@@ -279,601 +279,63 @@ paths:
 components:
   schemas:
     UserPermission:
-      type: object
-      required:
-        - medicalRecord
-        - services
-        - requests
-      properties:
-        medicalRecord:
-          $ref: "#/components/schemas/MedicalRecordPermission"
-        services:
-          type: array
-          description: |
-            List of services available to the patient including whether the
-            service is accessible or not.
-          items:
-            $ref: "#/components/schemas/ServicePermission"
-        requests:
-          type: array
-          description: |
-            List of outstanding requests that have been made to update either
-            the medical record or services permissions.
-          items:
-            anyOf:
-              - $ref: "#/components/schemas/MedicalRecordRequest"
-              - $ref: "#/components/schemas/ServiceRequest"
-
+      $ref: "components/schemas/UserPermission.yaml"
     ErrorResponse:
-      type: object
-      description: |
-        Outcome of an operation that does not result in a resource being
-        returned.
-      required:
-        - resourceType
-        - meta
-        - issue
-      properties:
-        resourceType:
-          type: string
-          description: |
-            The type of FHIR resource - primarily used by FHIR clients and used
-            in non-FHIR APIs for consistency across the platform.
-          enum:
-            - OperationOutcome
-        meta:
-          type: object
-          description: Object to hold meta information about the error.
-          required:
-            - lastUpdated
-          properties:
-            lastUpdated:
-              type: string
-              description: UTC date and time stamp when the error occurred.
-              example: "2022-11-01T00:00:00+00:00"
-        issue:
-          type: array
-          description: List of issues that have occurred.
-          minItems: 1
-          items:
-            type: object
-            required:
-              - severity
-              - code
-            properties:
-              severity:
-                type: string
-                description: Severity of the error.
-                enum:
-                  - fatal
-                  - error
-                  - warning
-                  - information
-                example: error
-              code:
-                type: string
-                description: |
-                  A FHIR error code - primarily used by FHIR clients and used in
-                  non-FHIR APIs for consistency across the platform.
-                enum:
-                  - business-rule
-                  - code-invalid
-                  - conflict
-                  - deleted
-                  - duplicate
-                  - exception
-                  - expired
-                  - extension
-                  - forbidden
-                  - incomplete
-                  - informational
-                  - invalid
-                  - invariant
-                  - lock-error
-                  - login
-                  - multiple-matches
-                  - no-store
-                  - not-found
-                  - not-supported
-                  - processing
-                  - required
-                  - security
-                  - structure
-                  - suppressed
-                  - throttled
-                  - timeout
-                  - too-costly
-                  - too-long
-                  - transient
-                  - unknown
-                  - value
-                example: forbidden
-              details:
-                type: object
-                description: Internal error code.
-                properties:
-                  coding:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        system:
-                          type: string
-                          description: URI of the coding system specification.
-                          example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
-                        version:
-                          type: string
-                          description: Version of the coding system in use.
-                          example: "1"
-                        code:
-                          type: string
-                          description: Symbol in syntax defined by the system.
-                          example: INVALID_VALUE
-                        display:
-                          type: string
-                          description: Representation defined by the system.
-                          example: Provided value is invalid.
-                  diagnostics:
-                    type: string
-                    description: |
-                      Additional diagnostic information about the issue.
-                    example: (invalid_request) firstName is missing.
-                  expression:
-                    type: array
-                    description: JSON pointer of element(s) related to the error.
-                    items:
-                      type: string
-                      example: /data/attributes/firstName
-
+      $ref: "components/schemas/ErrorResponse.yaml"
     MedicalRecordPermission:
-      type: object
-      description: |
-        Contains the access level the patient has to the medical record. This
-        is split into `present.accessLevel` and `before.accessLevel` with a
-        `present.effectiveDate` for when the present access level took effect.
-        An optional `request` object can be used to describe pending requests.
-      required:
-        - present
-      properties:
-        present:
-          type: object
-          required:
-            - accessLevel
-            - effectiveDate
-            - maxAccessLevel
-          properties:
-            accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-            maxAccessLevel:
-              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
-            effectiveDate:
-              type: string
-              format: date/time
-              example: "2022-11-01T00:00:00+00:00"
-        before:
-          type: object
-          required:
-            - accessLevel
-            - maxAccessLevel
-          properties:
-            accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-            maxAccessLevel:
-              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
-
+      $ref: "components/schemas/MedicalRecordPermission.yaml"
     ServicePermission:
-      description: A service and the level of access a patient has to it.
-      required:
-        - id
-        - accessLevel
-        - maxAccessLevel
-      properties:
-        id:
-          $ref: "#/components/schemas/ServiceIdEnum"
-        accessLevel:
-          $ref: "#/components/schemas/ServiceAccessLevelEnum"
-        maxAccessLevel:
-          $ref: "#/components/schemas/MaxServiceAccessLevelEnum"
-
+      $ref: "components/schemas/ServicePermission.yaml"
     BaseRequest:
-      description: |
-        An object containing information pertaining to any pending or rejected
-        requests.
-      type: object
-      required:
-        - status
-        - dateCreated
-        - message
-      properties:
-        dateCreated:
-          type: string
-          description: |
-            The date/time when the request for change was created.
-          format: date-time
-          example: "2022-11-01T00:00:00+00:00"
-        message:
-          type: string
-          description: A message pertaining to the request and its status.
-          example: Request requires review by a healthcare worker.
-        status:
-          type: string
-          description: The status of the request to update the permission.
-          enum:
-            - pending
-            - rejected
+      $ref: "components/schemas/BaseRequest.yaml"
     MedicalRecordRequest:
-      description: |
-        An object containing information pertaining to any pending or rejected
-        requests for changes to medical record permissions.
-      allOf:
-        - $ref: "#/components/schemas/BaseRequest"
-        - type: object
-          required:
-            - accessLevel
-            - id
-            - type
-          properties:
-            accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-            id:
-              $ref: "#/components/schemas/MedicalRecordPermissionTypeIdEnum"
-            type:
-              type: string
-              description: The type of request.
-              enum:
-                - medical
+      $ref: "components/schemas/MedicalRecordRequest.yaml"
     ServiceRequest:
-      description: |
-        An object containing information pertaining to any pending or rejected
-        requests for changes to service permissions.
-      allOf:
-        - $ref: "#/components/schemas/BaseRequest"
-        - type: object
-          required:
-            - accessLevel
-            - id
-            - type
-          properties:
-            accessLevel:
-              $ref: "#/components/schemas/ServiceAccessLevelEnum"
-            id:
-              $ref: "#/components/schemas/ServiceIdEnum"
-            type:
-              type: string
-              description: The type of request.
-              enum:
-                - service
-
+      $ref: "components/schemas/ServiceRequest.yaml"
     MedicalRecordPermissionUpdate:
-      type: object
-      description: |
-        Object containing the `type` and `id` of the permission to update along
-        with the `accessLevel` to update to.
-      required:
-        - type
-        - id
-        - accessLevel
-      properties:
-        type:
-          type: string
-          enum:
-            - medical
-        id:
-          $ref: "#/components/schemas/MedicalRecordPermissionTypeIdEnum"
-        accessLevel:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        date:
-          type: string
-          description: |
-            The date to move the present effective permission date to. Only
-            applicable when access level is `full` and id `present`.
-          format: date-time
-          example: "2022-11-01T00:00:00+00:00"
+      $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
     ServicePermissionUpdate:
-      type: object
-      description: |
-        Object containing the `type` and `id` of the permission to update along
-        with the `accessLevel` to update to.
-      required:
-        - type
-        - id
-        - accessLevel
-      properties:
-        type:
-          type: string
-          enum:
-            - service
-        id:
-          $ref: "#/components/schemas/ServiceIdEnum"
-        accessLevel:
-          $ref: "#/components/schemas/ServiceAccessLevelEnum"
-
+      $ref: "components/schemas/ServicePermissionUpdate.yaml"
     PermissionUpdateResponse:
-      oneOf:
-        - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-        - $ref: "#/components/schemas/ServicePermissionUpdateResponse"
-      discriminator:
-        propertyName: type
-        mapping:
-          medical: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-          service: "#/components/schemas/ServicePermissionUpdateResponse"
-    BasePermissionUpdateResponse:
-      allOf:
-        - type: object
-          required:
-            - status
-            - message
-          properties:
-            status:
-              type: string
-              description: The status of the update request.
-              enum:
-                - rejected
-                - pending
-              example: pending
-            message:
-              type: string
-              description: |
-                Message pertaining to the result of the request.
-              example: |
-                Request to allow access to documents is pending.
-            dateCreated:
-              type: string
-              description: |
-                Indicates that date time when the request was created.
-              format: date-time
-              example: "2022-11-01T00:00:00+00:00"
-    MedicalRecordPermissionUpdateResponse:
-      allOf:
-        - $ref: "#/components/schemas/BasePermissionUpdateResponse"
-        - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
-    ServicePermissionUpdateResponse:
-      allOf:
-        - $ref: "#/components/schemas/BasePermissionUpdateResponse"
-        - $ref: "#/components/schemas/ServicePermissionUpdate"
-
-    # Enums
+      $ref: "components/schemas/PermissionUpdateResponse.yaml"
+    # BasePermissionUpdateResponse:
+    #   $ref: "components/schemas/BasePermissionUpdateResponse.yaml"
+    # MedicalRecordPermissionUpdateResponse:
+    #   $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
+    # ServicePermissionUpdateResponse:
+    #   $ref: "components/schemas/ServicePermissionUpdateResponse.yaml"
     MedicalRecordAccessLevelEnum:
-      type: string
-      description: The access level the patient has to the medical record.
-      enum:
-        - none
-        - summary
-        - detailed
-        - documents
-        - full
-      example: detailed
+      $ref: "components/schemas/MedicalRecordAccessLevelEnum.yaml"
     MaxMedicalRecordAccessLevelEnum:
-      type: string
-      description: |
-        The maximum access level the patient can have to the medical record.
-      enum:
-        - none
-        - summary
-        - detailed
-        - documents
-        - full
-      example: documents
+      $ref: "components/schemas/MaxMedicalRecordAccessLevelEnum.yaml"
     MedicalRecordPermissionTypeIdEnum:
-      type: string
-      description: The type of the permission.
-      enum:
-        - present
-        - before
-      example: present
+      $ref: "components/schemas/MedicalRecordPermissionTypeIdEnum.yaml"
     ServiceAccessLevelEnum:
-      type: string
-      description: |
-        Indicates the level of access the patient has to the service.
-
-        | level  | description                                                                       |
-        | -----  | -----------                                                                       |
-        | none   | no access                                                                         |
-        | view   | view only                                                                         |
-        | action | can perform main action for service e.g. book appointments or order prescriptions |
-        | full   | can amend/cancel existing appointments or prescriptions                           |
-      enum:
-        - none
-        - view
-        - action
-        - full
-      example: view
+      $ref: "components/schemas/ServiceAccessLevelEnum.yaml"
     MaxServiceAccessLevelEnum:
-      type: string
-      description: |
-        Indicates the maximum level of access the patient can have to the
-        service.
-
-        | level  | description                                                                       |
-        | -----  | -----------                                                                       |
-        | none   | no access                                                                         |
-        | view   | view only                                                                         |
-        | action | can perform main action for service e.g. book appointments or order prescriptions |
-        | full   | can amend/cancel existing appointments or prescriptions                           |
-      enum:
-        - none
-        - view
-        - action
-        - full
-      example: action
+      $ref: "components/schemas/MaxServiceAccessLevelEnum.yaml"
     ServiceIdEnum:
-      type: string
-      description: The id of the service.
-      enum:
-        - appointments
-        - prescriptions
-      example: appointments
+      $ref: "components/schemas/ServiceIdEnum.yaml"
 
   examples:
     FullPermissions:
-      value:
-        medicalRecord:
-          present:
-            effectiveDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: full
-            maxAccessLevel: full
-          before:
-            accessLevel: summary
-            maxAccessLevel: documents
-        services:
-          - id: appointments
-            accessLevel: view
-            maxAccessLevel: full
-          - id: prescriptions
-            accessLevel: action
-            maxAccessLevel: full
+      $ref: "components/examples/FullPermissions.yaml"
     PendingRequestForDocumentsAccess:
-      value:
-        medicalRecord:
-          present:
-            effectiveDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: full
-            maxAccessLevel: full
-          before:
-            accessLevel: summary
-            maxAccessLevel: documents
-        services:
-          - id: appointments
-            accessLevel: action
-            maxAccessLevel: action
-          - id: prescriptions
-            accessLevel: view
-            maxAccessLevel: action
-        requests:
-          - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: documents
-            id: before
-            type: medical
+      $ref: "components/examples/PendingRequestForDocumentsAccess.yaml"
     PendingRequestForFullAccessAppointments:
-      value:
-        medicalRecord:
-          present:
-            effectiveDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: full
-            maxAccessLevel: full
-          before:
-            accessLevel: summary
-            maxAccessLevel: detailed
-        services:
-          - id: appointments
-            accessLevel: view
-            maxAccessLevel: action
-          - id: prescriptions
-            accessLevel: view
-            maxAccessLevel: action
-        requests:
-          - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: action
-            id: appointments
-            type: service
+      $ref: "components/examples/PendingRequestForFullAccessAppointments.yaml"
     MultiplePendingRequests:
-      value:
-        medicalRecord:
-          present:
-            effectiveDate: "2022-11-01T00:00:00+00:00"
-            accessLevel: full
-            maxAccessLevel: full
-          before:
-            accessLevel: summary
-            maxAccessLevel: detailed
-        services:
-          - id: appointments
-            accessLevel: view
-            maxAccessLevel: action
-          - id: prescriptions
-            accessLevel: view
-            maxAccessLevel: action
-        requests:
-          - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: action
-            id: appointments
-            type: service
-          - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: detailed
-            id: before
-            type: medical
+      $ref: "components/examples/MultiplePendingRequests.yaml"
     InvalidRequestError:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          lastUpdated: "2021-04-14T11:35:00+00:00"
-        issue:
-          - severity: error
-            code: value
-            details:
-              coding:
-                - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
-                  version: "1"
-                  code: INVALID_VALUE
-                  display: Provided value is invalid.
-              diagnostics: (invalid_request) firstName is missing.
-              expression:
-                - /data/attributes/firstName
+      $ref: "components/examples/InvalidRequestError.yaml"
     ServerError:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          "lastUpdated": "2017-10-17T12:22:00+00:00"
-        issue:
-          - severity: error
-            code: exception
-            details:
-              coding:
-                - system: https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1
-                  version: "1"
-                  code: INTERNAL_SERVER_ERROR
-                  display: Internal server error.
-              diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
+      $ref: "components/examples/ServerError.yaml"
     ErrorResponseWithOnlyTheRequiredFields:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          lastUpdated: "2022-11-15T11:10:00+00:00"
-        issue:
-          - severity: error
-            code: expired
+      $ref: "components/examples/ErrorResponseWithOnlyTheRequiredFields.yaml"
+
   requestBodies:
     UpdatePermission:
-      description: |
-        Object containing the `type` and `id` of the permission to update along
-        with the `currentAccessLevel` to update to.
-      required: true
-      content:
-        application/json:
-          schema:
-            oneOf:
-              - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
-              - $ref: "#/components/schemas/ServicePermissionUpdate"
-            discriminator:
-              propertyName: type
-              mapping:
-                medical: "#/components/schemas/MedicalRecordPermissionUpdate"
-                service: "#/components/schemas/ServicePermissionUpdate"
-          examples:
-            "Request documents access for medical record before effective date":
-              value:
-                type: medical
-                id: before
-                accessLevel: documents
-            "Request effective date is moved back to date":
-              value:
-                type: medical
-                id: present
-                accessLevel: full
-                date: "2022-11-01T00:00:00+00:00"
-            "Request action access to appointments service":
-              value:
-                type: service
-                id: appointments
-                accessLevel: action
+      $ref: "components/requestBodies/UpdatePermission.yaml"
 
   securitySchemes:
     BearerAuthorization:

@@ -1,0 +1,16 @@
+value:
+  medicalRecord:
+    present:
+      effectiveDate: "2022-11-01T00:00:00+00:00"
+      accessLevel: full
+      maxAccessLevel: full
+    before:
+      accessLevel: summary
+      maxAccessLevel: documents
+  services:
+    - id: appointments
+      accessLevel: view
+      maxAccessLevel: full
+    - id: prescriptions
+      accessLevel: action
+      maxAccessLevel: full
