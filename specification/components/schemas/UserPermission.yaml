@@ -20,5 +20,36 @@ properties:
       the medical record or services permissions.
     items:
       anyOf:
-        - $ref: "MedicalRecordRequest.yaml"
-        - $ref: "ServiceRequest.yaml"
+        - allOf:
+          - $ref: "BaseRequest.yaml"
+          - type: object
+            required:
+              - accessLevel
+              - id
+              - type
+            properties:
+              accessLevel:
+                $ref: "MedicalRecordAccessLevelEnum.yaml"
+              id:
+                $ref: "MedicalRecordPermissionTypeIdEnum.yaml"
+              type:
+                type: string
+                description: The type of request.
+                enum:
+                  - medical
+        - $ref: "BaseRequest.yaml"
+        - type: object
+          required:
+            - accessLevel
+            - id
+            - type
+          properties:
+            accessLevel:
+              $ref: "ServiceAccessLevelEnum.yaml"
+            id:
+              $ref: "ServiceIdEnum.yaml"
+            type:
+              type: string
+              description: The type of request.
+              enum:
+                - service
