@@ -206,14 +206,72 @@ paths:
         - User Permissions
       summary: Request a change to a permission.
       requestBody:
-        $ref: "#/components/requestBodies/UpdatePermission"
+        # $ref: "#/components/requestBodies/UpdatePermission"
+        description: |
+          Object containing the `type` and `id` of the permission to update along
+          with the `currentAccessLevel` to update to.
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
+                - $ref: "#/components/schemas/ServicePermissionUpdate"
+              discriminator:
+                propertyName: type
+                mapping:
+                  medical: "#/components/schemas/MedicalRecordPermissionUpdate"
+                  service: "#/components/schemas/ServicePermissionUpdate"
+            examples:
+              "Request documents access for medical record before effective date":
+                value:
+                  type: medical
+                  id: before
+                  accessLevel: documents
+              "Request effective date is moved back to date":
+                value:
+                  type: medical
+                  id: present
+                  accessLevel: full
+                  date: "2022-11-01T00:00:00+00:00"
+              "Request action access to appointments service":
+                value:
+                  type: service
+                  id: appointments
       responses:
         200:
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PermissionUpdateResponse"
+                oneOf:
+                  # - allOf:
+                  #     - $ref: "BasePermissionUpdateResponse.yaml"
+                  #     - $ref: "MedicalRecordPermissionUpdate.yaml"
+                  # - allOf:
+                  #     - $ref: "BasePermissionUpdateResponse.yaml"
+                  #     - $ref: "ServicePermissionUpdate.yaml"
+                  - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
+                  - $ref: "#/components/schemas/ServicePermissionUpdateResponse"
+                discriminator:
+                  propertyName: type
+                  mapping:
+                    medical: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
+                    service: "#/components/schemas/ServicePermissionUpdateResponse"
+                # $ref: "#/components/schemas/PermissionUpdateResponse"
+                # oneOf:
+                #   # - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
+                #   - allOf:
+                #       - $ref: "#/components/schemas/BasePermissionUpdateResponse"
+                #       - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
+                #   - allOf:
+                #       - $ref: "#/components/schemas/BasePermissionUpdateResponse"
+                #       - $ref: "#/components/schemas/ServicePermissionUpdate"
+                # discriminator:
+                #   propertyName: type
+                #   mapping:
+                #     medical: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
+                #     service: "#/components/schemas/ServicePermissionUpdateResponse"
               examples:
                 ? "Request for documents access for before effective date is pending"
                 : value:
@@ -296,20 +354,23 @@ components:
       $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
     ServicePermissionUpdate:
       $ref: "components/schemas/ServicePermissionUpdate.yaml"
-    PermissionUpdateResponse:
-      $ref: "components/schemas/PermissionUpdateResponse.yaml"
-    BasePermissionUpdateResponse:
-      $ref: "components/schemas/BasePermissionUpdateResponse.yaml"
-    # MedicalRecordPermissionUpdateResponse:
-    #   $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
-    # ServicePermissionUpdateResponse:
-    #   $ref: "components/schemas/ServicePermissionUpdateResponse.yaml"
-    MedicalRecordAccessLevelEnum:
-      $ref: "components/schemas/MedicalRecordAccessLevelEnum.yaml"
+    # PermissionUpdateResponse:
+    #   $ref: "components/schemas/PermissionUpdateResponse.yaml"
+    # BasePermissionUpdateResponse:
+    #   $ref: "components/schemas/BasePermissionUpdateResponse.yaml"
+    MedicalRecordPermissionUpdateResponse:
+      $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
+      # - allOf:
+      #     - $ref: "#/components/schemas/BasePermissionUpdateResponse"
+      #     - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
+    ServicePermissionUpdateResponse:
+      $ref: "components/schemas/ServicePermissionUpdateResponse.yaml"
+    # MedicalRecordAccessLevelEnum:
+    #   $ref: "components/schemas/MedicalRecordAccessLevelEnum.yaml"
     # MaxMedicalRecordAccessLevelEnum:
     #   $ref: "components/schemas/MaxMedicalRecordAccessLevelEnum.yaml"
-    MedicalRecordPermissionTypeIdEnum:
-      $ref: "components/schemas/MedicalRecordPermissionTypeIdEnum.yaml"
+    # MedicalRecordPermissionTypeIdEnum:
+    #   $ref: "components/schemas/MedicalRecordPermissionTypeIdEnum.yaml"
     ServiceAccessLevelEnum:
       $ref: "components/schemas/ServiceAccessLevelEnum.yaml"
     MaxServiceAccessLevelEnum:
@@ -333,9 +394,9 @@ components:
     ErrorResponseWithOnlyTheRequiredFields:
       $ref: "components/examples/ErrorResponseWithOnlyTheRequiredFields.yaml"
 
-  requestBodies:
-    UpdatePermission:
-      $ref: "components/requestBodies/UpdatePermission.yaml"
+  # requestBodies:
+  #   UpdatePermission:
+  #     $ref: "components/requestBodies/UpdatePermission.yaml"
 
   securitySchemes:
     BearerAuthorization:
