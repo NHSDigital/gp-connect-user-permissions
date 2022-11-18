@@ -15,9 +15,27 @@ properties:
       - maxAccessLevel
     properties:
       accessLevel:
-        $ref: "MedicalRecordAccessLevelEnum.yaml"
+        # $ref: "MedicalRecordAccessLevelEnum.yaml"
+        type: string
+        description: The access level the patient has to the medical record.
+        enum:
+          - none
+          - summary
+          - detailed
+          - documents
+          - full
+        example: detailed
       maxAccessLevel:
-        $ref: "MaxMedicalRecordAccessLevelEnum.yaml"
+        # $ref: "MedicalRecordAccessLevelEnum.yaml"
+        type: string
+        description: The access level the patient has to the medical record.
+        enum:
+          - none
+          - summary
+          - detailed
+          - documents
+          - full
+        example: detailed
       effectiveDate:
         type: string
         format: date/time
@@ -29,6 +47,24 @@ properties:
       - maxAccessLevel
     properties:
       accessLevel:
-        $ref: "MedicalRecordAccessLevelEnum.yaml"
+        # $ref: "MedicalRecordAccessLevelEnum.yaml"
+        type: string
+        description: The access level the patient has to the medical record.
+        enum:
+          - none
+          - summary
+          - detailed
+          - documents
+          - full
+        example: detailed
       maxAccessLevel:
-        $ref: "MaxMedicalRecordAccessLevelEnum.yaml"
+        # $ref: "MedicalRecordAccessLevelEnum.yaml"
+        type: string
+        description: The access level the patient has to the medical record.
+        enum:
+          - none
+          - summary
+          - detailed
+          - documents
+          - full
+        example: detailed

@@ -29,7 +29,16 @@ properties:
               - type
             properties:
               accessLevel:
-                $ref: "MedicalRecordAccessLevelEnum.yaml"
+                # $ref: "MedicalRecordAccessLevelEnum.yaml"
+                type: string
+                description: The access level the patient has to the medical record.
+                enum:
+                  - none
+                  - summary
+                  - detailed
+                  - documents
+                  - full
+                example: detailed
               id:
                 $ref: "MedicalRecordPermissionTypeIdEnum.yaml"
               type:
