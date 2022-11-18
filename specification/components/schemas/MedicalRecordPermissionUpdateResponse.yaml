@@ -1,6 +1,4 @@
 allOf:
-  # - $ref: "BasePermissionUpdateResponse.yaml"
-  # - $ref: "MedicalRecordPermissionUpdate.yaml"
   - type: object
     required:
       - status
@@ -39,7 +37,6 @@ allOf:
         enum:
           - medical
       id:
-        # $ref: "MedicalRecordPermissionTypeIdEnum.yaml"
         type: string
         description: The type of the permission.
         enum:

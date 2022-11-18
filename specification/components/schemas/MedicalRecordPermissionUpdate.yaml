@@ -12,7 +12,6 @@ properties:
     enum:
       - medical
   id:
-    # $ref: "MedicalRecordPermissionTypeIdEnum.yaml"
     type: string
     description: The type of the permission.
     enum:

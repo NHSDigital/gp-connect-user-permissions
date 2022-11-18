@@ -1,6 +1,4 @@
 allOf:
-  # - $ref: "BasePermissionUpdateResponse.yaml"
-  # - $ref: "ServicePermissionUpdate.yaml"
   - type: object
     required:
       - status

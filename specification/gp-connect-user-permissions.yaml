@@ -206,7 +206,6 @@ paths:
         - User Permissions
       summary: Request a change to a permission.
       requestBody:
-        # $ref: "#/components/requestBodies/UpdatePermission"
         description: |
           Object containing the `type` and `id` of the permission to update along
           with the `currentAccessLevel` to update to.
@@ -245,12 +244,6 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  # - allOf:
-                  #     - $ref: "BasePermissionUpdateResponse.yaml"
-                  #     - $ref: "MedicalRecordPermissionUpdate.yaml"
-                  # - allOf:
-                  #     - $ref: "BasePermissionUpdateResponse.yaml"
-                  #     - $ref: "ServicePermissionUpdate.yaml"
                   - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
                   - $ref: "#/components/schemas/ServicePermissionUpdateResponse"
                 discriminator:
@@ -258,20 +251,6 @@ paths:
                   mapping:
                     medical: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
                     service: "#/components/schemas/ServicePermissionUpdateResponse"
-                # $ref: "#/components/schemas/PermissionUpdateResponse"
-                # oneOf:
-                #   # - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-                #   - allOf:
-                #       - $ref: "#/components/schemas/BasePermissionUpdateResponse"
-                #       - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
-                #   - allOf:
-                #       - $ref: "#/components/schemas/BasePermissionUpdateResponse"
-                #       - $ref: "#/components/schemas/ServicePermissionUpdate"
-                # discriminator:
-                #   propertyName: type
-                #   mapping:
-                #     medical: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-                #     service: "#/components/schemas/ServicePermissionUpdateResponse"
               examples:
                 ? "Request for documents access for before effective date is pending"
                 : value:
@@ -346,31 +325,14 @@ components:
       $ref: "components/schemas/ServicePermission.yaml"
     BaseRequest:
       $ref: "components/schemas/BaseRequest.yaml"
-    # MedicalRecordRequest:
-    #   $ref: "components/schemas/MedicalRecordRequest.yaml"
-    # ServiceRequest:
-    #   $ref: "components/schemas/ServiceRequest.yaml"
     MedicalRecordPermissionUpdate:
       $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
     ServicePermissionUpdate:
       $ref: "components/schemas/ServicePermissionUpdate.yaml"
-    # PermissionUpdateResponse:
-    #   $ref: "components/schemas/PermissionUpdateResponse.yaml"
-    # BasePermissionUpdateResponse:
-    #   $ref: "components/schemas/BasePermissionUpdateResponse.yaml"
     MedicalRecordPermissionUpdateResponse:
       $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
-      # - allOf:
-      #     - $ref: "#/components/schemas/BasePermissionUpdateResponse"
-      #     - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
     ServicePermissionUpdateResponse:
       $ref: "components/schemas/ServicePermissionUpdateResponse.yaml"
-    # MedicalRecordAccessLevelEnum:
-    #   $ref: "components/schemas/MedicalRecordAccessLevelEnum.yaml"
-    # MaxMedicalRecordAccessLevelEnum:
-    #   $ref: "components/schemas/MaxMedicalRecordAccessLevelEnum.yaml"
-    # MedicalRecordPermissionTypeIdEnum:
-    #   $ref: "components/schemas/MedicalRecordPermissionTypeIdEnum.yaml"
     ServiceAccessLevelEnum:
       $ref: "components/schemas/ServiceAccessLevelEnum.yaml"
     MaxServiceAccessLevelEnum:
@@ -393,10 +355,6 @@ components:
       $ref: "components/examples/ServerError.yaml"
     ErrorResponseWithOnlyTheRequiredFields:
       $ref: "components/examples/ErrorResponseWithOnlyTheRequiredFields.yaml"
-
-  # requestBodies:
-  #   UpdatePermission:
-  #     $ref: "components/requestBodies/UpdatePermission.yaml"
 
   securitySchemes:
     BearerAuthorization:
