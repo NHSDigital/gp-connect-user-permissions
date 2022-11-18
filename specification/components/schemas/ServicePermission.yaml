@@ -1,3 +1,4 @@
+type: object
 description: A service and the level of access a patient has to it.
 required:
   - id

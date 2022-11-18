@@ -286,8 +286,8 @@ components:
       $ref: "components/schemas/MedicalRecordPermission.yaml"
     ServicePermission:
       $ref: "components/schemas/ServicePermission.yaml"
-    # BaseRequest:
-    #   $ref: "components/schemas/BaseRequest.yaml"
+    BaseRequest:
+      $ref: "components/schemas/BaseRequest.yaml"
     MedicalRecordRequest:
       $ref: "components/schemas/MedicalRecordRequest.yaml"
     ServiceRequest:

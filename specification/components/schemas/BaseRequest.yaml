@@ -1,7 +1,7 @@
+type: object
 description: |
   An object containing information pertaining to any pending or rejected
   requests.
-type: object
 required:
   - status
   - dateCreated
