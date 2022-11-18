@@ -288,26 +288,10 @@ components:
       $ref: "components/schemas/ServicePermission.yaml"
     BaseRequest:
       $ref: "components/schemas/BaseRequest.yaml"
-    # MedicalRecordRequest:
-    #   $ref: "components/schemas/MedicalRecordRequest.yaml"
-    # ServiceRequest:
-    #   $ref: "components/schemas/ServiceRequest.yaml"
-    # MedicalRecordPermissionUpdate:
-    #   $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
-    # ServicePermissionUpdate:
-    #   $ref: "components/schemas/ServicePermissionUpdate.yaml"
     PermissionUpdateResponse:
       $ref: "components/schemas/PermissionUpdateResponse.yaml"
-    # BasePermissionUpdateResponse:
-    #   $ref: "components/schemas/BasePermissionUpdateResponse.yaml"
-    # MedicalRecordPermissionUpdateResponse:
-    #   $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
-    # ServicePermissionUpdateResponse:
-    #   $ref: "components/schemas/ServicePermissionUpdateResponse.yaml"
     MedicalRecordAccessLevelEnum:
       $ref: "components/schemas/MedicalRecordAccessLevelEnum.yaml"
-    # MaxMedicalRecordAccessLevelEnum:
-    #   $ref: "components/schemas/MaxMedicalRecordAccessLevelEnum.yaml"
     MedicalRecordPermissionTypeIdEnum:
       $ref: "components/schemas/MedicalRecordPermissionTypeIdEnum.yaml"
     ServiceAccessLevelEnum:
