@@ -7,7 +7,7 @@ APIGEE_ENVIRONMENTS:
     has_mock_auth: true
   - name: internal-qa
     display_name: Internal QA
-    has_mock_auth: true 
+    has_mock_auth: true
   - name: ref
     display_name: Reference
     has_mock_auth: true
@@ -25,8 +25,8 @@ APIGEE_ENVIRONMENTS:
   # - name: sandbox
   #   display_name: Sandbox
   #   portal_visibility: false
-  # - name: int
-  #   display_name: Integration Testing
+  - name: int
+    display_name: Integration Testing
 ---
 meta:
   api:
