@@ -152,7 +152,7 @@ tags:
     description: User permissions operations
 
 paths:
-  /{id}:
+  /gp-connect/user-permissions/{id}:
     parameters:
       - $ref: "#/components/parameters/Id"
       - $ref: "#/components/parameters/NHSD-End-User-Organisation-ODS"
@@ -202,11 +202,6 @@ paths:
                   $ref: "#/components/examples/ServerError"
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-
-  /update-permission/{id}:
-    parameters:
-      - $ref: "#/components/parameters/Id"
-      - $ref: "#/components/parameters/NHSD-End-User-Organisation-ODS"
     post:
       tags:
         - User Permissions
@@ -303,7 +298,7 @@ components:
       schema:
         type: string
         example: Y12345
-  
+
   schemas:
     UserPermission:
       type: object
