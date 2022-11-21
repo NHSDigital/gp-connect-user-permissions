@@ -689,46 +689,7 @@ components:
             accessLevel: detailed
             id: before
             type: medical
-    InvalidRequestError:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          lastUpdated: "2021-04-14T11:35:00+00:00"
-        issue:
-          - severity: error
-            code: value
-            details:
-              coding:
-                - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
-                  version: "1"
-                  code: INVALID_VALUE
-                  display: Provided value is invalid.
-              diagnostics: (invalid_request) firstName is missing.
-              expression:
-                - /data/attributes/firstName
-    ServerError:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          "lastUpdated": "2017-10-17T12:22:00+00:00"
-        issue:
-          - severity: error
-            code: exception
-            details:
-              coding:
-                - system: https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1
-                  version: "1"
-                  code: INTERNAL_SERVER_ERROR
-                  display: Internal server error.
-              diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
-    ErrorResponseWithOnlyTheRequiredFields:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          lastUpdated: "2022-11-15T11:10:00+00:00"
-        issue:
-          - severity: error
-            code: expired
+
   requestBodies:
     UpdatePermission:
       description: |
