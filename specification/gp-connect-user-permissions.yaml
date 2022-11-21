@@ -201,28 +201,6 @@ paths:
                   $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
                 "Multiple pending requests":
                   $ref: "#/components/examples/MultiplePendingRequests"
-        4XX:
-          description: Invalid request
-          content:
-            application/fhir+json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                "Invalid request error response":
-                  $ref: "#/components/examples/InvalidRequestError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-        5XX:
-          description: Server error
-          content:
-            application/fhir+json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                "Server error response":
-                  $ref: "#/components/examples/ServerError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
     post:
       tags:
         - User Permissions
@@ -286,28 +264,6 @@ paths:
                       Request received for full access to prescriptions
                       service.
                     dateCreated: "2022-11-01T00:00:00+00:00"
-        4XX:
-          description: Invalid request
-          content:
-            application/fhir+json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                "Invalid request error response":
-                  $ref: "#/components/examples/InvalidRequestError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-        5XX:
-          description: Server error
-          content:
-            application/fhir+json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                "Server error response":
-                  $ref: "#/components/examples/ServerError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
 
 components:
   parameters:
@@ -357,127 +313,6 @@ components:
             anyOf:
               - $ref: "#/components/schemas/MedicalRecordRequest"
               - $ref: "#/components/schemas/ServiceRequest"
-
-    ErrorResponse:
-      type: object
-      description: |
-        Outcome of an operation that does not result in a resource being
-        returned.
-      required:
-        - resourceType
-        - meta
-        - issue
-      properties:
-        resourceType:
-          type: string
-          description: |
-            The type of FHIR resource - primarily used by FHIR clients and used
-            in non-FHIR APIs for consistency across the platform.
-          enum:
-            - OperationOutcome
-        meta:
-          type: object
-          description: Object to hold meta information about the error.
-          required:
-            - lastUpdated
-          properties:
-            lastUpdated:
-              type: string
-              description: UTC date and time stamp when the error occurred.
-              example: "2022-11-01T00:00:00+00:00"
-        issue:
-          type: array
-          description: List of issues that have occurred.
-          minItems: 1
-          items:
-            type: object
-            required:
-              - severity
-              - code
-            properties:
-              severity:
-                type: string
-                description: Severity of the error.
-                enum:
-                  - fatal
-                  - error
-                  - warning
-                  - information
-                example: error
-              code:
-                type: string
-                description: |
-                  A FHIR error code - primarily used by FHIR clients and used in
-                  non-FHIR APIs for consistency across the platform.
-                enum:
-                  - business-rule
-                  - code-invalid
-                  - conflict
-                  - deleted
-                  - duplicate
-                  - exception
-                  - expired
-                  - extension
-                  - forbidden
-                  - incomplete
-                  - informational
-                  - invalid
-                  - invariant
-                  - lock-error
-                  - login
-                  - multiple-matches
-                  - no-store
-                  - not-found
-                  - not-supported
-                  - processing
-                  - required
-                  - security
-                  - structure
-                  - suppressed
-                  - throttled
-                  - timeout
-                  - too-costly
-                  - too-long
-                  - transient
-                  - unknown
-                  - value
-                example: forbidden
-              details:
-                type: object
-                description: Internal error code.
-                properties:
-                  coding:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        system:
-                          type: string
-                          description: URI of the coding system specification.
-                          example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
-                        version:
-                          type: string
-                          description: Version of the coding system in use.
-                          example: "1"
-                        code:
-                          type: string
-                          description: Symbol in syntax defined by the system.
-                          example: INVALID_VALUE
-                        display:
-                          type: string
-                          description: Representation defined by the system.
-                          example: Provided value is invalid.
-                  diagnostics:
-                    type: string
-                    description: |
-                      Additional diagnostic information about the issue.
-                    example: (invalid_request) firstName is missing.
-                  expression:
-                    type: array
-                    description: JSON pointer of element(s) related to the error.
-                    items:
-                      type: string
-                      example: /data/attributes/firstName
 
     MedicalRecordPermission:
       type: object
@@ -854,46 +689,7 @@ components:
             accessLevel: detailed
             id: before
             type: medical
-    InvalidRequestError:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          lastUpdated: "2021-04-14T11:35:00+00:00"
-        issue:
-          - severity: error
-            code: value
-            details:
-              coding:
-                - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
-                  version: "1"
-                  code: INVALID_VALUE
-                  display: Provided value is invalid.
-              diagnostics: (invalid_request) firstName is missing.
-              expression:
-                - /data/attributes/firstName
-    ServerError:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          "lastUpdated": "2017-10-17T12:22:00+00:00"
-        issue:
-          - severity: error
-            code: exception
-            details:
-              coding:
-                - system: https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1
-                  version: "1"
-                  code: INTERNAL_SERVER_ERROR
-                  display: Internal server error.
-              diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
-    ErrorResponseWithOnlyTheRequiredFields:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          lastUpdated: "2022-11-15T11:10:00+00:00"
-        issue:
-          - severity: error
-            code: expired
+
   requestBodies:
     UpdatePermission:
       description: |
