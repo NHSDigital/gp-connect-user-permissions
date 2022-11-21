@@ -152,7 +152,10 @@ tags:
     description: User permissions operations
 
 paths:
-  /:
+  /{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+      - $ref: "#/components/parameters/NHSD-End-User-Organisation-ODS"
     get:
       tags:
         - User Permissions
@@ -200,7 +203,10 @@ paths:
                 "Error response with only the required fields":
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
 
-  /update-permission:
+  /update-permission/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+      - $ref: "#/components/parameters/NHSD-End-User-Organisation-ODS"
     post:
       tags:
         - User Permissions
@@ -277,6 +283,27 @@ paths:
                   $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
 
 components:
+  parameters:
+    Id:
+      in: path
+      name: id
+      description: |
+        The patient's NHS number. The primary identifier of a patient, unique
+        within NHS England and Wales. Always 10 digits and must be a
+        [valid NHS number](https://www.datadictionary.nhs.uk/attributes/nhs_number.html).
+      required: true
+      schema:
+        type: string
+        example: "9000000009"
+    NHSD-End-User-Organisation-ODS:
+      in: header
+      name: NHSD-End-User-Organisation-ODS
+      description: The ODS code of the End User Organisation (EUO).
+      required: true
+      schema:
+        type: string
+        example: Y12345
+  
   schemas:
     UserPermission:
       type: object
