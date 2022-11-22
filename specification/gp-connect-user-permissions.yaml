@@ -176,6 +176,7 @@ paths:
       - $ref: "#/components/parameters/Id"
       - $ref: "#/components/parameters/NHSD-End-User-Organisation-ODS"
     get:
+      operationId: getUserPermissions
       tags:
         - User Permissions
       summary: GET a patient's permissions.
@@ -202,6 +203,7 @@ paths:
                 "Multiple pending requests":
                   $ref: "#/components/examples/MultiplePendingRequests"
     post:
+      operationId: updateUserPermissions
       tags:
         - User Permissions
       summary: Request a change to a permission.
