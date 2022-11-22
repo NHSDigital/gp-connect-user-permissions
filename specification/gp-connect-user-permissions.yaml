@@ -11,24 +11,28 @@ info:
   description: |
     ## Overview
 
-    Use this API to access an NHS patient's permissions for their medical
-    record and GP services. These permissions are held in GP systems.
+    Use this API to manage a patient's permissions to access the medical
+    record and services they can access at their GP practice.
 
     You can:
 
     - get a patient's permissions
-    - update a patient's permissions to a higher level
+    - request to update a patient's permissions to a higher level
 
     You cannot:
 
-    - update a patient's permissions to a lower level
-    - get a patient's permissions using proxy access
-    - update a patient's permissions using proxy access
+    - request to update a patient's permissions to a lower level
 
-    To use this API, patients must:
+    To use this API, the end user must be a patient who is:
 
-    - be a member of a GP practice
-    - be registered with NHS Login
+    - registered with the GP practice
+    - registered with NHS login
+
+    This API allows you to manage the permissions for:
+
+    - appointments
+    - prescriptions
+    - medical record
 
     ### Access modes
 
@@ -43,29 +47,28 @@ info:
 
     ## Who can use this API
 
-    This API can only be used where there is a legal basis to do so. Make sure
-    you have a valid use case before you go too far with your development. You
-    must demonstrate you have a valid use case as part of digital onboarding.
+    This API:
+
+    - is only for use by patient-facing applications
+    - is only for non-clinical use
+    - can only be used where there is a legal basis to do so
+
+    Make sure you have a valid use case before you go too far with your development. To do this, contact us.
 
     You must do this before you can go live (see `Onboarding` below).
-
-    ### Who can access patient's permissions
-
-    Use this API if you are a patient-facing application, like the NHS App and
-    use NHS login to authenticate patients.
 
     ## Related APIs
 
     The GP Connect suite of patient facing service (PFS) APIs include the
     following related APIs:
 
-    - [GP Connect appointment management FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir)
-    - GP Connect view record API
-    - GP Connect prescriptions management API
+    - [GP Connect appointment management FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir) - manage GP practice appointments between different systems.
+    - GP Connect access record API - retrieve a patient's medical record from the GP practice systems.
+    - GP Connect prescriptions management API - manage a patient's prescriptions as held by the GP practice systems.
 
-    ## API Status and roadmap
+    ## API status and roadmap
 
-    This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+    This API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
 
     - it is available for testing in the integration environment
     - it is not available for production use
@@ -91,18 +94,17 @@ info:
 
     ## Security and authorisation
 
-    All communications must be encrypted using HTTP(S).
-
-    This API is user-restricted, meaning an end user must be present and
-    authenticated to use it.
+    This API is
+    [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis),
+    meaning an end user must be present and authenticated to use it.
 
     The end user must be:
 
     - a patient
-    - authenticated with NHS login
+    - authenticated with NHS login to P9
 
     The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to
-    authorise the calling system. It supports the following security patterns
+    authorise the calling system. It supports the following security pattern
     using NHS login:
 
     - [User-restricted RESTful APIs - NHS login separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-login-separate-authentication-and-authorisation)
@@ -143,6 +145,23 @@ info:
     We are hoping to make the assurance process as lightweight and as
     self-service as possible.
 
+    ## Errors
+
+    We use standard HTTP status codes to show whether an API request succeeded
+    or not. They are usually in the range:
+
+    - 200 to 299 if it succeeded, including code 202 if it was accepted by an
+      API that needs to wait for further action
+
+    - 400 to 499 if it failed because of a client error by your application
+
+    - 500 to 599 if it failed because of an error on our server
+
+    Errors specific to each API are shown in the Endpoints section, under
+    Response. See our
+    [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes)
+    for more on errors.
+
 servers:
   - url: https://sandbox.api.service.nhs.uk/user-permissions
     description: Sandbox environment
@@ -152,12 +171,17 @@ tags:
     description: User permissions operations
 
 paths:
-  /:
+  /gp-connect/user-permissions/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+      - $ref: "#/components/parameters/NHSD-End-User-Organisation-ODS"
     get:
       tags:
         - User Permissions
-      summary: GET a user's permissions.
+      summary: GET a patient's permissions.
       description: |
+        Get a patient's permissions to access the medical record and services
+        they can access at their GP practice.
         Returns a `UserPermission` object which includes a list of services and
         a list of medical record permission sets with a date range for when
         they are or have been applicable.
@@ -177,66 +201,23 @@ paths:
                   $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
                 "Multiple pending requests":
                   $ref: "#/components/examples/MultiplePendingRequests"
-        4XX:
-          description: Invalid request
-          content:
-            application/fhir+json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                "Invalid request error response":
-                  $ref: "#/components/examples/InvalidRequestError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-        5XX:
-          description: Server error
-          content:
-            application/fhir+json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                "Server error response":
-                  $ref: "#/components/examples/ServerError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-
-  /update-permission:
     post:
       tags:
         - User Permissions
       summary: Request a change to a permission.
+      description: |
+        Request a change to the permission a patient has for their medical
+        record or services provided by the GP practice.
+        Once a request has been submitted it will be actioned, however, due to
+        the nature of the request when this will happen is unknown at the time
+        of request submission.
+        When the request has been actioned the result will be apparent in the
+        response to getting the permissions.
+        The message returned from submitting the request _should_ contain
+        information pertinent to when the request may be actioned. This could
+        be shown to the user to help set expectations.
       requestBody:
-        description: |
-          Object containing the `type` and `id` of the permission to update along
-          with the `currentAccessLevel` to update to.
-        required: true
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
-                - $ref: "#/components/schemas/ServicePermissionUpdate"
-              discriminator:
-                propertyName: type
-                mapping:
-                  medical: "#/components/schemas/MedicalRecordPermissionUpdate"
-                  service: "#/components/schemas/ServicePermissionUpdate"
-            examples:
-              "Request documents access for medical record before effective date":
-                value:
-                  type: medical
-                  id: before
-                  accessLevel: documents
-              "Request effective date is moved back to date":
-                value:
-                  type: medical
-                  id: present
-                  accessLevel: full
-                  date: "2022-11-01T00:00:00+00:00"
-              "Request action access to appointments service":
-                value:
-                  type: service
-                  id: appointments
+        $ref: "#/components/requestBodies/UpdatePermission"
       responses:
         200:
           description: Successful response
@@ -290,28 +271,28 @@ paths:
                       Request received for full access to prescriptions
                       service.
                     dateCreated: "2022-11-01T00:00:00+00:00"
-        4XX:
-          description: Invalid request
-          content:
-            application/fhir+json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                "Invalid request error response":
-                  $ref: "#/components/examples/InvalidRequestError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
-        5XX:
-          description: Server error
-          content:
-            application/fhir+json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                "Server error response":
-                  $ref: "#/components/examples/ServerError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
+
+components:
+  parameters:
+    Id:
+      in: path
+      name: id
+      description: |
+        The patient's NHS number. The primary identifier of a patient, unique
+        within NHS England and Wales. Always 10 digits and must be a
+        [valid NHS number](https://www.datadictionary.nhs.uk/attributes/nhs_number.html).
+      required: true
+      schema:
+        type: string
+        example: "9000000009"
+    NHSD-End-User-Organisation-ODS:
+      in: header
+      name: NHSD-End-User-Organisation-ODS
+      description: The ODS code of the End User Organisation (EUO).
+      required: true
+      schema:
+        type: string
+        example: Y12345
 
 components:
   schemas:
