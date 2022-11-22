@@ -184,7 +184,7 @@ paths:
         Get a patient's permissions to access the medical record and services
         they can access at their GP practice.
         Returns a `UserPermission` object which includes a list of services and
-        the `current` and `historical` level of permission has along with a
+        the `current` and `historical` level of permission, along with a
         date for when the current level started.
       responses:
         200:
