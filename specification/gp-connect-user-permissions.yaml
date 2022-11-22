@@ -337,6 +337,10 @@ components:
 
     MedicalRecordPermissionItem:
       type: object
+      description: |
+        A model representing the level of permission a patient has to the
+        section of the medical record along with the maximum level of access
+        they could request.
       required:
         - accessLevel
         - maxAccessLevel
@@ -347,6 +351,7 @@ components:
           $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
 
     ServicePermission:
+      type: object
       description: A service and the level of access a patient has to it.
       required:
         - id
@@ -361,10 +366,10 @@ components:
           $ref: "#/components/schemas/MaxServiceAccessLevelEnum"
 
     BaseRequest:
+      type: object
       description: |
         An object containing information pertaining to any pending or rejected
         requests.
-      type: object
       required:
         - status
         - dateCreated
@@ -387,6 +392,7 @@ components:
             - pending
             - rejected
     MedicalRecordRequest:
+      type: object
       description: |
         An object containing information pertaining to any pending or rejected
         requests for changes to medical record permissions.
@@ -408,6 +414,7 @@ components:
               enum:
                 - medical
     ServiceRequest:
+      type: object
       description: |
         An object containing information pertaining to any pending or rejected
         requests for changes to service permissions.
@@ -474,6 +481,7 @@ components:
           $ref: "#/components/schemas/ServiceAccessLevelEnum"
 
     PermissionUpdateResponse:
+      type: object
       oneOf:
         - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
         - $ref: "#/components/schemas/ServicePermissionUpdateResponse"
@@ -483,6 +491,7 @@ components:
           medical: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
           service: "#/components/schemas/ServicePermissionUpdateResponse"
     BasePermissionUpdateResponse:
+      type: object
       allOf:
         - type: object
           required:
@@ -509,10 +518,12 @@ components:
               format: date-time
               example: "2022-11-01T00:00:00+00:00"
     MedicalRecordPermissionUpdateResponse:
+      type: object
       allOf:
         - $ref: "#/components/schemas/BasePermissionUpdateResponse"
         - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
     ServicePermissionUpdateResponse:
+      type: object
       allOf:
         - $ref: "#/components/schemas/BasePermissionUpdateResponse"
         - $ref: "#/components/schemas/ServicePermissionUpdate"
