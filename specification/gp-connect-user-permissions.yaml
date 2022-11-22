@@ -191,8 +191,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserPermission"
+                $ref: ./components/schemas/Test.yaml
               examples:
+                "Test example":
+                  $ref: "#/components/examples/TestExample"
                 "Full permissions to medical record and services":
                   $ref: "#/components/examples/FullPermissions"
                 "Pending request to get documents access to before record":
@@ -201,6 +203,7 @@ paths:
                   $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
                 "Multiple pending requests":
                   $ref: "#/components/examples/MultiplePendingRequests"
+  
     post:
       tags:
         - User Permissions
@@ -217,7 +220,38 @@ paths:
         information pertinent to when the request may be actioned. This could
         be shown to the user to help set expectations.
       requestBody:
-        $ref: "#/components/requestBodies/UpdatePermission"
+        # $ref: "#/components/requestBodies/UpdatePermission"
+        description: |
+          Object containing the `type` and `id` of the permission to update along
+          with the `currentAccessLevel` to update to.
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
+                - $ref: "#/components/schemas/ServicePermissionUpdate"
+              discriminator:
+                propertyName: type
+                mapping:
+                  medical: "#/components/schemas/MedicalRecordPermissionUpdate"
+                  service: "#/components/schemas/ServicePermissionUpdate"
+            examples:
+              "Request documents access for medical record before effective date":
+                value:
+                  type: medical
+                  id: before
+                  accessLevel: documents
+              "Request effective date is moved back to date":
+                value:
+                  type: medical
+                  id: present
+                  accessLevel: full
+                  date: "2022-11-01T00:00:00+00:00"
+              "Request action access to appointments service":
+                value:
+                  type: service
+                  id: appointments
       responses:
         200:
           description: Successful response
@@ -295,6 +329,8 @@ components:
         example: Y12345
 
   schemas:
+    # Test:
+    #   $ref: "components/schemas/Test.yaml"
     UserPermission:
       $ref: "components/schemas/UserPermission.yaml"
     MedicalRecordPermission:
@@ -303,10 +339,10 @@ components:
       $ref: "components/schemas/ServicePermission.yaml"
     BaseRequest:
       $ref: "components/schemas/BaseRequest.yaml"
-    # MedicalRecordPermissionUpdate:
-    #   $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
-    # ServicePermissionUpdate:
-    #   $ref: "components/schemas/ServicePermissionUpdate.yaml"
+    MedicalRecordPermissionUpdate:
+      $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
+    ServicePermissionUpdate:
+      $ref: "components/schemas/ServicePermissionUpdate.yaml"
     MedicalRecordPermissionUpdateResponse:
       $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
     ServicePermissionUpdateResponse:
@@ -318,19 +354,21 @@ components:
     ServiceIdEnum:
       $ref: "components/schemas/ServiceIdEnum.yaml"
 
-  requestBodies:
-    UpdatePermission:
-      $ref: "components/requestBodies/UpdatePermission.yaml"
+  # requestBodies:
+  #   UpdatePermission:
+  #     $ref: "components/requestBodies/UpdatePermission.yaml"
 
   examples:
+    TestExample:
+      $ref: components/examples/TestExample.yaml
     FullPermissions:
-      $ref: "components/examples/FullPermissions.yaml"
+      $ref: components/examples/FullPermissions.yaml
     PendingRequestForDocumentsAccess:
-      $ref: "components/examples/PendingRequestForDocumentsAccess.yaml"
+      $ref: components/examples/PendingRequestForDocumentsAccess.yaml
     PendingRequestForFullAccessAppointments:
-      $ref: "components/examples/PendingRequestForFullAccessAppointments.yaml"
+      $ref: components/examples/PendingRequestForFullAccessAppointments.yaml
     MultiplePendingRequests:
-      $ref: "components/examples/MultiplePendingRequests.yaml"
+      $ref: components/examples/MultiplePendingRequests.yaml
 
   securitySchemes:
     BearerAuthorization:
