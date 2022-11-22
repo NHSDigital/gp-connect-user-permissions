@@ -325,30 +325,26 @@ components:
         - current
         - effectiveDate
       properties:
-        current:
-          type: object
-          required:
-            - accessLevel
-            - maxAccessLevel
-          properties:
-            accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-            maxAccessLevel:
-              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
         effectiveDate:
           type: string
+          description: The date when the current permissions started.
           format: date/time
           example: "2022-11-01T00:00:00+00:00"
+        current:
+          $ref: "#/components/schemas/MedicalRecordPermissionItem"
         historical:
-          type: object
-          required:
-            - accessLevel
-            - maxAccessLevel
-          properties:
-            accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-            maxAccessLevel:
-              $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
+          $ref: "#/components/schemas/MedicalRecordPermissionItem"
+
+    MedicalRecordPermissionItem:
+      type: object
+      required:
+        - accessLevel
+        - maxAccessLevel
+      properties:
+        accessLevel:
+          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+        maxAccessLevel:
+          $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
 
     ServicePermission:
       description: A service and the level of access a patient has to it.
