@@ -458,7 +458,7 @@ components:
           $ref: "#/components/schemas/MedicalRecordPermissionTypeIdEnum"
         accessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        date:
+        effectiveDate:
           type: string
           description: |
             The date to move the current effective permission date to. Only
@@ -729,7 +729,7 @@ components:
                 type: medical
                 id: current
                 accessLevel: full
-                date: "2022-11-01T00:00:00+00:00"
+                effectiveDate: "2022-11-01T00:00:00+00:00"
             "Request action access to appointments service":
               value:
                 type: service
