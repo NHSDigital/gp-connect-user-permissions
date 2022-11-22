@@ -297,8 +297,6 @@ components:
   schemas:
     UserPermission:
       $ref: "components/schemas/UserPermission.yaml"
-    ErrorResponse:
-      $ref: "components/schemas/ErrorResponse.yaml"
     MedicalRecordPermission:
       $ref: "components/schemas/MedicalRecordPermission.yaml"
     ServicePermission:
@@ -333,12 +331,6 @@ components:
       $ref: "components/examples/PendingRequestForFullAccessAppointments.yaml"
     MultiplePendingRequests:
       $ref: "components/examples/MultiplePendingRequests.yaml"
-    InvalidRequestError:
-      $ref: "components/examples/InvalidRequestError.yaml"
-    ServerError:
-      $ref: "components/examples/ServerError.yaml"
-    ErrorResponseWithOnlyTheRequiredFields:
-      $ref: "components/examples/ErrorResponseWithOnlyTheRequiredFields.yaml"
 
   securitySchemes:
     BearerAuthorization:
