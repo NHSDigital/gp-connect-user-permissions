@@ -318,27 +318,27 @@ components:
       type: object
       description: |
         Contains the access level the patient has to the medical record. This
-        is split into `current.accessLevel` and `historical.accessLevel` with a
-        `current.effectiveDate` for when the current access level took effect.
+        is split into `current.accessLevel` and `historical.accessLevel` with
+        an `effectiveDate` for when the current access level started.
         An optional `request` object can be used to describe pending requests.
       required:
         - current
+        - effectiveDate
       properties:
         current:
           type: object
           required:
             - accessLevel
-            - effectiveDate
             - maxAccessLevel
           properties:
             accessLevel:
               $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
             maxAccessLevel:
               $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
-            effectiveDate:
-              type: string
-              format: date/time
-              example: "2022-11-01T00:00:00+00:00"
+        effectiveDate:
+          type: string
+          format: date/time
+          example: "2022-11-01T00:00:00+00:00"
         historical:
           type: object
           required:
@@ -597,8 +597,8 @@ components:
     FullPermissions:
       value:
         medicalRecord:
+          effectiveDate: "2022-11-01T00:00:00+00:00"
           current:
-            effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
             maxAccessLevel: full
           historical:
@@ -614,8 +614,8 @@ components:
     PendingRequestForDocumentsAccess:
       value:
         medicalRecord:
+          effectiveDate: "2022-11-01T00:00:00+00:00"
           current:
-            effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
             maxAccessLevel: full
           historical:
@@ -638,8 +638,8 @@ components:
     PendingRequestForFullAccessAppointments:
       value:
         medicalRecord:
+          effectiveDate: "2022-11-01T00:00:00+00:00"
           current:
-            effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
             maxAccessLevel: full
           historical:
@@ -662,8 +662,8 @@ components:
     MultiplePendingRequests:
       value:
         medicalRecord:
+          effectiveDate: "2022-11-01T00:00:00+00:00"
           current:
-            effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
             maxAccessLevel: full
           historical:
