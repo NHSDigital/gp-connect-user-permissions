@@ -342,7 +342,7 @@ components:
     MedicalRecordPermissionItem:
       type: object
       description: |
-        A model representing the level of permission a patient has to the
+        An object representing the level of permission a patient has to the
         section of the medical record along with the maximum level of access
         they could request.
       required:
