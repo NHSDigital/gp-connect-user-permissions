@@ -26,7 +26,7 @@ info:
     To use this API, the end user must be a patient who is:
 
     - registered with the GP practice
-    - registered with NHS login
+    - registered with NHS login to P9 identity verification level
 
     This API allows you to manage the permissions for:
 
@@ -101,7 +101,7 @@ info:
     The end user must be:
 
     - a patient
-    - authenticated with NHS login to P9
+    - authenticated with NHS login to P9 identity verification level
 
     The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to
     authorise the calling system. It supports the following security pattern
@@ -195,7 +195,7 @@ paths:
               examples:
                 "Full permissions to medical record and services":
                   $ref: "#/components/examples/FullPermissions"
-                "Pending request to get documents access to before record":
+                "Pending request to get documents access to historical record":
                   $ref: "#/components/examples/PendingRequestForDocumentsAccess"
                 "Pending request for full access to appointments":
                   $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
@@ -226,20 +226,20 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                ? "Request for documents access for before effective date is pending"
+                ? "Request for documents access for historical effective date is pending"
                 : value:
                     type: medical
-                    id: before
+                    id: historical
                     accessLevel: documents
                     status: pending
                     message: |
-                      Request accepted to update access before effective date
-                      to documents.
+                      Request accepted to update access historical effective
+                      date to documents.
                     dateCreated: "2022-11-01T00:00:00+00:00"
                 "Request to move effective date back to requested date":
                   value:
                     type: medical
-                    id: present
+                    id: current
                     accessLevel: full
                     date: "2021-11-01T00:00:00+00:00"
                     status: pending
@@ -318,13 +318,13 @@ components:
       type: object
       description: |
         Contains the access level the patient has to the medical record. This
-        is split into `present.accessLevel` and `before.accessLevel` with a
-        `present.effectiveDate` for when the present access level took effect.
+        is split into `current.accessLevel` and `historical.accessLevel` with a
+        `current.effectiveDate` for when the current access level took effect.
         An optional `request` object can be used to describe pending requests.
       required:
-        - present
+        - current
       properties:
-        present:
+        current:
           type: object
           required:
             - accessLevel
@@ -339,7 +339,7 @@ components:
               type: string
               format: date/time
               example: "2022-11-01T00:00:00+00:00"
-        before:
+        historical:
           type: object
           required:
             - accessLevel
@@ -454,8 +454,8 @@ components:
         date:
           type: string
           description: |
-            The date to move the present effective permission date to. Only
-            applicable when access level is `full` and id `present`.
+            The date to move the current effective permission date to. Only
+            applicable when access level is `full` and id `current`.
           format: date-time
           example: "2022-11-01T00:00:00+00:00"
     ServicePermissionUpdate:
@@ -547,9 +547,9 @@ components:
       type: string
       description: The type of the permission.
       enum:
-        - present
-        - before
-      example: present
+        - current
+        - historical
+      example: current
     ServiceAccessLevelEnum:
       type: string
       description: |
@@ -597,11 +597,11 @@ components:
     FullPermissions:
       value:
         medicalRecord:
-          present:
+          current:
             effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
             maxAccessLevel: full
-          before:
+          historical:
             accessLevel: summary
             maxAccessLevel: documents
         services:
@@ -614,11 +614,11 @@ components:
     PendingRequestForDocumentsAccess:
       value:
         medicalRecord:
-          present:
+          current:
             effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
             maxAccessLevel: full
-          before:
+          historical:
             accessLevel: summary
             maxAccessLevel: documents
         services:
@@ -633,16 +633,16 @@ components:
             dateCreated: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: documents
-            id: before
+            id: historical
             type: medical
     PendingRequestForFullAccessAppointments:
       value:
         medicalRecord:
-          present:
+          current:
             effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
             maxAccessLevel: full
-          before:
+          historical:
             accessLevel: summary
             maxAccessLevel: detailed
         services:
@@ -662,11 +662,11 @@ components:
     MultiplePendingRequests:
       value:
         medicalRecord:
-          present:
+          current:
             effectiveDate: "2022-11-01T00:00:00+00:00"
             accessLevel: full
             maxAccessLevel: full
-          before:
+          historical:
             accessLevel: summary
             maxAccessLevel: detailed
         services:
@@ -687,7 +687,7 @@ components:
             dateCreated: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: detailed
-            id: before
+            id: historical
             type: medical
 
   requestBodies:
@@ -708,15 +708,15 @@ components:
                 medical: "#/components/schemas/MedicalRecordPermissionUpdate"
                 service: "#/components/schemas/ServicePermissionUpdate"
           examples:
-            "Request documents access for medical record before effective date":
-              value:
+            ? "Request documents access for medical record historical effective date"
+            : value:
                 type: medical
-                id: before
+                id: historical
                 accessLevel: documents
             "Request effective date is moved back to date":
               value:
                 type: medical
-                id: present
+                id: current
                 accessLevel: full
                 date: "2022-11-01T00:00:00+00:00"
             "Request action access to appointments service":
