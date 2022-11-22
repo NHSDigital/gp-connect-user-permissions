@@ -303,10 +303,10 @@ components:
       $ref: "components/schemas/ServicePermission.yaml"
     BaseRequest:
       $ref: "components/schemas/BaseRequest.yaml"
-    MedicalRecordPermissionUpdate:
-      $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
-    ServicePermissionUpdate:
-      $ref: "components/schemas/ServicePermissionUpdate.yaml"
+    # MedicalRecordPermissionUpdate:
+    #   $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
+    # ServicePermissionUpdate:
+    #   $ref: "components/schemas/ServicePermissionUpdate.yaml"
     MedicalRecordPermissionUpdateResponse:
       $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
     ServicePermissionUpdateResponse:
