@@ -294,7 +294,6 @@ components:
         type: string
         example: Y12345
 
-components:
   schemas:
     UserPermission:
       $ref: "components/schemas/UserPermission.yaml"
@@ -320,6 +319,10 @@ components:
       $ref: "components/schemas/MaxServiceAccessLevelEnum.yaml"
     ServiceIdEnum:
       $ref: "components/schemas/ServiceIdEnum.yaml"
+
+  requestBodies:
+    UpdatePermission:
+      $ref: "components/requestBodies/UpdatePermission.yaml"
 
   examples:
     FullPermissions:
