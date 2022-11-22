@@ -184,8 +184,8 @@ paths:
         Get a patient's permissions to access the medical record and services
         they can access at their GP practice.
         Returns a `UserPermission` object which includes a list of services and
-        a list of medical record permission sets with a date range for when
-        they are or have been applicable.
+        the `current` and `historical` level of permission has along with a
+        date for when the current level started.
       responses:
         200:
           description: Successful response
@@ -228,7 +228,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                ? "Request for documents access for historical effective date is pending"
+                ? "Request for documents access for historical permissions that is pending"
                 : value:
                     type: medical
                     id: historical
@@ -238,7 +238,7 @@ paths:
                       Request accepted to update access historical effective
                       date to documents.
                     dateCreated: "2022-11-01T00:00:00+00:00"
-                "Request to move effective date back to requested date":
+                "Request to move effectiveDate back to requested date":
                   value:
                     type: medical
                     id: current
@@ -322,6 +322,8 @@ components:
         Contains the access level the patient has to the medical record. This
         is split into `current.accessLevel` and `historical.accessLevel` with
         an `effectiveDate` for when the current access level started.
+        Also includes the `maxAccessLevel` - the highest level of permission
+        that can be requested by the patient.
         An optional `request` object can be used to describe pending requests.
       required:
         - current
@@ -329,7 +331,7 @@ components:
       properties:
         effectiveDate:
           type: string
-          description: The date when the current permissions started.
+          description: The date when the `current` permissions started.
           format: date/time
           example: "2022-11-01T00:00:00+00:00"
         current:
@@ -460,7 +462,7 @@ components:
           type: string
           description: |
             The date to move the current effective permission date to. Only
-            applicable when access level is `full` and id `current`.
+            applicable when access level is `full` and id is `current`.
           format: date-time
           example: "2022-11-01T00:00:00+00:00"
     ServicePermissionUpdate:
