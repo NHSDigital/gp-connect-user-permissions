@@ -191,10 +191,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/Test.yaml
+                $ref: "#/components/schemas/Test"
               examples:
+                "Test example 2":
+                  $ref: "#/components/examples/TestExample2"
                 "Test example":
-                  $ref: "#/components/examples/TestExample"
+                  $ref: ./components/examples/TestExample.yaml
                 "Full permissions to medical record and services":
                   $ref: "#/components/examples/FullPermissions"
                 "Pending request to get documents access to before record":
@@ -329,10 +331,10 @@ components:
         example: Y12345
 
   schemas:
-    # Test:
-    #   $ref: "components/schemas/Test.yaml"
+    Test:
+      $ref: components/schemas/Test.yaml
     UserPermission:
-      $ref: "components/schemas/UserPermission.yaml"
+      $ref: components/schemas/UserPermission.yaml
     MedicalRecordPermission:
       $ref: "components/schemas/MedicalRecordPermission.yaml"
     ServicePermission:
@@ -359,8 +361,11 @@ components:
   #     $ref: "components/requestBodies/UpdatePermission.yaml"
 
   examples:
-    TestExample:
-      $ref: components/examples/TestExample.yaml
+    # TestExample:
+    #   $ref: components/examples/TestExample.yaml
+    TestExample2:
+      value:
+        message: "Hi"
     FullPermissions:
       $ref: components/examples/FullPermissions.yaml
     PendingRequestForDocumentsAccess:
