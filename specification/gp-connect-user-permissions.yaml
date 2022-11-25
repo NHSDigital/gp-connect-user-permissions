@@ -200,6 +200,7 @@ paths:
           content:
             application/json:
               schema:
+                title: UserPermission
                 type: object
                 required:
                   - medicalRecord
@@ -207,6 +208,7 @@ paths:
                   - requests
                 properties:
                   medicalRecord:
+                    title: MedicalRecordPermission
                     type: object
                     description: |
                       Contains the access level the patient has to the medical record. This
@@ -573,8 +575,9 @@ paths:
             schema:
               oneOf:
                 - type: object
+                  title: Medical record permission update 
                   description: |
-                    MedicalRecordPermissionUpdate: Object containing the `type` and `id` of the permission to update along
+                    Object containing the `type` and `id` of the permission to update along
                     with the `accessLevel` to update to.
                   required:
                     - type
