@@ -173,7 +173,16 @@ tags:
 paths:
   /gp-connect/user-permissions/{id}:
     parameters:
-      - $ref: "#/components/parameters/Id"
+      - in: path
+        name: id
+        description: |
+          The patient's NHS number. The primary identifier of a patient, unique
+          within NHS England and Wales. Always 10 digits and must be a
+          [valid NHS number](https://www.datadictionary.nhs.uk/attributes/nhs_number.html).
+        required: true
+        schema:
+          type: string
+          example: "9000000009"
     get:
       operationId: getUserPermissions
       tags:
@@ -341,124 +350,108 @@ paths:
                           description: |
                             An object containing information pertaining to any pending or rejected
                             requests for changes to medical record permissions.
-                          allOf:
-                            - type: object
+                          required:
+                            - status
+                            - dateCreated
+                            - message
+                            - accessLevel
+                            - id
+                            - type
+                          properties:
+                            dateCreated:
+                              type: string
                               description: |
-                                An object containing information pertaining to any pending or rejected
-                                requests.
-                              required:
-                                - status
-                                - dateCreated
-                                - message
-                              properties:
-                                dateCreated:
-                                  type: string
-                                  description: |
-                                    The date/time when the request for change was created.
-                                  format: date-time
-                                  example: "2022-11-01T00:00:00+00:00"
-                                message:
-                                  type: string
-                                  description: A message pertaining to the request and its status.
-                                  example: Request requires review by a healthcare worker.
-                                status:
-                                  type: string
-                                  description: The status of the request to update the permission.
-                                  enum:
-                                    - pending
-                                    - rejected
-                            - type: object
-                              required:
-                                - accessLevel
-                                - id
-                                - type
-                              properties:
-                                accessLevel:
-                                    type: string
-                                    description: The access level the patient has to the medical record.
-                                    enum:
-                                      - none
-                                      - summary
-                                      - detailed
-                                      - documents
-                                      - full
-                                    example: detailed
-                                id:
-                                  type: string
-                                  description: The type of the permission.
-                                  enum:
-                                    - current
-                                    - historical
-                                  example: current
-                                type:
-                                  type: string
-                                  description: The type of request.
-                                  enum:
-                                    - medical
+                                The date/time when the request for change was created.
+                              format: date-time
+                              example: "2022-11-01T00:00:00+00:00"
+                            message:
+                              type: string
+                              description: A message pertaining to the request and its status.
+                              example: Request requires review by a healthcare worker.
+                            status:
+                              type: string
+                              description: The status of the request to update the permission.
+                              enum:
+                                - pending
+                                - rejected
+                            accessLevel:
+                                type: string
+                                description: The access level the patient has to the medical record.
+                                enum:
+                                  - none
+                                  - summary
+                                  - detailed
+                                  - documents
+                                  - full
+                                example: detailed
+                            id:
+                              type: string
+                              description: The type of the permission.
+                              enum:
+                                - current
+                                - historical
+                              example: current
+                            type:
+                              type: string
+                              description: The type of request.
+                              enum:
+                                - medical
                         - type: object
                           description: |
                             An object containing information pertaining to any pending or rejected
                             requests for changes to service permissions.
-                          allOf:
-                            - type: object
+                          required:
+                            - status
+                            - dateCreated
+                            - message
+                            - accessLevel
+                            - id
+                            - type
+                          properties:
+                            dateCreated:
+                              type: string
                               description: |
-                                An object containing information pertaining to any pending or rejected
-                                requests.
-                              required:
-                                - status
-                                - dateCreated
-                                - message
-                              properties:
-                                dateCreated:
-                                  type: string
-                                  description: |
-                                    The date/time when the request for change was created.
-                                  format: date-time
-                                  example: "2022-11-01T00:00:00+00:00"
-                                message:
-                                  type: string
-                                  description: A message pertaining to the request and its status.
-                                  example: Request requires review by a healthcare worker.
-                                status:
-                                  type: string
-                                  description: The status of the request to update the permission.
-                                  enum:
-                                    - pending
-                                    - rejected
-                            - type: object
-                              required:
-                                - accessLevel
-                                - id
-                                - type
-                              properties:
-                                accessLevel:
-                                  type: string
-                                  description: |
-                                    Indicates the level of access the patient has to the service.
-                                    | level  | description                                                                       |
-                                    | -----  | -----------                                                                       |
-                                    | none   | no access                                                                         |
-                                    | view   | view only                                                                         |
-                                    | action | can perform main action for service e.g. book appointments or order prescriptions |
-                                    | full   | can amend/cancel existing appointments or prescriptions                           |
-                                  enum:
-                                    - none
-                                    - view
-                                    - action
-                                    - full
-                                  example: view
-                                id:
-                                  type: string
-                                  description: The id of the service.
-                                  enum:
-                                    - appointments
-                                    - prescriptions
-                                  example: appointments
-                                type:
-                                  type: string
-                                  description: The type of request.
-                                  enum:
-                                    - service
+                                The date/time when the request for change was created.
+                              format: date-time
+                              example: "2022-11-01T00:00:00+00:00"
+                            message:
+                              type: string
+                              description: A message pertaining to the request and its status.
+                              example: Request requires review by a healthcare worker.
+                            status:
+                              type: string
+                              description: The status of the request to update the permission.
+                              enum:
+                                - pending
+                                - rejected
+                            accessLevel:
+                              type: string
+                              description: |
+                                Indicates the level of access the patient has to the service.
+                                | level  | description                                                                       |
+                                | -----  | -----------                                                                       |
+                                | none   | no access                                                                         |
+                                | view   | view only                                                                         |
+                                | action | can perform main action for service e.g. book appointments or order prescriptions |
+                                | full   | can amend/cancel existing appointments or prescriptions                           |
+                              enum:
+                                - none
+                                - view
+                                - action
+                                - full
+                              example: view
+                            id:
+                              type: string
+                              description: The id of the service.
+                              enum:
+                                - appointments
+                                - prescriptions
+                              example: appointments
+                            type:
+                              type: string
+                              description: The type of request.
+                              enum:
+                                - service
               examples:
                 ? "Full permissions to medical record and services"
                 : value:
@@ -556,7 +549,6 @@ paths:
                         id: historical
                         type: medical
     post:
-      operationId: updateUserPermissions
       tags:
         - User Permissions
       summary: Request a change to a permission.
@@ -572,7 +564,109 @@ paths:
         information pertinent to when the request may be actioned. This could
         be shown to the user to help set expectations.
       requestBody:
-        $ref: "#/components/requestBodies/UpdatePermission"
+        description: |
+          Update Permission: Object containing the `type` and `id` of the permission to update along
+          with the `currentAccessLevel` to update to.
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                  description: |
+                    MedicalRecordPermissionUpdate: Object containing the `type` and `id` of the permission to update along
+                    with the `accessLevel` to update to.
+                  required:
+                    - type
+                    - id
+                    - accessLevel
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - medical
+                    id:
+                      type: string
+                      description: The type of the permission.
+                      enum:
+                        - current
+                        - historical
+                      example: current
+                    accessLevel:
+                      type: string
+                      description: The access level the patient has to the medical record.
+                      enum:
+                        - none
+                        - summary
+                        - detailed
+                        - documents
+                        - full
+                      example: detailed
+                    effectiveDate:
+                      type: string
+                      description: |
+                        The date to move the current effective permission date to. Only
+                        applicable when access level is `full` and id is `current`.
+                      format: date-time
+                      example: "2022-11-01T00:00:00+00:00"
+                - type: object
+                  description: |
+                    ServicePermissionUpdate: Object containing the `type` and `id` of the permission to update along
+                    with the `accessLevel` to update to.
+                  required:
+                    - type
+                    - id
+                    - accessLevel
+                  properties:
+                    type:
+                      type: string
+                      enum:
+                        - service
+                    id:
+                      type: string
+                      description: The id of the service.
+                      enum:
+                        - appointments
+                        - prescriptions
+                      example: appointments
+                    accessLevel:
+                      type: string
+                      description: |
+                        Indicates the level of access the patient has to the service.
+                        | level  | description                                                                       |
+                        | -----  | -----------                                                                       |
+                        | none   | no access                                                                         |
+                        | view   | view only                                                                         |
+                        | action | can perform main action for service e.g. book appointments or order prescriptions |
+                        | full   | can amend/cancel existing appointments or prescriptions                           |
+                      enum:
+                        - none
+                        - view
+                        - action
+                        - full
+                      example: view
+              # discriminator:
+              #   propertyName: type
+              #   mapping:
+              #     medical: "#/components/schemas/MedicalRecordPermissionUpdate"
+              #     service: "#/components/schemas/ServicePermissionUpdate"
+            examples:
+              ? "Request documents access for medical record historical effective date"
+              : value:
+                  type: medical
+                  id: historical
+                  accessLevel: documents
+              "Request effective date is moved back to date":
+                value:
+                  type: medical
+                  id: current
+                  accessLevel: full
+                  effectiveDate: "2022-11-01T00:00:00+00:00"
+              "Request action access to appointments service":
+                value:
+                  type: service
+                  id: appointments
+                  accessLevel: action
       responses:
         200:
           description: Successful response
@@ -580,141 +674,128 @@ paths:
             application/json:
               schema:
                 type: object
+                description: Permission update response.
                 oneOf:
                   - type: object
-                    allOf:
-                      - type: object
-                        allOf:
-                          - type: object
-                            required:
-                              - status
-                              - message
-                            properties:
-                              status:
-                                type: string
-                                description: The status of the update request.
-                                enum:
-                                  - rejected
-                                  - pending
-                                example: pending
-                              message:
-                                type: string
-                                description: |
-                                  Message pertaining to the result of the request.
-                                example: |
-                                  Request to allow access to documents is pending.
-                              dateCreated:
-                                type: string
-                                description: |
-                                  Indicates that date time when the request was created.
-                                format: date-time
-                                example: "2022-11-01T00:00:00+00:00"
-                      - type: object
+                    description: Medical record permission update response.
+                    required:
+                      - status
+                      - message
+                      - type
+                      - id
+                      - accessLevel
+                    properties:
+                      status:
+                        type: string
+                        description: The status of the update request.
+                        enum:
+                          - rejected
+                          - pending
+                        example: pending
+                      message:
+                        type: string
                         description: |
-                          Object containing the `type` and `id` of the permission to update along
-                          with the `accessLevel` to update to.
-                        required:
-                          - type
-                          - id
-                          - accessLevel
-                        properties:
-                          type:
-                            type: string
-                            enum:
-                              - medical
-                          id:
-                            type: string
-                            description: The type of the permission.
-                            enum:
-                              - current
-                              - historical
-                            example: current
-                          accessLevel:
-                            type: string
-                            description: The access level the patient has to the medical record.
-                            enum:
-                              - none
-                              - summary
-                              - detailed
-                              - documents
-                              - full
-                            example: detailed
-                          effectiveDate:
-                            type: string
-                            description: |
-                              The date to move the current effective permission date to. Only
-                              applicable when access level is `full` and id is `current`.
-                            format: date-time
-                            example: "2022-11-01T00:00:00+00:00"
+                          Message pertaining to the result of the request.
+                        example: |
+                          Request to allow access to documents is pending.
+                      dateCreated:
+                        type: string
+                        description: |
+                          Indicates that date time when the request was created.
+                        format: date-time
+                        example: "2022-11-01T00:00:00+00:00"
+                      type:
+                        type: string
+                        enum:
+                          - medical
+                      id:
+                        type: string
+                        description: The type of the permission.
+                        enum:
+                          - current
+                          - historical
+                        example: current
+                      accessLevel:
+                        type: string
+                        description: The access level the patient has to the medical record.
+                        enum:
+                          - none
+                          - summary
+                          - detailed
+                          - documents
+                          - full
+                        example: detailed
+                      effectiveDate:
+                        type: string
+                        description: |
+                          The date to move the current effective permission date to. Only
+                          applicable when access level is `full` and id is `current`.
+                        format: date-time
+                        example: "2022-11-01T00:00:00+00:00"
                   - type: object
-                    allOf:
-                      - type: object
-                        allOf:
-                          - type: object
-                            required:
-                              - status
-                              - message
-                            properties:
-                              status:
-                                type: string
-                                description: The status of the update request.
-                                enum:
-                                  - rejected
-                                  - pending
-                                example: pending
-                              message:
-                                type: string
-                                description: |
-                                  Message pertaining to the result of the request.
-                                example: |
-                                  Request to allow access to documents is pending.
-                              dateCreated:
-                                type: string
-                                description: |
-                                  Indicates that date time when the request was created.
-                                format: date-time
-                                example: "2022-11-01T00:00:00+00:00"
-                      - type: object
+                    description: Service permission update response.
+                    required:
+                      - status
+                      - message
+                      - type
+                      - id
+                      - accessLevel
+                    properties:
+                      status:
+                        type: string
+                        description: The status of the update request.
+                        enum:
+                          - rejected
+                          - pending
+                        example: pending
+                      message:
+                        type: string
                         description: |
-                          Object containing the `type` and `id` of the permission to update along
-                          with the `accessLevel` to update to.
-                        required:
-                          - type
-                          - id
-                          - accessLevel
-                        properties:
-                          type:
-                            type: string
-                            enum:
-                              - service
-                          id:
-                            type: string
-                            description: The id of the service.
-                            enum:
-                              - appointments
-                              - prescriptions
-                            example: appointments
-                          accessLevel:
-                            type: string
-                            description: |
-                              Indicates the level of access the patient has to the service.
-                              | level  | description                                                                       |
-                              | -----  | -----------                                                                       |
-                              | none   | no access                                                                         |
-                              | view   | view only                                                                         |
-                              | action | can perform main action for service e.g. book appointments or order prescriptions |
-                              | full   | can amend/cancel existing appointments or prescriptions                           |
-                            enum:
-                              - none
-                              - view
-                              - action
-                              - full
-                            example: view
+                          Message pertaining to the result of the request.
+                          example: |
+                          Request to allow access to documents is pending.
+                      dateCreated:
+                        type: string
+                        description: |
+                          Indicates that date time when the request was created.
+                        format: date-time
+                        example: "2022-11-01T00:00:00+00:00"
+                      type:
+                        type: string
+                        enum:
+                          - service
+                      id:
+                        type: string
+                        description: The id of the service.
+                        enum:
+                          - appointments
+                          - prescriptions
+                        example: appointments
+                      accessLevel:
+                        type: string
+                        description: |
+                          Indicates the level of access the patient has to the service.
+                          | level  | description                                                                       |
+                          | -----  | -----------                                                                       |
+                          | none   | no access                                                                         |
+                          | view   | view only                                                                         |
+                          | action | can perform main action for service e.g. book appointments or order prescriptions |
+                          | full   | can amend/cancel existing appointments or prescriptions                           |
+                        enum:
+                          - none
+                          - view
+                          - action
+                          - full
+                        example: view
                 # discriminator:
                 #   propertyName: type
                 #   mapping:
-                #     medical: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-                #     service: "#/components/schemas/ServicePermissionUpdateResponse"
+                #     medical: 
+                #      type: object
+                #       allOf:
+                #         - $ref: "#/components/schemas/BasePermissionUpdateResponse"
+                #         - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
+                #       service: "#/components/schemas/ServicePermissionUpdateResponse"
               examples:
                 ? "Request for documents access for historical permissions that is pending"
                 : value:
@@ -756,222 +837,6 @@ paths:
                     dateCreated: "2022-11-01T00:00:00+00:00"
 
 components:
-  parameters:
-    Id:
-      in: path
-      name: id
-      description: |
-        The patient's NHS number. The primary identifier of a patient, unique
-        within NHS England and Wales. Always 10 digits and must be a
-        [valid NHS number](https://www.datadictionary.nhs.uk/attributes/nhs_number.html).
-      required: true
-      schema:
-        type: string
-        example: "9000000009"
-
-  examples:
-    FullPermissions:
-      value:
-        medicalRecord:
-          effectiveDate: "2022-11-01T00:00:00+00:00"
-          current:
-            accessLevel: full
-            maxAccessLevel: full
-          historical:
-            accessLevel: summary
-            maxAccessLevel: documents
-        services:
-          - id: appointments
-            accessLevel: view
-            maxAccessLevel: full
-          - id: prescriptions
-            accessLevel: action
-            maxAccessLevel: full
-    PendingRequestForDocumentsAccess:
-      value:
-        medicalRecord:
-          effectiveDate: "2022-11-01T00:00:00+00:00"
-          current:
-            accessLevel: full
-            maxAccessLevel: full
-          historical:
-            accessLevel: summary
-            maxAccessLevel: documents
-        services:
-          - id: appointments
-            accessLevel: action
-            maxAccessLevel: action
-          - id: prescriptions
-            accessLevel: view
-            maxAccessLevel: action
-        requests:
-          - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: documents
-            id: historical
-            type: medical
-    PendingRequestForFullAccessAppointments:
-      value:
-        medicalRecord:
-          effectiveDate: "2022-11-01T00:00:00+00:00"
-          current:
-            accessLevel: full
-            maxAccessLevel: full
-          historical:
-            accessLevel: summary
-            maxAccessLevel: detailed
-        services:
-          - id: appointments
-            accessLevel: view
-            maxAccessLevel: action
-          - id: prescriptions
-            accessLevel: view
-            maxAccessLevel: action
-        requests:
-          - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: action
-            id: appointments
-            type: service
-    MultiplePendingRequests:
-      value:
-        medicalRecord:
-          effectiveDate: "2022-11-01T00:00:00+00:00"
-          current:
-            accessLevel: full
-            maxAccessLevel: full
-          historical:
-            accessLevel: summary
-            maxAccessLevel: detailed
-        services:
-          - id: appointments
-            accessLevel: view
-            maxAccessLevel: action
-          - id: prescriptions
-            accessLevel: view
-            maxAccessLevel: action
-        requests:
-          - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: action
-            id: appointments
-            type: service
-          - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: detailed
-            id: historical
-            type: medical
-
-  requestBodies:
-    UpdatePermission:
-      description: |
-        Object containing the `type` and `id` of the permission to update along
-        with the `currentAccessLevel` to update to.
-      required: true
-      content:
-        application/json:
-          schema:
-            oneOf:
-              - type: object
-                description: |
-                  Object containing the `type` and `id` of the permission to update along
-                  with the `accessLevel` to update to.
-                required:
-                  - type
-                  - id
-                  - accessLevel
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - medical
-                  id:
-                    type: string
-                    description: The type of the permission.
-                    enum:
-                      - current
-                      - historical
-                    example: current
-                  accessLevel:
-                    type: string
-                    description: The access level the patient has to the medical record.
-                    enum:
-                      - none
-                      - summary
-                      - detailed
-                      - documents
-                      - full
-                    example: detailed
-                  effectiveDate:
-                    type: string
-                    description: |
-                      The date to move the current effective permission date to. Only
-                      applicable when access level is `full` and id is `current`.
-                    format: date-time
-                    example: "2022-11-01T00:00:00+00:00"
-              - type: object
-                description: |
-                  Object containing the `type` and `id` of the permission to update along
-                  with the `accessLevel` to update to.
-                required:
-                  - type
-                  - id
-                  - accessLevel
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - service
-                  id:
-                    type: string
-                    description: The id of the service.
-                    enum:
-                      - appointments
-                      - prescriptions
-                    example: appointments
-                  accessLevel:
-                    type: string
-                    description: |
-                      Indicates the level of access the patient has to the service.
-                      | level  | description                                                                       |
-                      | -----  | -----------                                                                       |
-                      | none   | no access                                                                         |
-                      | view   | view only                                                                         |
-                      | action | can perform main action for service e.g. book appointments or order prescriptions |
-                      | full   | can amend/cancel existing appointments or prescriptions                           |
-                    enum:
-                      - none
-                      - view
-                      - action
-                      - full
-                    example: view
-            # discriminator:
-            #   propertyName: type
-            #   mapping:
-            #     medical: "#/components/schemas/MedicalRecordPermissionUpdate"
-            #     service: "#/components/schemas/ServicePermissionUpdate"
-          examples:
-            ? "Request documents access for medical record historical effective date"
-            : value:
-                type: medical
-                id: historical
-                accessLevel: documents
-            "Request effective date is moved back to date":
-              value:
-                type: medical
-                id: current
-                accessLevel: full
-                effectiveDate: "2022-11-01T00:00:00+00:00"
-            "Request action access to appointments service":
-              value:
-                type: service
-                id: appointments
-                accessLevel: action
-
   securitySchemes:
     BearerAuthorization:
       type: http
