@@ -396,7 +396,7 @@ components:
       type: object
       description: |
         An object containing information pertaining to any pending or rejected
-        requests for changes to medical record permissions.
+        requests for changes to the medical record permissions.
       allOf:
         - $ref: "#/components/schemas/BaseRequest"
         - type: object
@@ -415,7 +415,7 @@ components:
       type: object
       description: |
         An object containing information pertaining to any pending or rejected
-        requests for changes to appointments service permissions.
+        requests for changes to the appointments service permissions.
       allOf:
         - $ref: "#/components/schemas/BaseRequest"
         - type: object
@@ -431,7 +431,7 @@ components:
       type: object
       description: |
         An object containing information pertaining to any pending or rejected
-        requests for changes to prescriptions service permissions.
+        requests for changes to the prescriptions service permissions.
       allOf:
         - $ref: "#/components/schemas/BaseRequest"
         - type: object
