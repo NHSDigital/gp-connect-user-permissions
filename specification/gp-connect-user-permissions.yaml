@@ -183,7 +183,7 @@ paths:
         Get a patient's permissions to access the medical record and services
         they can access at their GP practice.
         Returns a `UserPermission` object which includes information about the
-        access level they have to the medical record and services.
+        permissions they have to the medical record and services.
       responses:
         200:
           description: Successful response
