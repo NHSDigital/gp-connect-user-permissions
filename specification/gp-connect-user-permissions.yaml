@@ -193,14 +193,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserPermission"
               examples:
-                FullPermissions:
-                  $ref: "#/components/examples/FullPermissions"
-                PendingRequestForDocumentsAccess:
-                  $ref: "#/components/examples/PendingRequestForDocumentsAccess"
-                PendingRequestForFullAcecssAppointments:
-                  $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
-                MultiplePendingRequests:
-                  $ref: "#/components/examples/MultiplePendingRequests"
+                ResponseFullPermissions:
+                  $ref: "#/components/examples/ResponseFullPermissions"
+                ResponsePendingRequestForDocumentsAccess:
+                  $ref: "#/components/examples/ResponsePendingRequestForDocumentsAccess"
+                ResponsePendingRequestForFullAcecssAppointments:
+                  $ref: "#/components/examples/ResponsePendingRequestForFullAccessAppointments"
+                ResponseMultiplePendingRequests:
+                  $ref: "#/components/examples/ResponseMultiplePendingRequests"
     post:
       operationId: updateUserPermissions
       tags:
@@ -227,13 +227,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                RequestForDocumentsAccess:
+                ResponseRequestForDocumentsAccess:
                   $ref: "#/components/examples/ResponseRequestForDocumentsAccess"
-                RequestToMoveDate:
+                ResponseRequestToMoveDate:
                   $ref: "#/components/examples/ResponseRequestToMoveDate"
-                RequestPending:
+                ResponseRequestPending:
                   $ref: "#/components/examples/ResponseRequestPending"
-                RequestRejected:
+                ResponseRequestRejected:
                   $ref: "#/components/examples/ResponseRequestRejected"
 
 components:
@@ -609,7 +609,7 @@ components:
       example: order
 
   examples:
-    FullPermissions:
+    ResponseFullPermissions:
       summary: Full permissions to medical record and services
       value:
         medicalRecord:
@@ -626,7 +626,7 @@ components:
         prescriptions:
           accessLevel: order
           maxAccessLevel: full
-    PendingRequestForDocumentsAccess:
+    ResponsePendingRequestForDocumentsAccess:
       summary: Pending request to get documents access to historical record
       value:
         medicalRecord:
@@ -649,7 +649,7 @@ components:
             message: Requires review by a healthcare worker.
             accessLevel: documents
             id: medicalRecord
-    PendingRequestForFullAccessAppointments:
+    ResponsePendingRequestForFullAccessAppointments:
       summary: Pending request for full access to appointments
       value:
         medicalRecord:
@@ -672,7 +672,7 @@ components:
             message: Requires review by a healthcare worker.
             accessLevel: full
             id: appointments
-    MultiplePendingRequests:
+    ResponseMultiplePendingRequests:
       summary: Multiple pending requests
       value:
         medicalRecord:
