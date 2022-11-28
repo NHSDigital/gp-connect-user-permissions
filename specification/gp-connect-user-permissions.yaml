@@ -546,19 +546,18 @@ components:
         - $ref: "#/components/schemas/BasePermissionUpdateResponse"
         - $ref: "#/components/schemas/PrescriptionsPermissionUpdate"
 
-    # Enums
     AppointmentsEnum:
-      type: object
+      type: string
       description: Related to appointments.
       enum:
         - appointments
     PrescriptionsEnum:
-      type: object
+      type: string
       description: Related to prescriptions.
       enum:
         - prescriptions
     MedicalRecordEnum:
-      type: object
+      type: string
       description: Related to medical record.
       enum:
         - medicalRecord
