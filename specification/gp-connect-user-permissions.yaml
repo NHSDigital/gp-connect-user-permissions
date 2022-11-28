@@ -380,8 +380,8 @@ components:
           type: string
           description: |
             The date/time when the request for change was created.
-          format: date-time
-          example: "2022-11-01T00:00:00+00:00"
+          format: date
+          example: "2022-11-01"
         message:
           type: string
           description: A message pertaining to the request and its status.
@@ -488,8 +488,8 @@ components:
           type: string
           description: |
             The date to move the `effectiveDate` of the current permissions to.
-          format: date-time
-          example: "2022-11-01T00:00:00+00:00"
+          format: date
+          example: "2022-11-01"
 
     PermissionUpdateResponse:
       type: object
@@ -528,8 +528,8 @@ components:
               type: string
               description: |
                 Indicates that date time when the request was created.
-              format: date-time
-              example: "2022-11-01T00:00:00+00:00"
+              format: date
+              example: "2022-11-01"
     MedicalRecordPermissionUpdateResponse:
       type: object
       allOf:
