@@ -193,13 +193,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserPermission"
               examples:
-                "Full permissions to medical record and services":
+                FullPermissions:
                   $ref: "#/components/examples/FullPermissions"
-                "Pending request to get documents access to historical record":
+                PendingRequestForDocumentsAccess:
                   $ref: "#/components/examples/PendingRequestForDocumentsAccess"
-                "Pending request for full access to appointments":
+                PendingRequestForFullAcecssAppointments:
                   $ref: "#/components/examples/PendingRequestForFullAccessAppointments"
-                "Multiple pending requests":
+                MultiplePendingRequests:
                   $ref: "#/components/examples/MultiplePendingRequests"
     post:
       operationId: updateUserPermissions
@@ -227,8 +227,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                ? "Request for documents access for historical permissions that is pending"
-                : value:
+                RequestForDocumentsAccess:
+                  summary: Request for documents access for historical permissions that is pending
+                  value:
                     id: medicalRecord
                     type: historical
                     accessLevel: documents
@@ -237,7 +238,8 @@ paths:
                       Request accepted to update access historical effective
                       date to documents.
                     dateCreated: "2022-11-01T00:00:00+00:00"
-                "Request to move effectiveDate back to requested date":
+                RequestToMoveDate:
+                  summary: Request to move effectiveDate back to requested date
                   value:
                     id: medicalRecord
                     type: current
@@ -246,7 +248,8 @@ paths:
                     status: pending
                     message: Request received to move effective date to date.
                     dateCreated: "2022-11-01T00:00:00+00:00"
-                "Request for full access to prescriptions service":
+                RequestPending:
+                  summary: Request for full access to prescriptions service
                   value:
                     id: prescriptions
                     accessLevel: full
@@ -254,7 +257,8 @@ paths:
                     message: |
                       Request received for full access to prescriptions service.
                     dateCreated: "2022-11-01T00:00:00+00:00"
-                "Request rejected for full access to appointments service":
+                RequestRejected:
+                  summary: "Request rejected for full access to appointments service"
                   value:
                     id: prescriptions
                     accessLevel: full
@@ -638,6 +642,7 @@ components:
 
   examples:
     FullPermissions:
+      summary: Full permissions to medical record and services
       value:
         medicalRecord:
           effectiveDate: "2022-11-01"
@@ -654,6 +659,7 @@ components:
           accessLevel: order
           maxAccessLevel: full
     PendingRequestForDocumentsAccess:
+      summary: Pending request to get documents access to historical record
       value:
         medicalRecord:
           effectiveDate: "2022-11-01"
@@ -676,6 +682,7 @@ components:
             accessLevel: documents
             id: medicalRecord
     PendingRequestForFullAccessAppointments:
+      summary: Pending request for full access to appointments
       value:
         medicalRecord:
           effectiveDate: "2022-11-01"
@@ -698,6 +705,7 @@ components:
             accessLevel: full
             id: appointments
     MultiplePendingRequests:
+      summary: Multiple pending requests
       value:
         medicalRecord:
           effectiveDate: "2022-11-01"
@@ -746,20 +754,24 @@ components:
                 appointments: "#/components/schemas/AppointmentsPermissionUpdate"
                 prescriptions: "#/components/schemas/PrescriptionsPermissionUpdate"
           examples:
-            ? "Request documents access for medical record historical effective date"
-            : value:
+            RequestDocumentAccess:
+              summary: Request documents access for medical record historical effective date
+              value:
                 id: medicalRecord
                 type: historical
                 accessLevel: documents
-            "Request effective date is set to date":
+            RequestToChangeEffectiveDate:
+              summary: "Request effective date is set to date"
               value:
                 id: medicalRecord
                 effectiveDate: "2022-11-01"
-            "Request book access to appointments service":
+            RequestBookAppointments:
+              summary: "Request book access to appointments service"
               value:
                 id: appointments
                 accessLevel: book
-            "Request full access to prescriptions service":
+            RequestFullPrescriptions:
+              summary: "Request full access to prescriptions service"
               value:
                 id: prescriptions
                 accessLevel: full
