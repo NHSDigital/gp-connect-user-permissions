@@ -241,7 +241,7 @@ paths:
                     id: medicalRecord
                     type: current
                     accessLevel: full
-                    effectiveDate: "2021-11-01T00:00:00+00:00"
+                    effectiveDate: "2021-11-01"
                     status: pending
                     message: Request received to move effective date to date.
                     dateCreated: "2022-11-01T00:00:00+00:00"
@@ -319,8 +319,8 @@ components:
         effectiveDate:
           type: string
           description: The date when the `current` permissions started.
-          format: date/time
-          example: "2022-11-01T00:00:00+00:00"
+          format: date
+          example: "2022-11-01"
         current:
           $ref: "#/components/schemas/MedicalRecordPermissionItem"
         historical:
@@ -381,7 +381,7 @@ components:
           description: |
             The date/time when the request for change was created.
           format: date
-          example: "2022-11-01"
+          example: "2022-11-01T23:59:59+00:00"
         message:
           type: string
           description: A message pertaining to the request and its status.
@@ -529,7 +529,7 @@ components:
               description: |
                 Indicates that date time when the request was created.
               format: date
-              example: "2022-11-01"
+              example: "2022-11-01T23:59:59+00:00"
     MedicalRecordPermissionUpdateResponse:
       type: object
       allOf:
@@ -628,7 +628,7 @@ components:
     FullPermissions:
       value:
         medicalRecord:
-          effectiveDate: "2022-11-01T00:00:00+00:00"
+          effectiveDate: "2022-11-01"
           current:
             accessLevel: full
             maxAccessLevel: full
@@ -644,7 +644,7 @@ components:
     PendingRequestForDocumentsAccess:
       value:
         medicalRecord:
-          effectiveDate: "2022-11-01T00:00:00+00:00"
+          effectiveDate: "2022-11-01"
           current:
             accessLevel: full
             maxAccessLevel: full
@@ -666,7 +666,7 @@ components:
     PendingRequestForFullAccessAppointments:
       value:
         medicalRecord:
-          effectiveDate: "2022-11-01T00:00:00+00:00"
+          effectiveDate: "2022-11-01"
           current:
             accessLevel: full
             maxAccessLevel: full
@@ -688,7 +688,7 @@ components:
     MultiplePendingRequests:
       value:
         medicalRecord:
-          effectiveDate: "2022-11-01T00:00:00+00:00"
+          effectiveDate: "2022-11-01"
           current:
             accessLevel: full
             maxAccessLevel: full
@@ -742,7 +742,7 @@ components:
             "Request effective date is set to date":
               value:
                 id: medicalRecord
-                effectiveDate: "2022-11-01T00:00:00+00:00"
+                effectiveDate: "2022-11-01"
             "Request book access to appointments service":
               value:
                 id: appointments
