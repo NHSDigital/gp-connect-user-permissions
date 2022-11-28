@@ -228,45 +228,13 @@ paths:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
                 RequestForDocumentsAccess:
-                  summary: Request for documents access for historical permissions that is pending
-                  value:
-                    id: medicalRecord
-                    type: historical
-                    accessLevel: documents
-                    status: pending
-                    message: |
-                      Request accepted to update access historical effective
-                      date to documents.
-                    dateCreated: "2022-11-01T00:00:00+00:00"
+                  $ref: "#/components/examples/ResponseRequestForDocumentsAccess"
                 RequestToMoveDate:
-                  summary: Request to move effectiveDate back to requested date
-                  value:
-                    id: medicalRecord
-                    type: current
-                    accessLevel: full
-                    effectiveDate: "2021-11-01"
-                    status: pending
-                    message: Request received to move effective date to date.
-                    dateCreated: "2022-11-01T00:00:00+00:00"
+                  $ref: "#/components/examples/ResponseRequestToMoveDate"
                 RequestPending:
-                  summary: Request for full access to prescriptions service
-                  value:
-                    id: prescriptions
-                    accessLevel: full
-                    status: pending
-                    message: |
-                      Request received for full access to prescriptions service.
-                    dateCreated: "2022-11-01T00:00:00+00:00"
+                  $ref: "#/components/examples/ResponseRequestPending"
                 RequestRejected:
-                  summary: "Request rejected for full access to appointments service"
-                  value:
-                    id: prescriptions
-                    accessLevel: full
-                    status: rejected
-                    message: |
-                      Request received for full access to prescriptions
-                      service.
-                    dateCreated: "2022-11-01T00:00:00+00:00"
+                  $ref: "#/components/examples/ResponseRequestRejected"
 
 components:
   parameters:
@@ -733,6 +701,67 @@ components:
             accessLevel: detailed
             id: medicalRecord
             type: historical
+    ResponseRequestForDocumentsAccess:
+      summary: Request for documents access for historical permissions that is pending
+      value:
+        id: medicalRecord
+        type: historical
+        accessLevel: documents
+        status: pending
+        message: |
+          Request accepted to update access historical effective
+          date to documents.
+        dateCreated: "2022-11-01T00:00:00+00:00"
+    ResponseRequestToMoveDate:
+      summary: Request to move effectiveDate back to requested date
+      value:
+        id: medicalRecord
+        type: current
+        accessLevel: full
+        effectiveDate: "2021-11-01"
+        status: pending
+        message: Request received to move effective date to date.
+        dateCreated: "2022-11-01T00:00:00+00:00"
+    ResponseRequestPending:
+      summary: Request for full access to prescriptions service
+      value:
+        id: prescriptions
+        accessLevel: full
+        status: pending
+        message: |
+          Request received for full access to prescriptions service.
+        dateCreated: "2022-11-01T00:00:00+00:00"
+    ResponseRequestRejected:
+      summary: "Request rejected for full access to appointments service"
+      value:
+        id: prescriptions
+        accessLevel: full
+        status: rejected
+        message: |
+          Request received for full access to prescriptions
+          service.
+        dateCreated: "2022-11-01T00:00:00+00:00"
+    RequestBodyDocumentAccess:
+      summary: Request documents access for medical record historical effective date
+      value:
+        id: medicalRecord
+        type: historical
+        accessLevel: documents
+    RequestBodyDateChange:
+      summary: "Request effective date is set to date"
+      value:
+        id: medicalRecord
+        effectiveDate: "2022-11-01"
+    RequestBodyBookAppointments:
+      summary: "Request book access to appointments service"
+      value:
+        id: appointments
+        accessLevel: book
+    RequestBodyFullPrescriptions:
+      summary: "Request full access to prescriptions service"
+      value:
+        id: prescriptions
+        accessLevel: full
 
   requestBodies:
     UpdatePermission:
@@ -754,24 +783,11 @@ components:
                 appointments: "#/components/schemas/AppointmentsPermissionUpdate"
                 prescriptions: "#/components/schemas/PrescriptionsPermissionUpdate"
           examples:
-            RequestDocumentAccess:
-              summary: Request documents access for medical record historical effective date
-              value:
-                id: medicalRecord
-                type: historical
-                accessLevel: documents
-            RequestToChangeEffectiveDate:
-              summary: "Request effective date is set to date"
-              value:
-                id: medicalRecord
-                effectiveDate: "2022-11-01"
-            RequestBookAppointments:
-              summary: "Request book access to appointments service"
-              value:
-                id: appointments
-                accessLevel: book
-            RequestFullPrescriptions:
-              summary: "Request full access to prescriptions service"
-              value:
-                id: prescriptions
-                accessLevel: full
+            RequestBodyDocumentAccess:
+              $ref: "#/components/examples/RequestBodyDocumentAccess"
+            RequestBodyDateChange:
+              $ref: "#/components/examples/RequestBodyDateChange"
+            RequestBodyBookAppointments:
+              $ref: "#/components/examples/RequestBodyBookAppointments"
+            RequestBodyFullPrescriptions:
+              $ref: "#/components/examples/RequestBodyFullPrescriptions"
