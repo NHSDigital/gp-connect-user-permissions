@@ -339,7 +339,7 @@ components:
         accessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
         maxAccessLevel:
-          $ref: "#/components/schemas/MaxMedicalRecordAccessLevelEnum"
+          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
 
     AppointmentsPermission:
       type: object
@@ -572,17 +572,6 @@ components:
         - documents
         - full
       example: detailed
-    MaxMedicalRecordAccessLevelEnum:
-      type: string
-      description: |
-        The maximum access level the patient can have to the medical record.
-      enum:
-        - none
-        - summary
-        - detailed
-        - documents
-        - full
-      example: documents
     MedicalRecordPermissionTypeEnum:
       type: string
       description: The type of the permission.
