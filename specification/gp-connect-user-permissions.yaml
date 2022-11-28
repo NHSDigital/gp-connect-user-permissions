@@ -174,6 +174,7 @@ paths:
   /gp-connect/user-permissions/{id}:
     parameters:
       - $ref: "#/components/parameters/Id"
+      - $ref: "#/components/parameters/BearerAuthorization"
     get:
       operationId: getUserPermissions
       tags:
@@ -276,6 +277,18 @@ components:
       schema:
         type: string
         example: "9000000009"
+    BearerAuthorization:
+      in: header
+      name: Authorization
+      description: |
+        An
+        [OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis)
+        from NHS login.
+      required: true
+      schema:
+        type: string
+        format: '^Bearer\ [[:ascii:]]+$'
+        example: "Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM"
 
   schemas:
     UserPermission:
@@ -750,16 +763,3 @@ components:
               value:
                 id: prescriptions
                 accessLevel: full
-
-  securitySchemes:
-    BearerAuthorization:
-      type: http
-      description: |
-        An
-        [OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis)
-        from NHS login.
-      scheme: bearer
-      bearerFormat: ^Bearer\ [[:ascii:]]+$
-
-security:
-  - BearerAuthorization: []
