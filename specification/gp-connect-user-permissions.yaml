@@ -716,15 +716,15 @@ components:
         application/json:
           schema:
             oneOf:
+              - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
               - $ref: "#/components/schemas/AppointmentsPermissionUpdate"
               - $ref: "#/components/schemas/PrescriptionsPermissionUpdate"
-              - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
             discriminator:
               propertyName: id
               mapping:
+                medicalRecord: "#/components/schemas/MedicalRecordPermissionUpdate"
                 appointments: "#/components/schemas/AppointmentsPermissionUpdate"
                 prescriptions: "#/components/schemas/PrescriptionsPermissionUpdate"
-                medicalRecord: "#/components/schemas/MedicalRecordPermissionUpdate"
           examples:
             ? "Request documents access for medical record historical effective date"
             : value:
