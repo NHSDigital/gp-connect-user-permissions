@@ -703,8 +703,8 @@ components:
             dateCreated: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: detailed
-            id: historical
-            type: medicalRecord
+            id: medicalRecord
+            type: historical
 
   requestBodies:
     UpdatePermission:
