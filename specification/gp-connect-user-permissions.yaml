@@ -284,7 +284,6 @@ components:
         - medicalRecord
         - appointments
         - prescriptions
-        - requests
       properties:
         medicalRecord:
           $ref: "#/components/schemas/MedicalRecordPermission"
