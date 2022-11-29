@@ -346,7 +346,7 @@ components:
         Contains the access level the patient has to the medical record. This
         is split into `current.accessLevel` and `historical.accessLevel` with
         an `effectiveDate` for when the current access level started.
-        Also includes the `maxAccessLevel` - the highest level of permission
+        Also includes the `accessLevelMax` - the highest level of permission
         that can be requested by the patient.
         An optional `request` object can be used to describe pending requests.
       required:
@@ -371,11 +371,11 @@ components:
         they could request.
       required:
         - accessLevel
-        - maxAccessLevel
+        - accessLevelMax
       properties:
         accessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        maxAccessLevel:
+        accessLevelMax:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
 
     AppointmentsPermission:
@@ -384,11 +384,11 @@ components:
         The level of permission a patient has to the appointments service.
       required:
         - accessLevel
-        - maxAccessLevel
+        - accessLevelMax
       properties:
         accessLevel:
           $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
-        maxAccessLevel:
+        accessLevelMax:
           $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
     PrescriptionsPermission:
       type: object
@@ -396,11 +396,11 @@ components:
         The level of permission a patient has to the prescriptions service.
       required:
         - accessLevel
-        - maxAccessLevel
+        - accessLevelMax
       properties:
         accessLevel:
           $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
-        maxAccessLevel:
+        accessLevelMax:
           $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
 
     BaseRequest:
@@ -669,16 +669,16 @@ components:
           effectiveDate: "2022-11-01"
           current:
             accessLevel: full
-            maxAccessLevel: full
+            accessLevelMax: full
           historical:
             accessLevel: summary
-            maxAccessLevel: documents
+            accessLevelMax: documents
         appointments:
           accessLevel: view
-          maxAccessLevel: full
+          accessLevelMax: full
         prescriptions:
           accessLevel: order
-          maxAccessLevel: full
+          accessLevelMax: full
     ResponsePendingRequestForDocumentsAccess:
       summary: Pending request to get documents access to historical record
       value:
@@ -686,16 +686,16 @@ components:
           effectiveDate: "2022-11-01"
           current:
             accessLevel: full
-            maxAccessLevel: full
+            accessLevelMax: full
           historical:
             accessLevel: summary
-            maxAccessLevel: documents
+            accessLevelMax: documents
         appointments:
           accessLevel: book
-          maxAccessLevel: book
+          accessLevelMax: book
         prescriptions:
           accessLevel: view
-          maxAccessLevel: order
+          accessLevelMax: order
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
@@ -709,16 +709,16 @@ components:
           effectiveDate: "2022-11-01"
           current:
             accessLevel: full
-            maxAccessLevel: full
+            accessLevelMax: full
           historical:
             accessLevel: summary
-            maxAccessLevel: detailed
+            accessLevelMax: detailed
         appointments:
           accessLevel: view
-          maxAccessLevel: book
+          accessLevelMax: book
         prescriptions:
           accessLevel: view
-          maxAccessLevel: order
+          accessLevelMax: order
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
@@ -732,16 +732,16 @@ components:
           effectiveDate: "2022-11-01"
           current:
             accessLevel: full
-            maxAccessLevel: full
+            accessLevelMax: full
           historical:
             accessLevel: summary
-            maxAccessLevel: detailed
+            accessLevelMax: detailed
         appointments:
           accessLevel: view
-          maxAccessLevel: book
+          accessLevelMax: book
         prescriptions:
           accessLevel: view
-          maxAccessLevel: order
+          accessLevelMax: order
         requests:
           - status: pending
             dateCreated: "2022-10-31T23:59:59+00:00"
