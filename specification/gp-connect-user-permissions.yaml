@@ -410,14 +410,13 @@ components:
         requests.
       required:
         - status
-        - dateCreated
+        - createdDateTime
         - message
       properties:
-        dateCreated:
+        createdDateTime:
           type: string
-          description: |
-            The date/time when the request for change was created.
-          format: date
+          description: The date-time when the request for change was created.
+          format: date-time
           example: "2022-11-01T23:59:59+00:00"
         message:
           type: string
@@ -561,11 +560,10 @@ components:
                 Message pertaining to the result of the request.
               example: |
                 Request to allow access to documents is pending.
-            dateCreated:
+            createdDateTime:
               type: string
-              description: |
-                Indicates that date time when the request was created.
-              format: date
+              description: The date-time when the request was created.
+              format: date-time
               example: "2022-11-01T23:59:59+00:00"
     MedicalRecordPermissionUpdateResponse:
       type: object
@@ -698,7 +696,7 @@ components:
           accessLevelMax: order
         requests:
           - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
+            createdDateTime: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: documents
             id: medicalRecord
@@ -721,7 +719,7 @@ components:
           accessLevelMax: order
         requests:
           - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
+            createdDateTime: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: full
             id: appointments
@@ -744,12 +742,12 @@ components:
           accessLevelMax: order
         requests:
           - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
+            createdDateTime: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: book
             id: appointments
           - status: pending
-            dateCreated: "2022-10-31T23:59:59+00:00"
+            createdDateTime: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: detailed
             id: medicalRecord
@@ -765,7 +763,7 @@ components:
         message: >-
           Request accepted to update access historical effective
           date to documents.
-        dateCreated: "2022-11-01T00:00:00+00:00"
+        createdDateTime: "2022-11-01T00:00:00+00:00"
     ResponseRequestToMoveDate:
       summary: Request to move effectiveDate back to requested date
       value:
@@ -775,7 +773,7 @@ components:
         effectiveDate: "2021-11-01"
         status: pending
         message: Request received to move effective date to date.
-        dateCreated: "2022-11-01T00:00:00+00:00"
+        createdDateTime: "2022-11-01T00:00:00+00:00"
     ResponseRequestPending:
       summary: Request for full access to prescriptions service
       value:
@@ -784,7 +782,7 @@ components:
         status: pending
         message: >-
           Request received for full access to prescriptions service.
-        dateCreated: "2022-11-01T00:00:00+00:00"
+        createdDateTime: "2022-11-01T00:00:00+00:00"
     ResponseRequestRejected:
       summary: Request rejected for full access to appointments service
       value:
@@ -794,7 +792,7 @@ components:
         message: >-
           Request received for full access to prescriptions
           service.
-        dateCreated: "2022-11-01T00:00:00+00:00"
+        createdDateTime: "2022-11-01T00:00:00+00:00"
     RequestBodyDocumentAccess:
       summary: |
         Request documents access for medical record historical effective date
