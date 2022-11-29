@@ -336,9 +336,9 @@ components:
             the medical record or services permissions.
           items:
             anyOf:
-              - $ref: "#/components/schemas/MedicalRecordRequest"
-              - $ref: "#/components/schemas/AppointmentsRequest"
-              - $ref: "#/components/schemas/PrescriptionsRequest"
+              - $ref: "#/components/schemas/MedicalRecordPermissionRequest"
+              - $ref: "#/components/schemas/AppointmentsPermissionRequest"
+              - $ref: "#/components/schemas/PrescriptionsPermissionRequest"
 
     MedicalRecordPermission:
       type: object
@@ -428,7 +428,7 @@ components:
           enum:
             - pending
             - rejected
-    MedicalRecordRequest:
+    MedicalRecordPermissionRequest:
       type: object
       description: |
         An object containing information pertaining to any pending or rejected
@@ -440,14 +440,14 @@ components:
             - id
             - type
           properties:
-            id:
-              $ref: "#/components/schemas/MedicalRecordEnum"
+            permissionType:
+              $ref: "#/components/schemas/MedicalRecordPermissionTypeEnum"
             accessLevel:
               $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-            type:
-              $ref: "#/components/schemas/MedicalRecordPermissionTypeEnum"
+            subType:
+              $ref: "#/components/schemas/MedicalRecordPermissionSubTypeEnum"
         - $ref: "#/components/schemas/BaseRequest"
-    AppointmentsRequest:
+    AppointmentsPermissionRequest:
       type: object
       description: |
         An object containing information pertaining to any pending or rejected
@@ -458,12 +458,12 @@ components:
             - accessLevel
             - id
           properties:
-            id:
-              $ref: "#/components/schemas/AppointmentsEnum"
+            permissionType:
+              $ref: "#/components/schemas/AppointmentsPermissionTypeEnum"
             accessLevel:
               $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
         - $ref: "#/components/schemas/BaseRequest"
-    PrescriptionsRequest:
+    PrescriptionsPermissionRequest:
       type: object
       description: |
         An object containing information pertaining to any pending or rejected
@@ -474,8 +474,8 @@ components:
             - accessLevel
             - id
           properties:
-            id:
-              $ref: "#/components/schemas/PrescriptionsEnum"
+            permissionType:
+              $ref: "#/components/schemas/PrescriptionsPermissionTypeEnum"
             accessLevel:
               $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
         - $ref: "#/components/schemas/BaseRequest"
@@ -489,8 +489,8 @@ components:
         - id
         - accessLevel
       properties:
-        id:
-          $ref: "#/components/schemas/AppointmentsEnum"
+        permissionType:
+          $ref: "#/components/schemas/AppointmentsPermissionTypeEnum"
         accessLevel:
           $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
     PrescriptionsPermissionUpdate:
@@ -502,8 +502,8 @@ components:
         - id
         - accessLevel
       properties:
-        id:
-          $ref: "#/components/schemas/PrescriptionsEnum"
+        permissionType:
+          $ref: "#/components/schemas/PrescriptionsPermissionTypeEnum"
         accessLevel:
           $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
     MedicalRecordPermissionUpdate:
@@ -514,12 +514,12 @@ components:
       required:
         - id
       properties:
-        id:
-          $ref: "#/components/schemas/MedicalRecordEnum"
+        permissionType:
+          $ref: "#/components/schemas/MedicalRecordPermissionTypeEnum"
         accessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
         type:
-          $ref: "#/components/schemas/MedicalRecordPermissionTypeEnum"
+          $ref: "#/components/schemas/MedicalRecordPermissionSubTypeEnum"
         effectiveDate:
           type: string
           description: |
@@ -555,21 +555,64 @@ components:
         - $ref: "#/components/schemas/BaseRequest"
         - $ref: "#/components/schemas/PrescriptionsPermissionUpdate"
 
-    AppointmentsEnum:
+    AppointmentsPermissionTypeEnum:
       type: string
-      description: Related to appointments.
+      description: Appointments permission type.
       enum:
         - appointments
-    PrescriptionsEnum:
+    AppointmentsAccessLevelEnum:
       type: string
-      description: Related to prescriptions.
+      description: |
+        Indicates the level of access the patient has to the appointments
+        service.
+
+        | level | description                            |
+        | ----- | -----------                            |
+        | none  | no access                              |
+        | view  | view only                              |
+        | book  | can book appointments                  |
+        | full  | can amend/cancel existing appointments |
+      enum:
+        - none
+        - view
+        - book
+        - full
+      example: book
+    PrescriptionsPermissionTypeEnum:
+      type: string
+      description: Prescriptions permission type.
       enum:
         - prescriptions
-    MedicalRecordEnum:
+    PrescriptionsAccessLevelEnum:
       type: string
-      description: Related to medical record.
+      description: |
+        Indicates the level of access the patient has to the prescriptions
+        service.
+
+        | level | description                             |
+        | ----- | -----------                             |
+        | none  | no access                               |
+        | view  | view only                               |
+        | order | can order prescriptions                 |
+        | full  | can amend/cancel existing prescriptions |
+      enum:
+        - none
+        - view
+        - order
+        - full
+      example: order
+    MedicalRecordPermissionTypeEnum:
+      type: string
+      description: Medical record permission type.
       enum:
         - medicalRecord
+    MedicalRecordPermissionSubTypeEnum:
+      type: string
+      description: The type of the permission.
+      enum:
+        - current
+        - historical
+      example: current
     MedicalRecordAccessLevelEnum:
       type: string
       description: |
@@ -589,49 +632,6 @@ components:
         - documents
         - full
       example: detailed
-    MedicalRecordPermissionTypeEnum:
-      type: string
-      description: The type of the permission.
-      enum:
-        - current
-        - historical
-      example: current
-    AppointmentsAccessLevelEnum:
-      type: string
-      description: |
-        Indicates the level of access the patient has to the appointments
-        service.
-
-        | level | description                            |
-        | ----- | -----------                            |
-        | none  | no access                              |
-        | view  | view only                              |
-        | book  | can book appointments                  |
-        | full  | can amend/cancel existing appointments |
-      enum:
-        - none
-        - view
-        - book
-        - full
-      example: book
-    PrescriptionsAccessLevelEnum:
-      type: string
-      description: |
-        Indicates the level of access the patient has to the prescriptions
-        service.
-
-        | level | description                             |
-        | ----- | -----------                             |
-        | none  | no access                               |
-        | view  | view only                               |
-        | order | can order prescriptions                 |
-        | full  | can amend/cancel existing prescriptions |
-      enum:
-        - none
-        - view
-        - order
-        - full
-      example: order
 
   examples:
     ResponseFullPermissions:
@@ -673,7 +673,7 @@ components:
             createdDateTime: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: documents
-            id: medicalRecord
+            permissionType: medicalRecord
     ResponsePendingRequestForFullAccessAppointments:
       summary: Pending request for full access to appointments
       value:
@@ -696,7 +696,7 @@ components:
             createdDateTime: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: full
-            id: appointments
+            permissionType: appointments
     ResponseMultiplePendingRequests:
       summary: Multiple pending requests
       value:
@@ -719,19 +719,19 @@ components:
             createdDateTime: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: book
-            id: appointments
+            permissionType: appointments
           - status: pending
             createdDateTime: "2022-10-31T23:59:59+00:00"
             message: Requires review by a healthcare worker.
             accessLevel: detailed
-            id: medicalRecord
-            type: historical
+            permissionType: medicalRecord
+            subType: historical
     ResponseRequestForDocumentsAccess:
       summary: |
         Request for documents access for historical permissions that is pending
       value:
-        id: medicalRecord
-        type: historical
+        permissionType: medicalRecord
+        subType: historical
         accessLevel: documents
         status: pending
         message: >-
@@ -741,8 +741,8 @@ components:
     ResponseRequestToMoveDate:
       summary: Request to move effectiveDate back to requested date
       value:
-        id: medicalRecord
-        type: current
+        permissionType: medicalRecord
+        subType: current
         accessLevel: full
         effectiveDate: "2021-11-01"
         status: pending
@@ -751,7 +751,7 @@ components:
     ResponseRequestPending:
       summary: Request for full access to prescriptions service
       value:
-        id: prescriptions
+        permissionType: prescriptions
         accessLevel: full
         status: pending
         message: >-
@@ -760,7 +760,7 @@ components:
     ResponseRequestRejected:
       summary: Request rejected for full access to appointments service
       value:
-        id: prescriptions
+        permissionType: prescriptions
         accessLevel: full
         status: rejected
         message: >-
@@ -771,23 +771,23 @@ components:
       summary: |
         Request documents access for medical record historical effective date
       value:
-        id: medicalRecord
-        type: historical
+        permissionType: medicalRecord
+        subType: historical
         accessLevel: documents
     RequestBodyDateChange:
       summary: Request effective date is set to date
       value:
-        id: medicalRecord
+        permissionType: medicalRecord
         effectiveDate: "2022-11-01"
     RequestBodyBookAppointments:
       summary: Request book access to appointments service
       value:
-        id: appointments
+        permissionType: appointments
         accessLevel: book
     RequestBodyFullPrescriptions:
       summary: Request full access to prescriptions service
       value:
-        id: prescriptions
+        permissionType: prescriptions
         accessLevel: full
 
   requestBodies:
