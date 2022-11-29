@@ -434,51 +434,51 @@ components:
         An object containing information pertaining to any pending or rejected
         requests for changes to the medical record permissions.
       allOf:
-        - $ref: "#/components/schemas/BaseRequest"
         - type: object
           required:
             - accessLevel
             - id
             - type
           properties:
-            accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
             id:
               $ref: "#/components/schemas/MedicalRecordEnum"
+            accessLevel:
+              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
             type:
               $ref: "#/components/schemas/MedicalRecordPermissionTypeEnum"
+        - $ref: "#/components/schemas/BaseRequest"
     AppointmentsRequest:
       type: object
       description: |
         An object containing information pertaining to any pending or rejected
         requests for changes to the appointments service permissions.
       allOf:
-        - $ref: "#/components/schemas/BaseRequest"
         - type: object
           required:
             - accessLevel
             - id
           properties:
-            accessLevel:
-              $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
             id:
               $ref: "#/components/schemas/AppointmentsEnum"
+            accessLevel:
+              $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
+        - $ref: "#/components/schemas/BaseRequest"
     PrescriptionsRequest:
       type: object
       description: |
         An object containing information pertaining to any pending or rejected
         requests for changes to the prescriptions service permissions.
       allOf:
-        - $ref: "#/components/schemas/BaseRequest"
         - type: object
           required:
             - accessLevel
             - id
           properties:
-            accessLevel:
-              $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
             id:
               $ref: "#/components/schemas/PrescriptionsEnum"
+            accessLevel:
+              $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
+        - $ref: "#/components/schemas/BaseRequest"
 
     AppointmentsPermissionUpdate:
       type: object
