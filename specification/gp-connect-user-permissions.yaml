@@ -539,46 +539,20 @@ components:
           medicalRecord: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
           appointments: "#/components/schemas/AppointmentsPermissionUpdateResponse"
           prescriptions: "#/components/schemas/PrescriptionsPermissionUpdateResponse"
-    BasePermissionUpdateResponse:
-      type: object
-      allOf:
-        - type: object
-          required:
-            - status
-            - message
-          properties:
-            status:
-              type: string
-              description: The status of the update request.
-              enum:
-                - rejected
-                - pending
-              example: pending
-            message:
-              type: string
-              description: |
-                Message pertaining to the result of the request.
-              example: |
-                Request to allow access to documents is pending.
-            createdDateTime:
-              type: string
-              description: The date-time when the request was created.
-              format: date-time
-              example: "2022-11-01T23:59:59+00:00"
     MedicalRecordPermissionUpdateResponse:
       type: object
       allOf:
-        - $ref: "#/components/schemas/BasePermissionUpdateResponse"
+        - $ref: "#/components/schemas/BaseRequest"
         - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
     AppointmentsPermissionUpdateResponse:
       type: object
       allOf:
-        - $ref: "#/components/schemas/BasePermissionUpdateResponse"
+        - $ref: "#/components/schemas/BaseRequest"
         - $ref: "#/components/schemas/AppointmentsPermissionUpdate"
     PrescriptionsPermissionUpdateResponse:
       type: object
       allOf:
-        - $ref: "#/components/schemas/BasePermissionUpdateResponse"
+        - $ref: "#/components/schemas/BaseRequest"
         - $ref: "#/components/schemas/PrescriptionsPermissionUpdate"
 
     AppointmentsEnum:
