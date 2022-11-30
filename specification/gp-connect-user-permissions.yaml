@@ -167,7 +167,7 @@ info:
     for more on errors.
 
 servers:
-  - url: https://sandbox.api.service.nhs.uk/gp-connect/permissions/
+  - url: https://sandbox.api.service.nhs.uk/gp-connect/permissions
     description: Sandbox environment
 
 tags:
@@ -196,9 +196,9 @@ paths:
           description: Successful response
           headers:
             X-Correlation-ID:
-              $ref: "#/components/schemas/CorrelationID"
+              $ref: "#/components/headers/X-Correlation-ID"
             X-Request-ID:
-              $ref: "#/components/schemas/RequestID"
+              $ref: "#/components/headers/X-Request-ID"
           content:
             application/json:
               schema:
@@ -235,9 +235,9 @@ paths:
           description: Successful response
           headers:
             X-Correlation-ID:
-              $ref: "#/components/schemas/CorrelationID"
+              $ref: "#/components/headers/X-Correlation-ID"
             X-Request-ID:
-              $ref: "#/components/schemas/RequestID"
+              $ref: "#/components/headers/X-Request-ID"
           content:
             application/json:
               schema:
@@ -253,6 +253,14 @@ paths:
                   $ref: "#/components/examples/ResponseRequestRejected"
 
 components:
+  headers:
+    X-Correlation-ID:
+      schema:
+        $ref: "#/components/schemas/CorrelationID"
+    X-Request-ID:
+      schema:
+        $ref: "#/components/schemas/RequestID"
+
   parameters:
     Id:
       in: path
