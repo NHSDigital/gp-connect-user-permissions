@@ -12,12 +12,14 @@ info:
     ## Overview
 
     Use this API to manage a patient's permissions to access the medical
-    record and services they can access at their GP practice.
+    record and services held at their GP practice.
 
     You can:
 
     - get a patient's permissions
+    - display only the sections that patients are permitted
     - request to update a patient's permissions to a higher level
+    - only request to update a patient's permissions to a level determined by the GP practice
 
     You cannot:
 
@@ -186,7 +188,7 @@ paths:
       summary: GET a patient's permissions.
       description: |
         Get a patient's permissions to access the medical record and services
-        they can access at their GP practice.
+        held at their GP practice.
         Returns a `UserPermission` object which includes information about the
         permissions they have to the medical record and services.
       responses:
@@ -213,10 +215,10 @@ paths:
       description: |
         Request a change to the permission a patient has for their medical
         record or services provided by the GP practice.
-        Once a request has been submitted it will be actioned, however, due to
+        Once a request has been submitted it will be processed, however, due to
         the nature of the request when this will happen is unknown at the time
         of request submission.
-        When the request has been actioned the result will be apparent in the
+        When the request is processed the result will be apparent in the
         response to getting the permissions.
         The message returned from submitting the request _should_ contain
         information pertinent to when the request may be actioned. This could
