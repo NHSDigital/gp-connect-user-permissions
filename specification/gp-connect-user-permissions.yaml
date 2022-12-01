@@ -326,6 +326,19 @@ components:
         The X-Request-ID from the request header, if supplied, mirrored back.
     PatientPermission:
       type: object
+      description: |
+        Contains the access levels the patient has to the medical record,
+        appointments and prescriptions.
+
+        Medical record access levels are split into `current.accessLevel` and
+        `historical.accessLevel` with an `effectiveDate` for when the current
+        access level started.
+
+        Medical record, appointments and prescriptions also include the maximum
+        level of access the patient could have with `accessLevelMax`.
+
+        An optional array of objects may be included to contain any pending
+        requests.
       required:
         - medicalRecord
         - appointments
