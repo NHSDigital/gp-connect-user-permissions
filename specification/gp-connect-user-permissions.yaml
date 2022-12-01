@@ -367,66 +367,66 @@ components:
         $ref: "#/components/schemas/RequestID"
 
   schemas:
-    CorrelationID:
-      $ref: "components/schemas/CorrelationID.yaml"
-    RequestID:
-      $ref: "components/schemas/RequestID.yaml"
-    PatientPermission:
-      $ref: "components/schemas/PatientPermission.yaml"
-    MedicalRecordPermission:
-      $ref: "components/schemas/MedicalRecordPermission.yaml"
-    MedicalRecordCurrentPermissionItem:
-      $ref: "components/schemas/MedicalRecordCurrentPermissionItem.yaml"
-    MedicalRecordHistoricalPermissionItem:
-      $ref: "components/schemas/MedicalRecordHistoricalPermissionItem.yaml"
-    AppointmentsPermission:
-      $ref: "components/schemas/AppointmentsPermission.yaml"
-    PrescriptionsPermission:
-      $ref: "components/schemas/PrescriptionsPermission.yaml"
-    BaseRequest:
-      $ref: "components/schemas/BaseRequest.yaml"
-    MedicalRecordPermissionRequest:
-      $ref: "components/schemas/MedicalRecordPermissionRequest.yaml"
-    AppointmentsPermissionRequest:
-      $ref: "components/schemas/AppointmentsPermissionRequest.yaml"
-    PrescriptionsPermissionRequest:
-      $ref: "components/schemas/PrescriptionsPermissionRequest.yaml"
-    AppointmentsPermissionUpdate:
-      $ref: "components/schemas/AppointmentsPermissionUpdate.yaml"
-    PrescriptionsPermissionUpdate:
-      $ref: "components/schemas/PrescriptionsPermissionUpdate.yaml"
-    MedicalRecordPermissionUpdate:
-      $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
-    PermissionUpdateResponse:
-      $ref: "components/schemas/PermissionUpdateResponse.yaml"
-    MedicalRecordPermissionUpdateResponse:
-      $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
-    AppointmentsPermissionUpdateResponse:
-      $ref: "components/schemas/AppointmentsPermissionUpdateResponse.yaml"
-    PrescriptionsPermissionUpdateResponse:
-      $ref: "components/schemas/PrescriptionsPermissionUpdateResponse.yaml"
-    AppointmentsPermissionTypeEnum:
-      $ref: "components/schemas/AppointmentsPermissionTypeEnum.yaml"
     AppointmentsAccessLevelEnum:
       $ref: "components/schemas/AppointmentsAccessLevelEnum.yaml"
     AppointmentsAccessLevelMaxEnum:
       $ref: "components/schemas/AppointmentsAccessLevelMaxEnum.yaml"
-    PrescriptionsPermissionTypeEnum:
-      $ref: "components/schemas/PrescriptionsPermissionTypeEnum.yaml"
-    PrescriptionsAccessLevelEnum:
-      $ref: "components/schemas/PrescriptionsAccessLevelEnum.yaml"
-    PrescriptionsAccessLevelMaxEnum:
-      $ref: "components/schemas/PrescriptionsAccessLevelMaxEnum.yaml"
-    MedicalRecordPermissionTypeEnum:
-      $ref: "components/schemas/MedicalRecordPermissionTypeEnum.yaml"
-    MedicalRecordPermissionSubTypeEnum:
-      $ref: "components/schemas/MedicalRecordPermissionSubTypeEnum.yaml"
+    AppointmentsPermission:
+      $ref: "components/schemas/AppointmentsPermission.yaml"
+    AppointmentsPermissionTypeEnum:
+      $ref: "components/schemas/AppointmentsPermissionTypeEnum.yaml"
+    AppointmentsPermissionRequest:
+      $ref: "components/schemas/AppointmentsPermissionRequest.yaml"
+    AppointmentsPermissionUpdate:
+      $ref: "components/schemas/AppointmentsPermissionUpdate.yaml"
+    AppointmentsPermissionUpdateResponse:
+      $ref: "components/schemas/AppointmentsPermissionUpdateResponse.yaml"
+    BaseRequest:
+      $ref: "components/schemas/BaseRequest.yaml"
+    CorrelationID:
+      $ref: "components/schemas/CorrelationID.yaml"
+    ErrorResponse:
+      $ref: "components/schemas/ErrorResponse.yaml"
     MedicalRecordAccessLevelEnum:
       $ref: "components/schemas/MedicalRecordAccessLevelEnum.yaml"
     MedicalRecordAccessLevelMaxEnum:
       $ref: "components/schemas/MedicalRecordAccessLevelMaxEnum.yaml"
-    ErrorResponse:
-      $ref: "components/schemas/ErrorResponse.yaml"
+    MedicalRecordCurrentPermissionItem:
+      $ref: "components/schemas/MedicalRecordCurrentPermissionItem.yaml"
+    MedicalRecordHistoricalPermissionItem:
+      $ref: "components/schemas/MedicalRecordHistoricalPermissionItem.yaml"
+    MedicalRecordPermission:
+      $ref: "components/schemas/MedicalRecordPermission.yaml"
+    MedicalRecordPermissionRequest:
+      $ref: "components/schemas/MedicalRecordPermissionRequest.yaml"
+    MedicalRecordPermissionSubTypeEnum:
+      $ref: "components/schemas/MedicalRecordPermissionSubTypeEnum.yaml"
+    MedicalRecordPermissionTypeEnum:
+      $ref: "components/schemas/MedicalRecordPermissionTypeEnum.yaml"
+    MedicalRecordPermissionUpdate:
+      $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
+    MedicalRecordPermissionUpdateResponse:
+      $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
+    PatientPermission:
+      $ref: "components/schemas/PatientPermission.yaml"
+    PermissionUpdateResponse:
+      $ref: "components/schemas/PermissionUpdateResponse.yaml"
+    PrescriptionsAccessLevelEnum:
+      $ref: "components/schemas/PrescriptionsAccessLevelEnum.yaml"
+    PrescriptionsAccessLevelMaxEnum:
+      $ref: "components/schemas/PrescriptionsAccessLevelMaxEnum.yaml"
+    PrescriptionsPermission:
+      $ref: "components/schemas/PrescriptionsPermission.yaml"
+    PrescriptionsPermissionRequest:
+      $ref: "components/schemas/PrescriptionsPermissionRequest.yaml"
+    PrescriptionsPermissionUpdate:
+      $ref: "components/schemas/PrescriptionsPermissionUpdate.yaml"
+    PrescriptionsPermissionUpdateResponse:
+      $ref: "components/schemas/PrescriptionsPermissionUpdateResponse.yaml"
+    PrescriptionsPermissionTypeEnum:
+      $ref: "components/schemas/PrescriptionsPermissionTypeEnum.yaml"
+    RequestID:
+      $ref: "components/schemas/RequestID.yaml"
 
   examples:
     InvalidRequestError:
@@ -435,26 +435,26 @@ components:
       $ref: "components/examples/MinimalErrorResponse.yaml"
     ResponseFullPermissions:
       $ref: "components/examples/ResponseFullPermissions.yaml"
+    ResponseMultiplePendingRequests:
+      $ref: "components/examples/ResponseMultiplePendingRequests.yaml"
     ResponsePendingRequestForDocumentsAccess:
       $ref: "components/examples/ResponsePendingRequestForDocumentsAccess.yaml"
     ResponsePendingRequestForFullAccessAppointments:
       $ref: "components/examples/ResponsePendingRequestForFullAccessAppointments.yaml"
-    ResponseMultiplePendingRequests:
-      $ref: "components/examples/ResponseMultiplePendingRequests.yaml"
     ResponseRequestForDocumentsAccess:
       $ref: "components/examples/ResponseRequestForDocumentsAccess.yaml"
-    ResponseRequestToMoveDate:
-      $ref: "components/examples/ResponseRequestToMoveDate.yaml"
     ResponseRequestPending:
       $ref: "components/examples/ResponseRequestPending.yaml"
     ResponseRequestRejected:
       $ref: "components/examples/ResponseRequestRejected.yaml"
-    RequestBodyDocumentAccess:
-      $ref: "components/examples/RequestBodyDocumentAccess.yaml"
-    RequestBodyDateChange:
-      $ref: "components/examples/RequestBodyDateChange.yaml"
+    ResponseRequestToMoveDate:
+      $ref: "components/examples/ResponseRequestToMoveDate.yaml"
     RequestBodyBookAppointments:
       $ref: "components/examples/RequestBodyBookAppointments.yaml"
+    RequestBodyDateChange:
+      $ref: "components/examples/RequestBodyDateChange.yaml"
+    RequestBodyDocumentAccess:
+      $ref: "components/examples/RequestBodyDocumentAccess.yaml"
     RequestBodyFullPrescriptions:
       $ref: "components/examples/RequestBodyFullPrescriptions.yaml"
 
