@@ -75,7 +75,7 @@ info:
     - we might make breaking changes, but only if we cannot avoid it, and we will give advance notice
 
     To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/341390/gp-connect-user-permissions).
-    
+
     If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
 
     ## Service level
@@ -115,11 +115,11 @@ info:
 
     ## Environments and testing
 
-    | Purpose          | URL                                                          |
-    | -------          | ---                                                          |
-    | Sandbox          | `https://sandbox.api.service.nhs.uk/gp-connect/permissions/` |
-    | Integration test | Not yet available                                            |
-    | Production       | Not yet available                                            |
+    | Purpose          | URL                                                         |
+    | -------          | ---                                                         |
+    | Sandbox          | `https://sandbox.api.service.nhs.uk/gp-connect/permissions` |
+    | Integration test | Not yet available                                           |
+    | Production       | Not yet available                                           |
 
     ### Sandbox testing
 
