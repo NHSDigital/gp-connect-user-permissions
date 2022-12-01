@@ -353,9 +353,12 @@ components:
         requests:
           type: array
           description: |
-            List of outstanding requests that have been made to update either
-            the medical record or services permissions.
+            List of requests that have been made to update permissions but have
+            yet to be processed.
           items:
+            description: |
+              A request could be for the medical record, appointments service
+              or prescriptions service.
             anyOf:
               - $ref: "#/components/schemas/MedicalRecordPermissionRequest"
               - $ref: "#/components/schemas/AppointmentsPermissionRequest"
@@ -369,7 +372,7 @@ components:
         an `effectiveDate`, representing the date when the current level of
         access started.
         Alongside `accessLevel` is `accessLevelMax` which represents the
-        highest level of permission that can be requested by the patient.
+        highest level of permission that could be requested.
       required:
         - current
         - effectiveDate
@@ -380,16 +383,32 @@ components:
           format: date
           example: "2022-11-01"
         current:
-          $ref: "#/components/schemas/MedicalRecordPermissionItem"
+          $ref: "#/components/schemas/MedicalRecordCurrentPermissionItem"
         historical:
-          $ref: "#/components/schemas/MedicalRecordPermissionItem"
+          $ref: "#/components/schemas/MedicalRecordHistoricalPermissionItem"
 
-    MedicalRecordPermissionItem:
+    MedicalRecordCurrentPermissionItem:
       type: object
       description: |
         An object representing the level of permission a patient has to the
-        section of the medical record along with the maximum level of access
-        they could request.
+        current medical record along with the maximum level of access that
+        could be requested.
+        The current medical record is anything at or after the `effectiveDate`.
+      required:
+        - accessLevel
+        - accessLevelMax
+      properties:
+        accessLevel:
+          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+        accessLevelMax:
+          $ref: "#/components/schemas/MedicalRecordAccessLevelMaxEnum"
+    MedicalRecordHistoricalPermissionItem:
+      type: object
+      description: |
+        An object representing the level of permission a patient has to the
+        historical medical record along with the maximum level of access that
+        could be requested.
+        The historical medical record is anything before the `effectiveDate`.
       required:
         - accessLevel
         - accessLevelMax
@@ -402,7 +421,9 @@ components:
     AppointmentsPermission:
       type: object
       description: |
-        The level of permission a patient has to the appointments service.
+        An object representing the level of permission a patient has to the
+        appointments service along with the maximum level of access that
+        could be requested.
       required:
         - accessLevel
         - accessLevelMax
@@ -414,7 +435,9 @@ components:
     PrescriptionsPermission:
       type: object
       description: |
-        The level of permission a patient has to the prescriptions service.
+        An object representing the level of permission a patient has to the
+        prescriptions service along with the maximum level of access that
+        could be requested.
       required:
         - accessLevel
         - accessLevelMax
@@ -427,8 +450,8 @@ components:
     BaseRequest:
       type: object
       description: |
-        An object containing information pertaining to any pending or rejected
-        requests.
+        An object containing information pertaining to requests to change
+        permissions.
       required:
         - status
         - createdDateTime
@@ -445,14 +468,15 @@ components:
           example: Request requires review by a healthcare worker.
         status:
           type: string
-          description: The status of the request to update the permission.
+          description: The status of the request.
           enum:
             - pending
             - rejected
+          example: pending
     MedicalRecordPermissionRequest:
       type: object
       description: |
-        An object containing information pertaining to any pending or rejected
+        An object containing information pertaining to any pending 
         requests for changes to the medical record permissions.
       allOf:
         - type: object
@@ -471,7 +495,7 @@ components:
     AppointmentsPermissionRequest:
       type: object
       description: |
-        An object containing information pertaining to any pending or rejected
+        An object containing information pertaining to any pending
         requests for changes to the appointments service permissions.
       allOf:
         - type: object
@@ -487,7 +511,7 @@ components:
     PrescriptionsPermissionRequest:
       type: object
       description: |
-        An object containing information pertaining to any pending or rejected
+        An object containing information pertaining to any pending
         requests for changes to the prescriptions service permissions.
       allOf:
         - type: object
