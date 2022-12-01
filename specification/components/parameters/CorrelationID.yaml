@@ -1,0 +1,10 @@
+in: header
+name: X-Correlation-ID
+description: |
+  An optional ID which you can use to track transactions across multiple
+  systems. It can take any value, but we recommend avoiding `.`
+  characters.
+
+  Mirrored back in a response header.
+schema:
+  $ref: "../schemas/CorrelationID.yaml"
