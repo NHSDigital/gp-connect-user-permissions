@@ -712,7 +712,7 @@ components:
         type: historical
         accessLevel: documents
         status: pending
-        message: |
+        message: >-
           Request accepted to update access historical effective
           date to documents.
         dateCreated: "2022-11-01T00:00:00+00:00"
@@ -732,7 +732,7 @@ components:
         id: prescriptions
         accessLevel: full
         status: pending
-        message: |
+        message: >-
           Request received for full access to prescriptions service.
         dateCreated: "2022-11-01T00:00:00+00:00"
     ResponseRequestRejected:
@@ -741,7 +741,7 @@ components:
         id: prescriptions
         accessLevel: full
         status: rejected
-        message: |
+        message: >-
           Request received for full access to prescriptions
           service.
         dateCreated: "2022-11-01T00:00:00+00:00"
