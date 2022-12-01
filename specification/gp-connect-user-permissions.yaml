@@ -366,10 +366,10 @@ components:
       description: |
         Contains the access level the patient has to the medical record. This
         is split into `current.accessLevel` and `historical.accessLevel` with
-        an `effectiveDate` for when the current access level started.
-        Also includes the `accessLevelMax` - the highest level of permission
-        that can be requested by the patient.
-        An optional `request` object can be used to describe pending requests.
+        an `effectiveDate`, representing the date when the current level of
+        access started.
+        Alongside `accessLevel` is `accessLevelMax` which represents the
+        highest level of permission that can be requested by the patient.
       required:
         - current
         - effectiveDate
@@ -397,7 +397,7 @@ components:
         accessLevel:
           $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
         accessLevelMax:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
+          $ref: "#/components/schemas/MedicalRecordAccessLevelMaxEnum"
 
     AppointmentsPermission:
       type: object
@@ -410,7 +410,7 @@ components:
         accessLevel:
           $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
         accessLevelMax:
-          $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
+          $ref: "#/components/schemas/AppointmentsAccessLevelMaxEnum"
     PrescriptionsPermission:
       type: object
       description: |
@@ -422,7 +422,7 @@ components:
         accessLevel:
           $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
         accessLevelMax:
-          $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
+          $ref: "#/components/schemas/PrescriptionsAccessLevelMaxEnum"
 
     BaseRequest:
       type: object
@@ -599,6 +599,24 @@ components:
         - book
         - full
       example: book
+    AppointmentsAccessLevelMaxEnum:
+      type: string
+      description: |
+        Indicates the maximum level of access the patient could request to the
+        appointments service.
+
+        | level | description                            |
+        | ----- | -----------                            |
+        | none  | no access                              |
+        | view  | view only                              |
+        | book  | can book appointments                  |
+        | full  | can amend/cancel existing appointments |
+      enum:
+        - none
+        - view
+        - book
+        - full
+      example: full
     PrescriptionsPermissionTypeEnum:
       type: string
       description: Prescriptions permission type.
@@ -622,6 +640,24 @@ components:
         - order
         - full
       example: order
+    PrescriptionsAccessLevelMaxEnum:
+      type: string
+      description: |
+        Indicates the maximum level of access the patient could request to the
+        prescriptions service.
+
+        | level | description                             |
+        | ----- | -----------                             |
+        | none  | no access                               |
+        | view  | view only                               |
+        | order | can order prescriptions                 |
+        | full  | can amend/cancel existing prescriptions |
+      enum:
+        - none
+        - view
+        - order
+        - full
+      example: full
     MedicalRecordPermissionTypeEnum:
       type: string
       description: Medical record permission type.
@@ -638,6 +674,26 @@ components:
       type: string
       description: |
         Indicates the level of access the patient has to the medical record.
+
+        | level     | description                  |
+        | -----     | -----------                  |
+        | none      | no access                    |
+        | summary   | summary record access        |
+        | detailed  | detailed coded record access |
+        | documents | documents access             |
+        | full      | full access                  |
+      enum:
+        - none
+        - summary
+        - detailed
+        - documents
+        - full
+      example: detailed
+    MedicalRecordAccessLevelMaxEnum:
+      type: string
+      description: |
+        Indicates the maximum level of access the patient could request to the
+        medical record.
 
         | level     | description                  |
         | -----     | -----------                  |
