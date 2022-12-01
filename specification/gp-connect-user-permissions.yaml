@@ -220,13 +220,13 @@ paths:
       description: |
         Request a change to the permission a patient has for their medical
         record or services provided by the GP practice.
-        Once a request has been submitted it will be actioned, however, due to
+        Once a request has been submitted it will be processed, however, due to
         the nature of the request when this will happen is unknown at the time
         of request submission.
-        When the request has been actioned the result will be apparent in the
+        When the request has been processed the result will be apparent in the
         response to getting the permissions.
         The message returned from submitting the request _should_ contain
-        information pertinent to when the request may be actioned. This could
+        information pertinent to when the request may be processed. This could
         be shown to the patient to help set expectations.
       requestBody:
         $ref: "#/components/requestBodies/UpdatePermission"
