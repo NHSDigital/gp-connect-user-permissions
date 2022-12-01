@@ -1,0 +1,29 @@
+description: |
+  Object containing information about the permission to update along with
+  the `accessLevel` to update to.
+required: true
+content:
+  application/json:
+    schema:
+      description: |
+        A request could be for the medical record, appointments service
+        or prescriptions service.
+      oneOf:
+        - $ref: "../schemas/MedicalRecordPermissionUpdate.yaml"
+        - $ref: "../schemas/AppointmentsPermissionUpdate.yaml"
+        - $ref: "../schemas/PrescriptionsPermissionUpdate.yaml"
+      discriminator:
+        propertyName: id
+        mapping:
+          medicalRecord: "../schemas/MedicalRecordPermissionUpdate.yaml"
+          appointments: "../schemas/AppointmentsPermissionUpdate.yaml"
+          prescriptions: "../schemas/PrescriptionsPermissionUpdate.yaml"
+    examples:
+      RequestBodyDocumentAccess:
+        $ref: "../examples/RequestBodyDocumentAccess.yaml"
+      RequestBodyDateChange:
+        $ref: "../examples/RequestBodyDateChange.yaml"
+      RequestBodyBookAppointments:
+        $ref: "../examples/RequestBodyBookAppointments.yaml"
+      RequestBodyFullPrescriptions:
+        $ref: "../examples/RequestBodyFullPrescriptions.yaml"

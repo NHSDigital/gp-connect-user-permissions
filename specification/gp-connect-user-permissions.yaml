@@ -460,32 +460,4 @@ components:
 
   requestBodies:
     UpdatePermission:
-      description: |
-        Object containing information about the permission to update along with
-        the `accessLevel` to update to.
-      required: true
-      content:
-        application/json:
-          schema:
-            description: |
-              A request could be for the medical record, appointments service
-              or prescriptions service.
-            oneOf:
-              - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
-              - $ref: "#/components/schemas/AppointmentsPermissionUpdate"
-              - $ref: "#/components/schemas/PrescriptionsPermissionUpdate"
-            discriminator:
-              propertyName: id
-              mapping:
-                medicalRecord: "#/components/schemas/MedicalRecordPermissionUpdate"
-                appointments: "#/components/schemas/AppointmentsPermissionUpdate"
-                prescriptions: "#/components/schemas/PrescriptionsPermissionUpdate"
-          examples:
-            RequestBodyDocumentAccess:
-              $ref: "#/components/examples/RequestBodyDocumentAccess"
-            RequestBodyDateChange:
-              $ref: "#/components/examples/RequestBodyDateChange"
-            RequestBodyBookAppointments:
-              $ref: "#/components/examples/RequestBodyBookAppointments"
-            RequestBodyFullPrescriptions:
-              $ref: "#/components/examples/RequestBodyFullPrescriptions"
+      $ref: "components/requestBodies/UpdatePermission.yaml"
