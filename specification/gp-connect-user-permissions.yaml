@@ -233,10 +233,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
-                "Invalid request error response":
+                InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
+                MinimalErrorResponse:
+                  $ref: "#/components/examples/MinimalErrorResponse"
     post:
       operationId: updatePatientPermissions
       tags:
@@ -303,10 +303,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
-                "Invalid request error response":
+                InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
-                "Error response with only the required fields":
-                  $ref: "#/components/examples/ErrorResponseWithOnlyTheRequiredFields"
+                MinimalErrorResponse:
+                  $ref: "#/components/examples/MinimalErrorResponse"
 
 components:
   headers:
@@ -1072,6 +1072,7 @@ components:
         permissionType: prescriptions
         accessLevel: full
     InvalidRequestError:
+      summary: Invalid request error response.
       value:
         resourceType: OperationOutcome
         meta:
