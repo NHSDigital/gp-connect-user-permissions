@@ -38,9 +38,9 @@ info:
 
     This API has a single access mode:
 
-    | Access mode                                                                                                                | Functions | Availability |
-    | -----------                                                                                                                | --------- | ------------ |
-    | [Patient access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#patient-access-mode) | Get own permissions. Update own permissions. | TBC |
+    | Access mode                                                                                                                | Functions                                    | Availability |
+    | -----------                                                                                                                | ---------                                    | ------------ |
+    | [Patient access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#patient-access-mode) | Get own permissions. Update own permissions. | TBC          |
 
     For further details about the access modes for this API, see
     [Security and authorisation](#api-description__security-and-authorisation) below.
@@ -212,6 +212,31 @@ paths:
                   $ref: "#/components/examples/ResponsePendingRequestForFullAccessAppointments"
                 ResponseMultiplePendingRequests:
                   $ref: "#/components/examples/ResponseMultiplePendingRequests"
+        4XX:
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Error code             | Description                                                                                                                               |
+            | ----------- | ----------             | -----------                                                                                                                               |
+            | 400         | INVALID_RESOURCE_ID    | Invalid NHS number.                                                                                                                       |
+            | 400         | UNSUPPORTED_SERVICE    | Missing NHS number.                                                                                                                       |
+            | 400         | MISSING_VALUE          | Missing header parameter. For details, see the `diagnostics` field.                                                                       |
+            | 400         | INVALID_VALUE          | Invalid header parameter. For details, see the `diagnostics` field.                                                                       |
+            | 401         | ACCESS_DENIED          | Access token missing, invalid or expired, or calling application not configured for this operation.                                       |
+            | 403         | ACCESS_DENIED          | Patient cannot perform this action.                                                                                                       |
+            | 404         | RESOURCE_NOT_FOUND     | Patient does not exist for given NHS number.                                                                                              |
+            | 404         | INVALIDATED_RESOURCE   | Patient did exist for given NHS number, but has been invalidated and not superseded by another NHS number.                                |
+            | 408         | UNABLE_TO_CALL_SERVICE | The downstream domain processing has not completed within the configured timeout period.                                                  |
+            | 429         | TOO_MANY_REQUESTS      | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
+          content:
+            application/fhir+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InvalidRequestError:
+                  $ref: "#/components/examples/InvalidRequestError"
+                MinimalErrorResponse:
+                  $ref: "#/components/examples/MinimalErrorResponse"
     post:
       operationId: updatePatientPermissions
       tags:
@@ -251,6 +276,37 @@ paths:
                   $ref: "#/components/examples/ResponseRequestPending"
                 ResponseRequestRejected:
                   $ref: "#/components/examples/ResponseRequestRejected"
+        4XX:
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Error code                      | Description                                                                                                                                                              |
+            | ----------- | ----------                      | -----------                                                                                                                                                              |
+            | 400         | INVALID_RESOURCE_ID             | Invalid NHS number.                                                                                                                                                      |
+            | 400         | UNSUPPORTED_SERVICE             | Missing NHS number.                                                                                                                                                      |
+            | 400         | MISSING_VALUE                   | Missing header parameter. For details, see the `diagnostics` field.                                                                                                      |
+            | 400         | INVALID_VALUE                   | Invalid header parameter. For details, see the `diagnostics` field.                                                                                                      |
+            | 400         | INVALID_UPDATE                  | Malformed request.                                                                                                                                                       |
+            | 400         | VALIDATION_ERROR                | This is the "default" error thrown when no others are applicable.                                                                                                        |
+            | 400         | UNSUPPORTED_CHARACTERS_IN_FIELD | Invalid value in body of patch request. For details, see the `diagnostics` field.                                                                                        |
+            | 400         | ADDITIONAL_PROPERTIES           | The user sent additional properties within the dictionary.                                                                                                               |
+            | 400         | UNSUPPORTED_VALUE               | There was an unsupported value in the request. For example sending a request and attempting to set a permission for an unknown permission type such as `communications`. |
+            | 401         | ACCESS_DENIED                   | Access token missing, invalid or expired, or calling application not configured for this operation.                                                                      |
+            | 403         | FORBIDDEN_UPDATE                | The user is not permitted to make certain requests. For example, no user can request access beyond the level of access denoted by `accessLevelMax`.                      |
+            | 403         | ACCESS_DENIED                   | Patient cannot perform this action.                                                                                                                                      |
+            | 404         | RESOURCE_NOT_FOUND              | Patient does not exist for given NHS number.                                                                                                                             |
+            | 404         | INVALIDATED_RESOURCE            | Patient did exist for given NHS number, but has been invalidated and not superseded by another NHS number.                                                               |
+            | 408         | UNABLE_TO_CALL_SERVICE          | The downstream domain processing has not completed within the configured timeout period.                                                                                 |
+            | 429         | TOO_MANY_REQUESTS               | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits).                                |
+          content:
+            application/fhir+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InvalidRequestError:
+                  $ref: "#/components/examples/InvalidRequestError"
+                MinimalErrorResponse:
+                  $ref: "#/components/examples/MinimalErrorResponse"
 
 components:
   headers:
@@ -476,7 +532,7 @@ components:
     MedicalRecordPermissionRequest:
       type: object
       description: |
-        An object containing information pertaining to any pending 
+        An object containing information pertaining to any pending
         requests for changes to the medical record permissions.
       allOf:
         - type: object
@@ -737,6 +793,126 @@ components:
         - documents
         - full
       example: detailed
+    ErrorResponse:
+      type: object
+      description: |
+        Outcome of an operation that does not result in a resource being
+        returned.
+      required:
+        - resourceType
+        - meta
+        - issue
+      properties:
+        resourceType:
+          type: string
+          description: |
+            The type of FHIR resource - primarily used by FHIR clients and used
+            in non-FHIR APIs for consistency across the platform.
+          enum:
+            - OperationOutcome
+        meta:
+          type: object
+          description: Object to hold meta information about the error.
+          required:
+            - lastUpdated
+          properties:
+            lastUpdated:
+              type: string
+              description: UTC date and time stamp when the error occurred.
+              example: "2022-11-01T00:00:00+00:00"
+        issue:
+          type: array
+          description: List of issues that have occurred.
+          minItems: 1
+          items:
+            type: object
+            required:
+              - severity
+              - code
+            properties:
+              severity:
+                type: string
+                description: Severity of the error.
+                enum:
+                  - fatal
+                  - error
+                  - warning
+                  - information
+                example: error
+              code:
+                type: string
+                description: |
+                  A FHIR error code - primarily used by FHIR clients and used in
+                  non-FHIR APIs for consistency across the platform.
+                enum:
+                  - business-rule
+                  - code-invalid
+                  - conflict
+                  - deleted
+                  - duplicate
+                  - exception
+                  - expired
+                  - extension
+                  - forbidden
+                  - incomplete
+                  - informational
+                  - invalid
+                  - invariant
+                  - lock-error
+                  - login
+                  - multiple-matches
+                  - no-store
+                  - not-found
+                  - not-supported
+                  - processing
+                  - required
+                  - security
+                  - structure
+                  - suppressed
+                  - throttled
+                  - timeout
+                  - too-costly
+                  - too-long
+                  - transient
+                  - unknown
+                  - value
+                example: forbidden
+              details:
+                type: object
+                description: Internal error code.
+                properties:
+                  coding:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        system:
+                          type: string
+                          description: URI of the coding system specification.
+                          example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                        version:
+                          type: string
+                          description: Version of the coding system in use.
+                          example: "1"
+                        code:
+                          type: string
+                          description: Symbol in syntax defined by the system.
+                          example: INVALID_VALUE
+                        display:
+                          type: string
+                          description: Representation defined by the system.
+                          example: Provided value is invalid.
+                  diagnostics:
+                    type: string
+                    description: |
+                      Additional diagnostic information about the issue.
+                    example: (invalid_request) firstName is missing.
+                  expression:
+                    type: array
+                    description: JSON pointer of element(s) related to the error.
+                    items:
+                      type: string
+                      example: /data/attributes/firstName
 
   examples:
     ResponseFullPermissions:
@@ -895,6 +1071,33 @@ components:
       value:
         permissionType: prescriptions
         accessLevel: full
+    InvalidRequestError:
+      summary: Invalid request error response.
+      value:
+        resourceType: OperationOutcome
+        meta:
+          lastUpdated: "2021-04-14T11:35:00+00:00"
+        issue:
+          - severity: error
+            code: value
+            details:
+              coding:
+                - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
+                  version: "1"
+                  code: INVALID_VALUE
+                  display: Provided value is invalid.
+              diagnostics: (invalid_request) firstName is missing.
+              expression:
+                - /data/attributes/firstName
+    MinimalErrorResponse:
+      summary: Error response with only the required fields.
+      value:
+        resourceType: OperationOutcome
+        meta:
+          lastUpdated: "2022-11-15T11:10:00+00:00"
+        issue:
+          - severity: error
+            code: expired
 
   requestBodies:
     UpdatePermission:
