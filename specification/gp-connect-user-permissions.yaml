@@ -1088,22 +1088,8 @@ components:
               diagnostics: (invalid_request) firstName is missing.
               expression:
                 - /data/attributes/firstName
-    ServerError:
-      value:
-        resourceType: OperationOutcome
-        meta:
-          "lastUpdated": "2017-10-17T12:22:00+00:00"
-        issue:
-          - severity: error
-            code: exception
-            details:
-              coding:
-                - system: https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1
-                  version: "1"
-                  code: INTERNAL_SERVER_ERROR
-                  display: Internal server error.
-              diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
-    ErrorResponseWithOnlyTheRequiredFields:
+    MinimalErrorResponse:
+      summary: Error response with only the required fields.
       value:
         resourceType: OperationOutcome
         meta:
