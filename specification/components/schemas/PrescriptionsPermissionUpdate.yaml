@@ -1,0 +1,12 @@
+type: object
+description: |
+  Object containing the `accessLevel` to update the prescriptions service
+  to.
+required:
+  - id
+  - accessLevel
+properties:
+  permissionType:
+    $ref: "PrescriptionsPermissionTypeEnum.yaml"
+  accessLevel:
+    $ref: "PrescriptionsAccessLevelEnum.yaml"

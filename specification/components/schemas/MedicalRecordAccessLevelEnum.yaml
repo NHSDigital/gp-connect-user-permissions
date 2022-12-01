@@ -1,0 +1,18 @@
+type: string
+description: |
+  Indicates the level of access the patient has to the medical record.
+
+  | level     | description                  |
+  | -----     | -----------                  |
+  | none      | no access                    |
+  | summary   | summary record access        |
+  | detailed  | detailed coded record access |
+  | documents | documents access             |
+  | full      | full access                  |
+enum:
+  - none
+  - summary
+  - detailed
+  - documents
+  - full
+example: detailed

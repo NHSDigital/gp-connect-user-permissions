@@ -1,0 +1,18 @@
+type: object
+description: |
+  An object containing information pertaining to any pending
+  requests for changes to the medical record permissions.
+allOf:
+  - type: object
+    required:
+      - accessLevel
+      - id
+      - type
+    properties:
+      permissionType:
+        $ref: "MedicalRecordPermissionTypeEnum.yaml"
+      accessLevel:
+        $ref: "MedicalRecordAccessLevelEnum.yaml"
+      subType:
+        $ref: "MedicalRecordPermissionSubTypeEnum.yaml"
+  - $ref: "BaseRequest.yaml"

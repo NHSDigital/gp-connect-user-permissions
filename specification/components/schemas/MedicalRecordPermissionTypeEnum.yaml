@@ -1,0 +1,4 @@
+type: string
+description: Medical record permission type.
+enum:
+  - medicalRecord

@@ -372,538 +372,61 @@ components:
     RequestID:
       $ref: "components/schemas/RequestID.yaml"
     PatientPermission:
-      type: object
-      description: |
-        Contains the access levels the patient has to the medical record,
-        appointments and prescriptions.
-
-        Medical record access levels are split into `current.accessLevel` and
-        `historical.accessLevel` with an `effectiveDate` for when the current
-        access level started.
-
-        Medical record, appointments and prescriptions also include the maximum
-        level of access the patient could have with `accessLevelMax`.
-
-        An optional array of objects may be included to contain any pending
-        requests.
-      required:
-        - medicalRecord
-        - appointments
-        - prescriptions
-      properties:
-        medicalRecord:
-          $ref: "#/components/schemas/MedicalRecordPermission"
-        appointments:
-          $ref: "#/components/schemas/AppointmentsPermission"
-        prescriptions:
-          $ref: "#/components/schemas/PrescriptionsPermission"
-        requests:
-          type: array
-          description: |
-            List of requests that have been made to update permissions but have
-            yet to be processed.
-          items:
-            description: |
-              A request could be for the medical record, appointments service
-              or prescriptions service.
-            anyOf:
-              - $ref: "#/components/schemas/MedicalRecordPermissionRequest"
-              - $ref: "#/components/schemas/AppointmentsPermissionRequest"
-              - $ref: "#/components/schemas/PrescriptionsPermissionRequest"
-
+      $ref: "components/schemas/PatientPermission.yaml"
     MedicalRecordPermission:
-      type: object
-      description: |
-        Contains the access level the patient has to the medical record. This
-        is split into `current.accessLevel` and `historical.accessLevel` with
-        an `effectiveDate`, representing the date when the current level of
-        access started.
-        Alongside `accessLevel` is `accessLevelMax` which represents the
-        highest level of permission that could be requested.
-      required:
-        - current
-        - effectiveDate
-      properties:
-        effectiveDate:
-          type: string
-          description: The date when the `current` permissions started.
-          format: date
-          example: "2022-11-01"
-        current:
-          $ref: "#/components/schemas/MedicalRecordCurrentPermissionItem"
-        historical:
-          $ref: "#/components/schemas/MedicalRecordHistoricalPermissionItem"
-
+      $ref: "components/schemas/MedicalRecordPermission.yaml"
     MedicalRecordCurrentPermissionItem:
-      type: object
-      description: |
-        An object representing the level of permission a patient has to the
-        current medical record along with the maximum level of access that
-        could be requested.
-        The current medical record is anything at or after the `effectiveDate`.
-      required:
-        - accessLevel
-        - accessLevelMax
-      properties:
-        accessLevel:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        accessLevelMax:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelMaxEnum"
+      $ref: "components/schemas/MedicalRecordCurrentPermissionItem.yaml"
     MedicalRecordHistoricalPermissionItem:
-      type: object
-      description: |
-        An object representing the level of permission a patient has to the
-        historical medical record along with the maximum level of access that
-        could be requested.
-        The historical medical record is anything before the `effectiveDate`.
-      required:
-        - accessLevel
-        - accessLevelMax
-      properties:
-        accessLevel:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        accessLevelMax:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelMaxEnum"
-
+      $ref: "components/schemas/MedicalRecordHistoricalPermissionItem.yaml"
     AppointmentsPermission:
-      type: object
-      description: |
-        An object representing the level of permission a patient has to the
-        appointments service along with the maximum level of access that
-        could be requested.
-      required:
-        - accessLevel
-        - accessLevelMax
-      properties:
-        accessLevel:
-          $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
-        accessLevelMax:
-          $ref: "#/components/schemas/AppointmentsAccessLevelMaxEnum"
+      $ref: "components/schemas/AppointmentsPermission.yaml"
     PrescriptionsPermission:
-      type: object
-      description: |
-        An object representing the level of permission a patient has to the
-        prescriptions service along with the maximum level of access that
-        could be requested.
-      required:
-        - accessLevel
-        - accessLevelMax
-      properties:
-        accessLevel:
-          $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
-        accessLevelMax:
-          $ref: "#/components/schemas/PrescriptionsAccessLevelMaxEnum"
-
+      $ref: "components/schemas/PrescriptionsPermission.yaml"
     BaseRequest:
-      type: object
-      description: |
-        An object containing information pertaining to requests to change
-        permissions.
-      required:
-        - status
-        - createdDateTime
-        - message
-      properties:
-        createdDateTime:
-          type: string
-          description: The date-time when the request for change was created.
-          format: date-time
-          example: "2022-11-01T23:59:59+00:00"
-        message:
-          type: string
-          description: A message pertaining to the request and its status.
-          example: Request requires review by a healthcare worker.
-        status:
-          type: string
-          description: The status of the request.
-          enum:
-            - pending
-            - rejected
-          example: pending
+      $ref: "components/schemas/BaseRequest.yaml"
     MedicalRecordPermissionRequest:
-      type: object
-      description: |
-        An object containing information pertaining to any pending
-        requests for changes to the medical record permissions.
-      allOf:
-        - type: object
-          required:
-            - accessLevel
-            - id
-            - type
-          properties:
-            permissionType:
-              $ref: "#/components/schemas/MedicalRecordPermissionTypeEnum"
-            accessLevel:
-              $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-            subType:
-              $ref: "#/components/schemas/MedicalRecordPermissionSubTypeEnum"
-        - $ref: "#/components/schemas/BaseRequest"
+      $ref: "components/schemas/MedicalRecordPermissionRequest.yaml"
     AppointmentsPermissionRequest:
-      type: object
-      description: |
-        An object containing information pertaining to any pending
-        requests for changes to the appointments service permissions.
-      allOf:
-        - type: object
-          required:
-            - accessLevel
-            - id
-          properties:
-            permissionType:
-              $ref: "#/components/schemas/AppointmentsPermissionTypeEnum"
-            accessLevel:
-              $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
-        - $ref: "#/components/schemas/BaseRequest"
+      $ref: "components/schemas/AppointmentsPermissionRequest.yaml"
     PrescriptionsPermissionRequest:
-      type: object
-      description: |
-        An object containing information pertaining to any pending
-        requests for changes to the prescriptions service permissions.
-      allOf:
-        - type: object
-          required:
-            - accessLevel
-            - id
-          properties:
-            permissionType:
-              $ref: "#/components/schemas/PrescriptionsPermissionTypeEnum"
-            accessLevel:
-              $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
-        - $ref: "#/components/schemas/BaseRequest"
-
+      $ref: "components/schemas/PrescriptionsPermissionRequest.yaml"
     AppointmentsPermissionUpdate:
-      type: object
-      description: |
-        Object containing the `accessLevel` to update the appointments service
-        to.
-      required:
-        - id
-        - accessLevel
-      properties:
-        permissionType:
-          $ref: "#/components/schemas/AppointmentsPermissionTypeEnum"
-        accessLevel:
-          $ref: "#/components/schemas/AppointmentsAccessLevelEnum"
+      $ref: "components/schemas/AppointmentsPermissionUpdate.yaml"
     PrescriptionsPermissionUpdate:
-      type: object
-      description: |
-        Object containing the `accessLevel` to update the prescriptions service
-        to.
-      required:
-        - id
-        - accessLevel
-      properties:
-        permissionType:
-          $ref: "#/components/schemas/PrescriptionsPermissionTypeEnum"
-        accessLevel:
-          $ref: "#/components/schemas/PrescriptionsAccessLevelEnum"
+      $ref: "components/schemas/PrescriptionsPermissionUpdate.yaml"
     MedicalRecordPermissionUpdate:
-      type: object
-      description: |
-        Object containing information about the request to update the
-        permission to the medical record.
-      required:
-        - id
-      properties:
-        permissionType:
-          $ref: "#/components/schemas/MedicalRecordPermissionTypeEnum"
-        accessLevel:
-          $ref: "#/components/schemas/MedicalRecordAccessLevelEnum"
-        type:
-          $ref: "#/components/schemas/MedicalRecordPermissionSubTypeEnum"
-        effectiveDate:
-          type: string
-          description: |
-            The date to move the `effectiveDate` of the current permissions to.
-          format: date
-          example: "2022-11-01"
-
+      $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
     PermissionUpdateResponse:
-      type: object
-      description: |
-        A response could be for the medical record, appointments service
-        or prescriptions service depending on the request made. The response
-        will always correspond to the request.
-      oneOf:
-        - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-        - $ref: "#/components/schemas/AppointmentsPermissionUpdateResponse"
-        - $ref: "#/components/schemas/PrescriptionsPermissionUpdateResponse"
-      discriminator:
-        propertyName: id
-        mapping:
-          medicalRecord: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
-          appointments: "#/components/schemas/AppointmentsPermissionUpdateResponse"
-          prescriptions: "#/components/schemas/PrescriptionsPermissionUpdateResponse"
+      $ref: "components/schemas/PermissionUpdateResponse.yaml"
     MedicalRecordPermissionUpdateResponse:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/BaseRequest"
-        - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
+      $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
     AppointmentsPermissionUpdateResponse:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/BaseRequest"
-        - $ref: "#/components/schemas/AppointmentsPermissionUpdate"
+      $ref: "components/schemas/AppointmentsPermissionUpdateResponse.yaml"
     PrescriptionsPermissionUpdateResponse:
-      type: object
-      allOf:
-        - $ref: "#/components/schemas/BaseRequest"
-        - $ref: "#/components/schemas/PrescriptionsPermissionUpdate"
-
+      $ref: "components/schemas/PrescriptionsPermissionUpdateResponse.yaml"
     AppointmentsPermissionTypeEnum:
-      type: string
-      description: Appointments permission type.
-      enum:
-        - appointments
+      $ref: "components/schemas/AppointmentsPermissionTypeEnum.yaml"
     AppointmentsAccessLevelEnum:
-      type: string
-      description: |
-        Indicates the level of access the patient has to the appointments
-        service.
-
-        | level | description                            |
-        | ----- | -----------                            |
-        | none  | no access                              |
-        | view  | view only                              |
-        | book  | can book appointments                  |
-        | full  | can amend/cancel existing appointments |
-      enum:
-        - none
-        - view
-        - book
-        - full
-      example: book
+      $ref: "components/schemas/AppointmentsAccessLevelEnum.yaml"
     AppointmentsAccessLevelMaxEnum:
-      type: string
-      description: |
-        Indicates the maximum level of access the patient could request to the
-        appointments service.
-
-        | level | description                            |
-        | ----- | -----------                            |
-        | none  | no access                              |
-        | view  | view only                              |
-        | book  | can book appointments                  |
-        | full  | can amend/cancel existing appointments |
-      enum:
-        - none
-        - view
-        - book
-        - full
-      example: full
+      $ref: "components/schemas/AppointmentsAccessLevelMaxEnum.yaml"
     PrescriptionsPermissionTypeEnum:
-      type: string
-      description: Prescriptions permission type.
-      enum:
-        - prescriptions
+      $ref: "components/schemas/PrescriptionsPermissionTypeEnum.yaml"
     PrescriptionsAccessLevelEnum:
-      type: string
-      description: |
-        Indicates the level of access the patient has to the prescriptions
-        service.
-
-        | level | description                             |
-        | ----- | -----------                             |
-        | none  | no access                               |
-        | view  | view only                               |
-        | order | can order prescriptions                 |
-        | full  | can amend/cancel existing prescriptions |
-      enum:
-        - none
-        - view
-        - order
-        - full
-      example: order
+      $ref: "components/schemas/PrescriptionsAccessLevelEnum.yaml"
     PrescriptionsAccessLevelMaxEnum:
-      type: string
-      description: |
-        Indicates the maximum level of access the patient could request to the
-        prescriptions service.
-
-        | level | description                             |
-        | ----- | -----------                             |
-        | none  | no access                               |
-        | view  | view only                               |
-        | order | can order prescriptions                 |
-        | full  | can amend/cancel existing prescriptions |
-      enum:
-        - none
-        - view
-        - order
-        - full
-      example: full
+      $ref: "components/schemas/PrescriptionsAccessLevelMaxEnum.yaml"
     MedicalRecordPermissionTypeEnum:
-      type: string
-      description: Medical record permission type.
-      enum:
-        - medicalRecord
+      $ref: "components/schemas/MedicalRecordPermissionTypeEnum.yaml"
     MedicalRecordPermissionSubTypeEnum:
-      type: string
-      description: The type of the permission.
-      enum:
-        - current
-        - historical
-      example: current
+      $ref: "components/schemas/MedicalRecordPermissionSubTypeEnum.yaml"
     MedicalRecordAccessLevelEnum:
-      type: string
-      description: |
-        Indicates the level of access the patient has to the medical record.
-
-        | level     | description                  |
-        | -----     | -----------                  |
-        | none      | no access                    |
-        | summary   | summary record access        |
-        | detailed  | detailed coded record access |
-        | documents | documents access             |
-        | full      | full access                  |
-      enum:
-        - none
-        - summary
-        - detailed
-        - documents
-        - full
-      example: detailed
+      $ref: "components/schemas/MedicalRecordAccessLevelEnum.yaml"
     MedicalRecordAccessLevelMaxEnum:
-      type: string
-      description: |
-        Indicates the maximum level of access the patient could request to the
-        medical record.
-
-        | level     | description                  |
-        | -----     | -----------                  |
-        | none      | no access                    |
-        | summary   | summary record access        |
-        | detailed  | detailed coded record access |
-        | documents | documents access             |
-        | full      | full access                  |
-      enum:
-        - none
-        - summary
-        - detailed
-        - documents
-        - full
-      example: detailed
+      $ref: "components/schemas/MedicalRecordAccessLevelMaxEnum.yaml"
     ErrorResponse:
-      type: object
-      description: |
-        Outcome of an operation that does not result in a resource being
-        returned.
-      required:
-        - resourceType
-        - meta
-        - issue
-      properties:
-        resourceType:
-          type: string
-          description: |
-            The type of FHIR resource - primarily used by FHIR clients and used
-            in non-FHIR APIs for consistency across the platform.
-          enum:
-            - OperationOutcome
-        meta:
-          type: object
-          description: Object to hold meta information about the error.
-          required:
-            - lastUpdated
-          properties:
-            lastUpdated:
-              type: string
-              description: UTC date and time stamp when the error occurred.
-              example: "2022-11-01T00:00:00+00:00"
-        issue:
-          type: array
-          description: List of issues that have occurred.
-          minItems: 1
-          items:
-            type: object
-            required:
-              - severity
-              - code
-            properties:
-              severity:
-                type: string
-                description: Severity of the error.
-                enum:
-                  - fatal
-                  - error
-                  - warning
-                  - information
-                example: error
-              code:
-                type: string
-                description: |
-                  A FHIR error code - primarily used by FHIR clients and used in
-                  non-FHIR APIs for consistency across the platform.
-                enum:
-                  - business-rule
-                  - code-invalid
-                  - conflict
-                  - deleted
-                  - duplicate
-                  - exception
-                  - expired
-                  - extension
-                  - forbidden
-                  - incomplete
-                  - informational
-                  - invalid
-                  - invariant
-                  - lock-error
-                  - login
-                  - multiple-matches
-                  - no-store
-                  - not-found
-                  - not-supported
-                  - processing
-                  - required
-                  - security
-                  - structure
-                  - suppressed
-                  - throttled
-                  - timeout
-                  - too-costly
-                  - too-long
-                  - transient
-                  - unknown
-                  - value
-                example: forbidden
-              details:
-                type: object
-                description: Internal error code.
-                properties:
-                  coding:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        system:
-                          type: string
-                          description: URI of the coding system specification.
-                          example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
-                        version:
-                          type: string
-                          description: Version of the coding system in use.
-                          example: "1"
-                        code:
-                          type: string
-                          description: Symbol in syntax defined by the system.
-                          example: INVALID_VALUE
-                        display:
-                          type: string
-                          description: Representation defined by the system.
-                          example: Provided value is invalid.
-                  diagnostics:
-                    type: string
-                    description: |
-                      Additional diagnostic information about the issue.
-                    example: (invalid_request) firstName is missing.
-                  expression:
-                    type: array
-                    description: JSON pointer of element(s) related to the error.
-                    items:
-                      type: string
-                      example: /data/attributes/firstName
+      $ref: "components/schemas/ErrorResponse.yaml"
 
   examples:
     ResponseFullPermissions:
