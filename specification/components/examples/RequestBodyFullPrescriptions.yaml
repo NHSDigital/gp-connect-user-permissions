@@ -1,0 +1,4 @@
+summary: Request full access to prescriptions service.
+value:
+  permissionType: prescriptions
+  accessLevel: full

@@ -1,0 +1,21 @@
+type: object
+description: |
+  Contains the access level the patient has to the medical record. This
+  is split into `current.accessLevel` and `historical.accessLevel` with
+  an `effectiveDate`, representing the date when the current level of
+  access started.
+  Alongside `accessLevel` is `accessLevelMax` which represents the
+  highest level of permission that could be requested.
+required:
+  - current
+  - effectiveDate
+properties:
+  effectiveDate:
+    type: string
+    description: The date when the `current` permissions started.
+    format: date
+    example: "2022-11-01"
+  current:
+    $ref: "MedicalRecordCurrentPermissionItem.yaml"
+  historical:
+    $ref: "MedicalRecordHistoricalPermissionItem.yaml"

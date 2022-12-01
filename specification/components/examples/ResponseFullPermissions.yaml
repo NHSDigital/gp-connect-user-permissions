@@ -1,0 +1,16 @@
+summary: Full permissions to medical record and services.
+value:
+  medicalRecord:
+    effectiveDate: "2022-11-01"
+    current:
+      accessLevel: full
+      accessLevelMax: full
+    historical:
+      accessLevel: summary
+      accessLevelMax: documents
+  appointments:
+    accessLevel: view
+    accessLevelMax: full
+  prescriptions:
+    accessLevel: order
+    accessLevelMax: full

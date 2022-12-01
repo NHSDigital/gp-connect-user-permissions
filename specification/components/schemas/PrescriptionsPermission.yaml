@@ -1,0 +1,13 @@
+type: object
+description: |
+  An object representing the level of permission a patient has to the
+  prescriptions service along with the maximum level of access that
+  could be requested.
+required:
+  - accessLevel
+  - accessLevelMax
+properties:
+  accessLevel:
+    $ref: "PrescriptionsAccessLevelEnum.yaml"
+  accessLevelMax:
+    $ref: "PrescriptionsAccessLevelMaxEnum.yaml"

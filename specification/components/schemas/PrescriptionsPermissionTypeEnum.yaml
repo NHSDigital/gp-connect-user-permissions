@@ -1,0 +1,4 @@
+type: string
+description: Prescriptions permission type.
+enum:
+  - prescriptions

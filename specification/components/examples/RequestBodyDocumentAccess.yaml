@@ -1,0 +1,6 @@
+summary: |
+  Request documents access for medical record historical effective date.
+value:
+  permissionType: medicalRecord
+  subType: historical
+  accessLevel: documents

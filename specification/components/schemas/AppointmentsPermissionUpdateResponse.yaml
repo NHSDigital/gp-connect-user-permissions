@@ -1,0 +1,4 @@
+type: object
+allOf:
+  - $ref: "BaseRequest.yaml"
+  - $ref: "AppointmentsPermissionUpdate.yaml"

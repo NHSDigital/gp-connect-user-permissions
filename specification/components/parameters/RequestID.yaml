@@ -1,0 +1,12 @@
+in: header
+name: X-Request-ID
+description: |
+  A globally unique identifier (GUID) for the request, which we use to
+  de-duplicate repeated requests and to trace the request if you contact
+  our helpdesk.
+
+  Must be a universally unique identifier (UUID) (ideally version 4).
+  Mirrored back in a response header.
+  If you re-send a failed request, use the same value in this header.
+schema:
+  $ref: "../schemas/RequestID.yaml"

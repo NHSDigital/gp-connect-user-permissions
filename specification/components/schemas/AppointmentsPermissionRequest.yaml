@@ -1,0 +1,15 @@
+type: object
+description: |
+  An object containing information pertaining to any pending
+  requests for changes to the appointments service permissions.
+allOf:
+  - type: object
+    required:
+      - accessLevel
+      - id
+    properties:
+      permissionType:
+        $ref: "AppointmentsPermissionTypeEnum.yaml"
+      accessLevel:
+        $ref: "AppointmentsAccessLevelEnum.yaml"
+  - $ref: "BaseRequest.yaml"

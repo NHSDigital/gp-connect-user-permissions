@@ -1,0 +1,25 @@
+type: object
+description: |
+  An object containing information pertaining to requests to change
+  permissions.
+required:
+  - status
+  - createdDateTime
+  - message
+properties:
+  createdDateTime:
+    type: string
+    description: The date-time when the request for change was created.
+    format: date-time
+    example: "2022-11-01T23:59:59+00:00"
+  message:
+    type: string
+    description: A message pertaining to the request and its status.
+    example: Request requires review by a healthcare worker.
+  status:
+    type: string
+    description: The status of the request.
+    enum:
+      - pending
+      - rejected
+    example: pending

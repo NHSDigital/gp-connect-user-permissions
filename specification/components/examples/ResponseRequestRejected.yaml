@@ -1,0 +1,7 @@
+summary: Request rejected for full access to appointments service.
+value:
+  permissionType: prescriptions
+  accessLevel: full
+  status: rejected
+  message: Request received for full access to prescriptions service.
+  createdDateTime: "2022-11-01T00:00:00+00:00"

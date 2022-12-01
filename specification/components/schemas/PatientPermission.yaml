@@ -1,0 +1,38 @@
+type: object
+description: |
+  Contains the access levels the patient has to the medical record,
+  appointments and prescriptions.
+
+  Medical record access levels are split into `current.accessLevel` and
+  `historical.accessLevel` with an `effectiveDate` for when the current
+  access level started.
+
+  Medical record, appointments and prescriptions also include the maximum
+  level of access the patient could have with `accessLevelMax`.
+
+  An optional array of objects may be included to contain any pending
+  requests.
+required:
+  - medicalRecord
+  - appointments
+  - prescriptions
+properties:
+  medicalRecord:
+    $ref: "MedicalRecordPermission.yaml"
+  appointments:
+    $ref: "AppointmentsPermission.yaml"
+  prescriptions:
+    $ref: "PrescriptionsPermission.yaml"
+  requests:
+    type: array
+    description: |
+      List of requests that have been made to update permissions but have
+      yet to be processed.
+    items:
+      description: |
+        A request could be for the medical record, appointments service
+        or prescriptions service.
+      anyOf:
+        - $ref: "MedicalRecordPermissionRequest.yaml"
+        - $ref: "AppointmentsPermissionRequest.yaml"
+        - $ref: "PrescriptionsPermissionRequest.yaml"
