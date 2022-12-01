@@ -1,7 +1,6 @@
 type: object
 description: |
-  Object containing the `accessLevel` to update the prescriptions service
-  to.
+  Object containing the `accessLevel` to update the prescriptions service to.
 required:
   - id
   - accessLevel
