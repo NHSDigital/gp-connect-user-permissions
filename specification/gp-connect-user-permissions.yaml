@@ -574,6 +574,10 @@ components:
 
     PermissionUpdateResponse:
       type: object
+      description: |
+        A response could be for the medical record, appointments service
+        or prescriptions service depending on the request made. The response
+        will always correspond to the request.
       oneOf:
         - $ref: "#/components/schemas/MedicalRecordPermissionUpdateResponse"
         - $ref: "#/components/schemas/AppointmentsPermissionUpdateResponse"
@@ -900,6 +904,9 @@ components:
       content:
         application/json:
           schema:
+            description: |
+              A request could be for the medical record, appointments service
+              or prescriptions service.
             oneOf:
               - $ref: "#/components/schemas/MedicalRecordPermissionUpdate"
               - $ref: "#/components/schemas/AppointmentsPermissionUpdate"
