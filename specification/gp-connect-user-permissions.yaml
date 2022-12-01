@@ -740,7 +740,7 @@ components:
 
   examples:
     ResponseFullPermissions:
-      summary: Full permissions to medical record and services
+      summary: Full permissions to medical record and services.
       value:
         medicalRecord:
           effectiveDate: "2022-11-01"
@@ -757,7 +757,7 @@ components:
           accessLevel: order
           accessLevelMax: full
     ResponsePendingRequestForDocumentsAccess:
-      summary: Pending request to get documents access to historical record
+      summary: Pending request to get documents access to historical record.
       value:
         medicalRecord:
           effectiveDate: "2022-11-01"
@@ -780,7 +780,7 @@ components:
             accessLevel: documents
             permissionType: medicalRecord
     ResponsePendingRequestForFullAccessAppointments:
-      summary: Pending request for full access to appointments
+      summary: Pending request for full access to appointments.
       value:
         medicalRecord:
           effectiveDate: "2022-11-01"
@@ -803,7 +803,7 @@ components:
             accessLevel: full
             permissionType: appointments
     ResponseMultiplePendingRequests:
-      summary: Multiple pending requests
+      summary: Multiple pending requests.
       value:
         medicalRecord:
           effectiveDate: "2022-11-01"
@@ -833,7 +833,8 @@ components:
             subType: historical
     ResponseRequestForDocumentsAccess:
       summary: |
-        Request for documents access for historical permissions that is pending
+        Request for documents access for historical permissions that is
+        pending.
       value:
         permissionType: medicalRecord
         subType: historical
@@ -844,7 +845,7 @@ components:
           date to documents.
         createdDateTime: "2022-11-01T00:00:00+00:00"
     ResponseRequestToMoveDate:
-      summary: Request to move effectiveDate back to requested date
+      summary: Request to move effectiveDate back to requested date.
       value:
         permissionType: medicalRecord
         subType: current
@@ -854,7 +855,7 @@ components:
         message: Request received to move effective date to date.
         createdDateTime: "2022-11-01T00:00:00+00:00"
     ResponseRequestPending:
-      summary: Request for full access to prescriptions service
+      summary: Request for full access to prescriptions service.
       value:
         permissionType: prescriptions
         accessLevel: full
@@ -863,7 +864,7 @@ components:
           Request received for full access to prescriptions service.
         createdDateTime: "2022-11-01T00:00:00+00:00"
     ResponseRequestRejected:
-      summary: Request rejected for full access to appointments service
+      summary: Request rejected for full access to appointments service.
       value:
         permissionType: prescriptions
         accessLevel: full
@@ -874,23 +875,23 @@ components:
         createdDateTime: "2022-11-01T00:00:00+00:00"
     RequestBodyDocumentAccess:
       summary: |
-        Request documents access for medical record historical effective date
+        Request documents access for medical record historical effective date.
       value:
         permissionType: medicalRecord
         subType: historical
         accessLevel: documents
     RequestBodyDateChange:
-      summary: Request effective date is set to date
+      summary: Request effective date is set to date.
       value:
         permissionType: medicalRecord
         effectiveDate: "2022-11-01"
     RequestBodyBookAppointments:
-      summary: Request book access to appointments service
+      summary: Request book access to appointments service.
       value:
         permissionType: appointments
         accessLevel: book
     RequestBodyFullPrescriptions:
-      summary: Request full access to prescriptions service
+      summary: Request full access to prescriptions service.
       value:
         permissionType: prescriptions
         accessLevel: full
