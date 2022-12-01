@@ -1,0 +1,4 @@
+summary: Request effective date is set to date.
+value:
+  permissionType: medicalRecord
+  effectiveDate: "2022-11-01"

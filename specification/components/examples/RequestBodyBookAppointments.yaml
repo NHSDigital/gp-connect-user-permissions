@@ -1,0 +1,4 @@
+summary: Request book access to appointments service.
+value:
+  permissionType: appointments
+  accessLevel: book

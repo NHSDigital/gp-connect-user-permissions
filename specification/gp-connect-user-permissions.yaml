@@ -429,189 +429,34 @@ components:
       $ref: "components/schemas/ErrorResponse.yaml"
 
   examples:
-    ResponseFullPermissions:
-      summary: Full permissions to medical record and services.
-      value:
-        medicalRecord:
-          effectiveDate: "2022-11-01"
-          current:
-            accessLevel: full
-            accessLevelMax: full
-          historical:
-            accessLevel: summary
-            accessLevelMax: documents
-        appointments:
-          accessLevel: view
-          accessLevelMax: full
-        prescriptions:
-          accessLevel: order
-          accessLevelMax: full
-    ResponsePendingRequestForDocumentsAccess:
-      summary: Pending request to get documents access to historical record.
-      value:
-        medicalRecord:
-          effectiveDate: "2022-11-01"
-          current:
-            accessLevel: full
-            accessLevelMax: full
-          historical:
-            accessLevel: summary
-            accessLevelMax: documents
-        appointments:
-          accessLevel: book
-          accessLevelMax: book
-        prescriptions:
-          accessLevel: view
-          accessLevelMax: order
-        requests:
-          - status: pending
-            createdDateTime: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: documents
-            permissionType: medicalRecord
-    ResponsePendingRequestForFullAccessAppointments:
-      summary: Pending request for full access to appointments.
-      value:
-        medicalRecord:
-          effectiveDate: "2022-11-01"
-          current:
-            accessLevel: full
-            accessLevelMax: full
-          historical:
-            accessLevel: summary
-            accessLevelMax: detailed
-        appointments:
-          accessLevel: view
-          accessLevelMax: book
-        prescriptions:
-          accessLevel: view
-          accessLevelMax: order
-        requests:
-          - status: pending
-            createdDateTime: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: full
-            permissionType: appointments
-    ResponseMultiplePendingRequests:
-      summary: Multiple pending requests.
-      value:
-        medicalRecord:
-          effectiveDate: "2022-11-01"
-          current:
-            accessLevel: full
-            accessLevelMax: full
-          historical:
-            accessLevel: summary
-            accessLevelMax: detailed
-        appointments:
-          accessLevel: view
-          accessLevelMax: book
-        prescriptions:
-          accessLevel: view
-          accessLevelMax: order
-        requests:
-          - status: pending
-            createdDateTime: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: book
-            permissionType: appointments
-          - status: pending
-            createdDateTime: "2022-10-31T23:59:59+00:00"
-            message: Requires review by a healthcare worker.
-            accessLevel: detailed
-            permissionType: medicalRecord
-            subType: historical
-    ResponseRequestForDocumentsAccess:
-      summary: |
-        Request for documents access for historical permissions that is
-        pending.
-      value:
-        permissionType: medicalRecord
-        subType: historical
-        accessLevel: documents
-        status: pending
-        message: >-
-          Request accepted to update access historical effective
-          date to documents.
-        createdDateTime: "2022-11-01T00:00:00+00:00"
-    ResponseRequestToMoveDate:
-      summary: Request to move effectiveDate back to requested date.
-      value:
-        permissionType: medicalRecord
-        subType: current
-        accessLevel: full
-        effectiveDate: "2021-11-01"
-        status: pending
-        message: Request received to move effective date to date.
-        createdDateTime: "2022-11-01T00:00:00+00:00"
-    ResponseRequestPending:
-      summary: Request for full access to prescriptions service.
-      value:
-        permissionType: prescriptions
-        accessLevel: full
-        status: pending
-        message: >-
-          Request received for full access to prescriptions service.
-        createdDateTime: "2022-11-01T00:00:00+00:00"
-    ResponseRequestRejected:
-      summary: Request rejected for full access to appointments service.
-      value:
-        permissionType: prescriptions
-        accessLevel: full
-        status: rejected
-        message: >-
-          Request received for full access to prescriptions
-          service.
-        createdDateTime: "2022-11-01T00:00:00+00:00"
-    RequestBodyDocumentAccess:
-      summary: |
-        Request documents access for medical record historical effective date.
-      value:
-        permissionType: medicalRecord
-        subType: historical
-        accessLevel: documents
-    RequestBodyDateChange:
-      summary: Request effective date is set to date.
-      value:
-        permissionType: medicalRecord
-        effectiveDate: "2022-11-01"
-    RequestBodyBookAppointments:
-      summary: Request book access to appointments service.
-      value:
-        permissionType: appointments
-        accessLevel: book
-    RequestBodyFullPrescriptions:
-      summary: Request full access to prescriptions service.
-      value:
-        permissionType: prescriptions
-        accessLevel: full
     InvalidRequestError:
-      summary: Invalid request error response.
-      value:
-        resourceType: OperationOutcome
-        meta:
-          lastUpdated: "2021-04-14T11:35:00+00:00"
-        issue:
-          - severity: error
-            code: value
-            details:
-              coding:
-                - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
-                  version: "1"
-                  code: INVALID_VALUE
-                  display: Provided value is invalid.
-              diagnostics: (invalid_request) firstName is missing.
-              expression:
-                - /data/attributes/firstName
+      $ref: "components/examples/InvalidRequestError.yaml"
     MinimalErrorResponse:
-      summary: Error response with only the required fields.
-      value:
-        resourceType: OperationOutcome
-        meta:
-          lastUpdated: "2022-11-15T11:10:00+00:00"
-        issue:
-          - severity: error
-            code: expired
+      $ref: "components/examples/MinimalErrorResponse.yaml"
+    ResponseFullPermissions:
+      $ref: "components/examples/ResponseFullPermissions.yaml"
+    ResponsePendingRequestForDocumentsAccess:
+      $ref: "components/examples/ResponsePendingRequestForDocumentsAccess.yaml"
+    ResponsePendingRequestForFullAccessAppointments:
+      $ref: "components/examples/ResponsePendingRequestForFullAccessAppointments.yaml"
+    ResponseMultiplePendingRequests:
+      $ref: "components/examples/ResponseMultiplePendingRequests.yaml"
+    ResponseRequestForDocumentsAccess:
+      $ref: "components/examples/ResponseRequestForDocumentsAccess.yaml"
+    ResponseRequestToMoveDate:
+      $ref: "components/examples/ResponseRequestToMoveDate.yaml"
+    ResponseRequestPending:
+      $ref: "components/examples/ResponseRequestPending.yaml"
+    ResponseRequestRejected:
+      $ref: "components/examples/ResponseRequestRejected.yaml"
+    RequestBodyDocumentAccess:
+      $ref: "components/examples/RequestBodyDocumentAccess.yaml"
+    RequestBodyDateChange:
+      $ref: "components/examples/RequestBodyDateChange.yaml"
+    RequestBodyBookAppointments:
+      $ref: "components/examples/RequestBodyBookAppointments.yaml"
+    RequestBodyFullPrescriptions:
+      $ref: "components/examples/RequestBodyFullPrescriptions.yaml"
 
   requestBodies:
     UpdatePermission:
