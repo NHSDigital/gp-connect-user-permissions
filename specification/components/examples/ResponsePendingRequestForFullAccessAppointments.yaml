@@ -1,4 +1,6 @@
-summary: Pending request for full access to appointments.
+summary: |
+  Patient has a pending request where they requested `full` access to the
+  appointments service.
 value:
   medicalRecord:
     effectiveDate: "2022-11-01"

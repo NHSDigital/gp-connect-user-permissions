@@ -1,9 +1,7 @@
 summary: Request to move effectiveDate back to requested date.
 value:
   permissionType: medicalRecord
-  subType: current
-  accessLevel: full
   effectiveDate: "2021-11-01"
   status: pending
-  message: Request received to move effective date to date.
+  message: Request received to move effective date to new date.
   createdDateTime: "2022-11-01T00:00:00+00:00"

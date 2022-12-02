@@ -1,4 +1,7 @@
-summary: Request effective date is set to date.
+summary: |
+  Request a change to `effectiveDate`.
+  This has the effect of moving the date at which the current level of access a
+  patient has to new date. The date must be before the current effectiveDate.
 value:
   permissionType: medicalRecord
-  effectiveDate: "2022-11-01"
+  effectiveDate: "2021-11-01"

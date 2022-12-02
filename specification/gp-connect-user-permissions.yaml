@@ -11,8 +11,8 @@ info:
   description: |
     ## Overview
 
-    Use this API to manage a patient's permissions to access the medical
-    record and services they can access at their GP practice.
+    Use this API to list and manage the permissions a patient has to the medical
+    record and a selection of services provided at their GP practice.
 
     You can:
 
@@ -192,10 +192,13 @@ paths:
         - Patient Permissions
       summary: GET a patient's permissions
       description: |
-        Get a patient's permissions to access the medical record and services
-        they can access at their GP practice.
+        Get a patient's permissions. The permissions describe the access levels
+        the patient has to the medical record and a selection of services
+        provided at their GP practice.
+
         Returns an object which includes information about the
-        permissions they have to the medical record and services.
+        current and historical permissions to the medical record and
+        the current permissions to appointment and prescription services.
       responses:
         200:
           description: Successful response
@@ -275,12 +278,12 @@ paths:
               examples:
                 ResponseRequestForDocumentsAccess:
                   $ref: "#/components/examples/ResponseRequestForDocumentsAccess"
-                ResponseRequestToMoveDate:
-                  $ref: "#/components/examples/ResponseRequestToMoveDate"
                 ResponseRequestPending:
                   $ref: "#/components/examples/ResponseRequestPending"
                 ResponseRequestRejected:
                   $ref: "#/components/examples/ResponseRequestRejected"
+                ResponseRequestToMoveDate:
+                  $ref: "#/components/examples/ResponseRequestToMoveDate"
         4XX:
           description: |
             An error occurred as follows:
