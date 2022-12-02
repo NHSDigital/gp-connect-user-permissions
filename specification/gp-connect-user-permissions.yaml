@@ -175,10 +175,6 @@ servers:
   - url: https://sandbox.api.service.nhs.uk/gp-connect/permissions
     description: Sandbox environment
 
-tags:
-  - name: Patient Permissions
-    description: Patient permissions operations
-
 paths:
   /Patient/{id}:
     parameters:
@@ -188,9 +184,7 @@ paths:
       - $ref: "#/components/parameters/RequestID"
     get:
       operationId: getPatientPermissions
-      tags:
-        - Patient Permissions
-      summary: GET a patient's permissions
+      summary: Get a patient's permissions
       description: |
         ## Overview
 
@@ -269,8 +263,6 @@ paths:
                   $ref: "#/components/examples/MinimalErrorResponse"
     post:
       operationId: updatePatientPermissions
-      tags:
-        - Patient Permissions
       summary: Request a change to a permission
       description: |
         ## Overview
