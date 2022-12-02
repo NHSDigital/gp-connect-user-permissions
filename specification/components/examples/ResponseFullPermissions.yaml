@@ -1,8 +1,8 @@
 summary: |
   Patient has full permission to the current medical record, the current
   medical record starts from the `effectiveDate` (1/11/2022). Access to
-  historical medical record is currently set to `summary` and limited to
-  `detailed` (detailed coded).
+  historical medical record is currently set to `summary` and the maximum
+  allowable level is `detailed` (detailed coded).
   Access to appointments and prescriptions services is set to `book` and
   `order`, respectively. The maximum allowed permission for each service is
   `full` access.
