@@ -1,5 +1,5 @@
 summary: |
-  Request documents access for medical record historical effective date.
+  Request documents access for historical medical record.
 value:
   permissionType: medicalRecord
   subType: historical

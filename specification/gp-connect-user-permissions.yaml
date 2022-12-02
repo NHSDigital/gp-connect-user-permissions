@@ -11,8 +11,8 @@ info:
   description: |
     ## Overview
 
-    Use this API to manage a patient's permissions to access the medical
-    record and services they can access at their GP practice.
+    Use this API to list and manage the permissions a patient has to the medical
+    record and a selection of services provided at their GP practice.
 
     You can:
 
@@ -62,9 +62,14 @@ info:
     The GP Connect suite of patient facing service (PFS) APIs include the
     following related APIs:
 
-    - [GP Connect appointment management FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir) - manage GP practice appointments between different systems.
-    - GP Connect access record API - retrieve a patient's medical record from the GP practice systems.
-    - GP Connect prescriptions management API - manage a patient's prescriptions as held by the GP practice systems.
+    - [GP Connect (1st Generation) Access Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-document-fhir) - retrieve unstructured documents from a patient's GP practice record.
+    - [GP Connect (1st Generation) Access Record: HTML - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-html-fhir) - view a patient's GP practice record, with read-only access.
+    - [GP Connect (1st Generation) Access Record: Structured - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-structured-fhir) - retrieve structured information from a patient's GP practice record.
+    - [GP Connect (1st Generation) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir) - manage GP practice appointments between different systems.
+    - [GP Connect (1st Generation) Send Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-send-document-fhir) - send a PDF consultation summary to a registered GP practice.
+    - [GP Connect (2nd Generation) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-access-record-fhir) - access a patient's GP records with the GP Connect (2nd Generation) Access Record - FHIR API.
+    - [GP Connect (2nd Generation) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-appointment-management-fhir) - manage a patient's GP appointments using the GP Connect (2nd Generation) Appointment Management - FHIR API.
+    - [GP Connect (2nd Generation) Prescriptions - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-prescriptions-fhir) - manage a patient's prescriptions using the GP Connect (2nd Generation) Prescriptions - FHIR API.
 
     ## API status and roadmap
 
@@ -187,10 +192,13 @@ paths:
         - Patient Permissions
       summary: GET a patient's permissions
       description: |
-        Get a patient's permissions to access the medical record and services
-        they can access at their GP practice.
+        Get a patient's permissions. The permissions describe the access levels
+        the patient has to the medical record and a selection of services
+        provided at their GP practice.
+
         Returns an object which includes information about the
-        permissions they have to the medical record and services.
+        current and historical permissions to the medical record and
+        the current permissions to appointment and prescription services.
       responses:
         200:
           description: Successful response
@@ -270,12 +278,12 @@ paths:
               examples:
                 ResponseRequestForDocumentsAccess:
                   $ref: "#/components/examples/ResponseRequestForDocumentsAccess"
-                ResponseRequestToMoveDate:
-                  $ref: "#/components/examples/ResponseRequestToMoveDate"
                 ResponseRequestPending:
                   $ref: "#/components/examples/ResponseRequestPending"
                 ResponseRequestRejected:
                   $ref: "#/components/examples/ResponseRequestRejected"
+                ResponseRequestToMoveDate:
+                  $ref: "#/components/examples/ResponseRequestToMoveDate"
         4XX:
           description: |
             An error occurred as follows:

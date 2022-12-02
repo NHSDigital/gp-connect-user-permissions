@@ -1,10 +1,11 @@
 summary: |
-  Request for documents access for historical permissions that is pending.
+  A response from a request where the patient asks for detailed access to the
+  historical medical record. Response indicates the request is pending review.
 value:
   permissionType: medicalRecord
   subType: historical
-  accessLevel: documents
+  accessLevel: detailed
   status: pending
   message: |
-    Request accepted to update access historical effective date to documents.
+    Request accepted to update historical medical record access to documents.
   createdDateTime: "2022-11-01T00:00:00+00:00"
