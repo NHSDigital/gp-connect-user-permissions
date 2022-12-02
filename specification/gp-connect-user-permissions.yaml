@@ -53,14 +53,15 @@ info:
     - is only for non-clinical use
     - can only be used where there is a legal basis to do so
 
-    Make sure you have a valid use case before you go too far with your development. To do this, contact us.
+    Make sure you have a valid use case before you go too far with your
+    development. To do this, [contact us](https://digital.nhs.uk/developer/help-and-support).
 
-    You must do this before you can go live (see `Onboarding` below).
+    You must do this before you can go live (see
+    [Onboarding](#api-description__onboarding) below).
 
     ## Related APIs
 
-    The GP Connect suite of patient facing service (PFS) APIs include the
-    following related APIs:
+    The GP Connect suite of APIs include the following related APIs:
 
     - [GP Connect (1st Generation) Access Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-document-fhir) - retrieve unstructured documents from a patient's GP practice record.
     - [GP Connect (1st Generation) Access Record: HTML - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-html-fhir) - view a patient's GP practice record, with read-only access.
@@ -81,7 +82,8 @@ info:
 
     To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/341390/gp-connect-user-permissions).
 
-    If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
+    If you have any other queries,
+    [contact us](https://digital.nhs.uk/developer/help-and-support).
 
     ## Service level
 
@@ -93,11 +95,13 @@ info:
 
     ## Technology
 
-    This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest)
+    This API is
+    [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
 
     ## Network access
 
-    This API is available on the internet.
+    This API is available on the internet and, indirectly, on the
+    [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network).
 
     For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
