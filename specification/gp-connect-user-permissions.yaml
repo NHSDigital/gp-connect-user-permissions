@@ -242,8 +242,8 @@ paths:
               examples:
                 ResponseFullPermissions:
                   $ref: "#/components/examples/ResponseFullPermissions"
-                ResponsePendingRequestForDocumentsAccess:
-                  $ref: "#/components/examples/ResponsePendingRequestForDocumentsAccess"
+                ResponsePendingRequestForDetailedAccess:
+                  $ref: "#/components/examples/ResponsePendingRequestForDetailedAccess"
                 ResponsePendingRequestForFullAcecssAppointments:
                   $ref: "#/components/examples/ResponsePendingRequestForFullAccessAppointments"
                 ResponseMultiplePendingRequests:
@@ -323,8 +323,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                ResponseRequestForHistoricalDetailedCodedAccess:
-                  $ref: "#/components/examples/ResponseRequestForHistoricalDetailedCodedAccess"
+                ResponsePendingRequestForHistoricalDetailedCodedAccess:
+                  $ref: "#/components/examples/ResponsePendingRequestForHistoricalDetailedCodedAccess"
                 ResponseRequestPending:
                   $ref: "#/components/examples/ResponseRequestPending"
                 ResponseRequestRejected:
@@ -442,20 +442,20 @@ components:
       $ref: "components/examples/ResponseFullPermissions.yaml"
     ResponseMultiplePendingRequests:
       $ref: "components/examples/ResponseMultiplePendingRequests.yaml"
-    ResponsePendingRequestForDocumentsAccess:
-      $ref: "components/examples/ResponsePendingRequestForDocumentsAccess.yaml"
+    ResponsePendingRequestForDetailedAccess:
+      $ref: "components/examples/ResponsePendingRequestForDetailedAccess.yaml"
     ResponsePendingRequestForFullAccessAppointments:
       $ref: "components/examples/ResponsePendingRequestForFullAccessAppointments.yaml"
-    ResponseRequestForHistoricalDetailedCodedAccess:
-      $ref: "components/examples/ResponseRequestForHistoricalDetailedCodedAccess.yaml"
+    ResponsePendingRequestForHistoricalDetailedCodedAccess:
+      $ref: "components/examples/ResponsePendingRequestForHistoricalDetailedCodedAccess.yaml"
     ResponseRequestPending:
       $ref: "components/examples/ResponseRequestPending.yaml"
     ResponseRequestRejected:
       $ref: "components/examples/ResponseRequestRejected.yaml"
     RequestBodyBookAppointments:
       $ref: "components/examples/RequestBodyBookAppointments.yaml"
-    RequestBodyDocumentAccess:
-      $ref: "components/examples/RequestBodyDocumentAccess.yaml"
+    RequestBodyHistoricalDetailedAccess:
+      $ref: "components/examples/RequestBodyHistoricalDetailedAccess.yaml"
     RequestBodyFullPrescriptions:
       $ref: "components/examples/RequestBodyFullPrescriptions.yaml"
 

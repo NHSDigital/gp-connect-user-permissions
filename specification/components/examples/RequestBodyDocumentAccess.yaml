@@ -1,6 +1,0 @@
-summary: |
-  Request documents access for historical medical record.
-value:
-  permissionType: medicalRecord
-  medicalRecordType: historical
-  accessLevel: documents
