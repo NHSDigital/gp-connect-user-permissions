@@ -192,32 +192,40 @@ paths:
       description: |
         ## Overview
 
-        Get a patient's permissions. The permissions describe the access levels
-        the patient has to their medical record and a selection of services
-        provided at their GP practice.
+        Get a patient's permissions. The permissions describe the level of
+        access the patient has to their medical record, the appointments
+        service and the prescriptions service provided at their GP practice.
 
-        Returns information about the current and historical permissions to
-        their medical record and the current permissions to appointment and
-        prescription services.
+        The medical record permission includes the access level the patient
+        has to both their current and their historical medical record.
+        The appointments and prescriptions service permissions are the access
+        level the patient has to them now.
 
-        This endpoint has two main use cases:
+        Use cases covered by this endpoint include:
 
-        * to build UIs so only the functionality the patient has access to is
-          displayed
-        * present the permissions to the patient so they can request changes
+        * building a UI so only the elements the patient has access to are
+          available
+        * presenting permissions to the patient so they can see what they do
+          and do not have access to
+        * presenting permissions to the patient so they can request additional
+          permissions
 
         Each permission has two properties, an `accessLevel` and an
-        `accessLevelMax`. The former describes the current level of permission
-        the patient has and the latter describes the maximum level of
-        permission they may make a request for. For example, a patient might
-        have `summary` access to their historical medical record but they could
-        make a request for `detailed`, if this is what `accessLevelMax`
-        returned.
+        `accessLevelMax`.
+
+        `accessLevel` describes the current level of permission
+        the patient has.
+
+        `accessLevelMax` describes the maximum level of permission the patient
+        may request. For example, if a patient has an `accessLevel` of
+        `summary` and an `accessLevelMax` of `detailed` for their current
+        medical record they could make a request to increase their level of
+        access to `detailed` but not `documents` or `full`.
 
         The `requests` property contains information about any `pending`
         requests. This information can be used to communicate messages to the
         patient about the state of their requests. Any requests that have been
-        previsouly made and processed are not included and the those changes
+        previsouly made and processed will not be listed as those changes
         will be in evidence in the permission data.
       responses:
         200:
@@ -264,22 +272,41 @@ paths:
 
         Request a change to the permission a patient has for their medical
         record or services provided by the GP practice.
-        When a request is submitted the response will include the status of the
-        request. The status will be either `pending` or `rejected`. Most
-        requests will return `pending` with `rejected` only used for reqeusts
-        that should not have been sent in the first instance.
 
-        The GP system will add each request to a workflow so it can be
-        processed at a future time. When exactly this will happen is
-        unknown at the time of the request.
+        Use cases covered by this endpoint include the patient requesting:
 
-        There is no notification mechanism to know when the request has been
-        processed. In order to find out information about requests,
+        * additional access to the appointments
+        * additional access to the prescriptions
+        * additional access to their current medical record
+        * detailed coded record access to their historical medical record
+
+        For every request made, the response will include `createdDateTime`
+        (when it was created), a `message` (pertaining to the request) and the
+        `status` of the request. The status is either `pending` or `rejected`.
+
+        The `message` is information that should be displayed to the patient to
+        help them understand that the request has been received and will be
+        processed at some point in the future.
+
+        When a response has a status of `pending` it has been added to the GP
+        system's workflow. The request will be processed at some point in the
+        future.
+
+        Any requests that are `pending` are listed in `requests` on the
+        response to
         [Get a patient's permissions](#api-PatientPermissions-getPatientPermissions).
-        Pending requests will be listed in `requests` and completed requests
-        will be in evidence in the permission data.
 
-        Duplicate requests will be deduplicated by the GP system.
+        When a `pending` request is completed it will no longer be listed in
+        `requests`. The change to the permission be in evidence when
+        calling
+        [Get a patient's permissions](#api-PatientPermissions-getPatientPermissions).
+
+        Any requests that are `rejected` have not been added to the GP system's
+        workflow. The message returned in a `rejected` response will explain
+        the reason for the rejection. This should be displayed to the patient.
+
+        If a request is deemed to be a duplicate, it will be deduplicated by
+        the GP system, with the original request being preserved.
       requestBody:
         $ref: "#/components/requestBodies/UpdatePermission"
       responses:
