@@ -3,7 +3,7 @@ description: |
   Object containing information about the request to update the
   permission to the medical record.
 required:
-  - id
+  - permissionType
 properties:
   permissionType:
     $ref: "MedicalRecordPermissionTypeEnum.yaml"

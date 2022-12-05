@@ -3,7 +3,7 @@ description: |
   Object containing the `accessLevel` to update the appointments service
   to.
 required:
-  - id
+  - permissionType
   - accessLevel
 properties:
   permissionType:
