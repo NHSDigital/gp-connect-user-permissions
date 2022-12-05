@@ -247,15 +247,6 @@ paths:
             | HTTP status | Error code             | Description                                                                                                                               |
             | ----------- | ----------             | -----------                                                                                                                               |
             | 400         | INVALID_RESOURCE_ID    | Invalid NHS number.                                                                                                                       |
-            | 400         | UNSUPPORTED_SERVICE    | Missing NHS number.                                                                                                                       |
-            | 400         | MISSING_VALUE          | Missing header parameter. For details, see the `diagnostics` field.                                                                       |
-            | 400         | INVALID_VALUE          | Invalid header parameter. For details, see the `diagnostics` field.                                                                       |
-            | 401         | ACCESS_DENIED          | Access token missing, invalid or expired, or calling application not configured for this operation.                                       |
-            | 403         | ACCESS_DENIED          | Patient cannot perform this action.                                                                                                       |
-            | 404         | RESOURCE_NOT_FOUND     | Patient does not exist for given NHS number.                                                                                              |
-            | 404         | INVALIDATED_RESOURCE   | Patient did exist for given NHS number, but has been invalidated and not superseded by another NHS number.                                |
-            | 408         | UNABLE_TO_CALL_SERVICE | The downstream domain processing has not completed within the configured timeout period.                                                  |
-            | 429         | TOO_MANY_REQUESTS      | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
               schema:
@@ -319,21 +310,12 @@ paths:
             | HTTP status | Error code                      | Description                                                                                                                                                              |
             | ----------- | ----------                      | -----------                                                                                                                                                              |
             | 400         | INVALID_RESOURCE_ID             | Invalid NHS number.                                                                                                                                                      |
-            | 400         | UNSUPPORTED_SERVICE             | Missing NHS number.                                                                                                                                                      |
-            | 400         | MISSING_VALUE                   | Missing header parameter. For details, see the `diagnostics` field.                                                                                                      |
-            | 400         | INVALID_VALUE                   | Invalid header parameter. For details, see the `diagnostics` field.                                                                                                      |
             | 400         | INVALID_UPDATE                  | Malformed request.                                                                                                                                                       |
             | 400         | VALIDATION_ERROR                | This is the "default" error thrown when no others are applicable.                                                                                                        |
             | 400         | UNSUPPORTED_CHARACTERS_IN_FIELD | Invalid value in body of patch request. For details, see the `diagnostics` field.                                                                                        |
             | 400         | ADDITIONAL_PROPERTIES           | The user sent additional properties within the dictionary.                                                                                                               |
             | 400         | UNSUPPORTED_VALUE               | There was an unsupported value in the request. For example sending a request and attempting to set a permission for an unknown permission type such as `communications`. |
-            | 401         | ACCESS_DENIED                   | Access token missing, invalid or expired, or calling application not configured for this operation.                                                                      |
             | 403         | FORBIDDEN_UPDATE                | The user is not permitted to make certain requests. For example, no user can request access beyond the level of access denoted by `accessLevelMax`.                      |
-            | 403         | ACCESS_DENIED                   | Patient cannot perform this action.                                                                                                                                      |
-            | 404         | RESOURCE_NOT_FOUND              | Patient does not exist for given NHS number.                                                                                                                             |
-            | 404         | INVALIDATED_RESOURCE            | Patient did exist for given NHS number, but has been invalidated and not superseded by another NHS number.                                                               |
-            | 408         | UNABLE_TO_CALL_SERVICE          | The downstream domain processing has not completed within the configured timeout period.                                                                                 |
-            | 429         | TOO_MANY_REQUESTS               | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits).                                |
           content:
             application/fhir+json:
               schema:
