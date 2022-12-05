@@ -21,8 +21,6 @@ content:
     examples:
       RequestBodyDocumentAccess:
         $ref: "../examples/RequestBodyDocumentAccess.yaml"
-      RequestBodyDateChange:
-        $ref: "../examples/RequestBodyDateChange.yaml"
       RequestBodyBookAppointments:
         $ref: "../examples/RequestBodyBookAppointments.yaml"
       RequestBodyFullPrescriptions:

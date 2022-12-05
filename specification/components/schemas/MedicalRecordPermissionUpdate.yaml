@@ -11,10 +11,3 @@ properties:
     $ref: "MedicalRecordAccessLevelEnum.yaml"
   type:
     $ref: "MedicalRecordPermissionSubTypeEnum.yaml"
-  effectiveDate:
-    type: string
-    description: |
-      The date to move the `effectiveDate` of the current permissions to.
-      The date must be before the patient's current effectiveDate.
-    format: date
-    example: "2022-11-01"

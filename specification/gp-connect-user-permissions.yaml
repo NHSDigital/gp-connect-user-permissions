@@ -328,8 +328,6 @@ paths:
                   $ref: "#/components/examples/ResponseRequestPending"
                 ResponseRequestRejected:
                   $ref: "#/components/examples/ResponseRequestRejected"
-                ResponseRequestToMoveDate:
-                  $ref: "#/components/examples/ResponseRequestToMoveDate"
         4XX:
           description: |
             An error occurred as follows:
@@ -453,12 +451,8 @@ components:
       $ref: "components/examples/ResponseRequestPending.yaml"
     ResponseRequestRejected:
       $ref: "components/examples/ResponseRequestRejected.yaml"
-    ResponseRequestToMoveDate:
-      $ref: "components/examples/ResponseRequestToMoveDate.yaml"
     RequestBodyBookAppointments:
       $ref: "components/examples/RequestBodyBookAppointments.yaml"
-    RequestBodyDateChange:
-      $ref: "components/examples/RequestBodyDateChange.yaml"
     RequestBodyDocumentAccess:
       $ref: "components/examples/RequestBodyDocumentAccess.yaml"
     RequestBodyFullPrescriptions:
