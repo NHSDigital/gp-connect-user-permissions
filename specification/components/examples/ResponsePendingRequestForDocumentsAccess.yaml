@@ -1,6 +1,6 @@
 summary: |
-  Patient has a pending request where they requested access to `documents` for
-  the historical medical record.
+  The patient has a pending request where they requested access to `documents`
+  for the historical medical record.
 value:
   medicalRecord:
     effectiveDate: "2022-11-01"

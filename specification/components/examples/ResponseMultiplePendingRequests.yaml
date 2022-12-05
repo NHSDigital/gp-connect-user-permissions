@@ -1,5 +1,5 @@
 summary: |
-  Patient has multiple pending requests. The first request is to get `book`
+  The patient has multiple pending requests. The first request is to get `book`
   permissions for the `appointments` service. The second request is to get
   `detailed` permissions to the historical medical record.
 value:
