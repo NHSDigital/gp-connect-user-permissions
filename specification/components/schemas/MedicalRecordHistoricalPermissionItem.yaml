@@ -3,6 +3,7 @@ description: |
   An object representing the level of permission a patient has to the
   historical medical record along with the maximum level of access that
   could be requested.
+
   The historical medical record is anything before the `effectiveDate`.
 required:
   - accessLevel
