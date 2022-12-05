@@ -1,5 +1,5 @@
 type: string
-description: The type of the permission.
+description: The type of the medical record permission.
 enum:
   - current
   - historical

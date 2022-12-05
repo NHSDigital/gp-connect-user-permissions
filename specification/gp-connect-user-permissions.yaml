@@ -323,8 +323,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                ResponseRequestForDocumentsAccess:
-                  $ref: "#/components/examples/ResponseRequestForDocumentsAccess"
+                ResponseRequestForHistoricalDetailedCodedAccess:
+                  $ref: "#/components/examples/ResponseRequestForHistoricalDetailedCodedAccess"
                 ResponseRequestPending:
                   $ref: "#/components/examples/ResponseRequestPending"
                 ResponseRequestRejected:
@@ -404,14 +404,14 @@ components:
       $ref: "components/schemas/MedicalRecordPermission.yaml"
     MedicalRecordPermissionRequest:
       $ref: "components/schemas/MedicalRecordPermissionRequest.yaml"
-    MedicalRecordPermissionSubTypeEnum:
-      $ref: "components/schemas/MedicalRecordPermissionSubTypeEnum.yaml"
     MedicalRecordPermissionTypeEnum:
       $ref: "components/schemas/MedicalRecordPermissionTypeEnum.yaml"
     MedicalRecordPermissionUpdate:
       $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
     MedicalRecordPermissionUpdateResponse:
       $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
+    MedicalRecordTypeEnum:
+      $ref: "components/schemas/MedicalRecordTypeEnum.yaml"
     PatientPermission:
       $ref: "components/schemas/PatientPermission.yaml"
     PermissionUpdateResponse:
@@ -446,8 +446,8 @@ components:
       $ref: "components/examples/ResponsePendingRequestForDocumentsAccess.yaml"
     ResponsePendingRequestForFullAccessAppointments:
       $ref: "components/examples/ResponsePendingRequestForFullAccessAppointments.yaml"
-    ResponseRequestForDocumentsAccess:
-      $ref: "components/examples/ResponseRequestForDocumentsAccess.yaml"
+    ResponseRequestForHistoricalDetailedCodedAccess:
+      $ref: "components/examples/ResponseRequestForHistoricalDetailedCodedAccess.yaml"
     ResponseRequestPending:
       $ref: "components/examples/ResponseRequestPending.yaml"
     ResponseRequestRejected:

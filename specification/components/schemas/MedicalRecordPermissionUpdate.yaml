@@ -4,10 +4,12 @@ description: |
   permission to the medical record.
 required:
   - permissionType
+  - accessLevel
+  - medicalRecordType
 properties:
   permissionType:
     $ref: "MedicalRecordPermissionTypeEnum.yaml"
   accessLevel:
     $ref: "MedicalRecordAccessLevelEnum.yaml"
-  type:
-    $ref: "MedicalRecordPermissionSubTypeEnum.yaml"
+  medicalRecordType:
+    $ref: "MedicalRecordTypeEnum.yaml"

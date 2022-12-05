@@ -5,8 +5,8 @@ description: |
 allOf:
   - type: object
     required:
+      - permissionType
       - accessLevel
-      - id
     properties:
       permissionType:
         $ref: "AppointmentsPermissionTypeEnum.yaml"

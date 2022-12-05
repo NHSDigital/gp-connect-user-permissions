@@ -22,4 +22,4 @@ value:
       message: Requires review by a healthcare worker.
       accessLevel: documents
       permissionType: medicalRecord
-      subType: historical
+      medicalRecordType: historical

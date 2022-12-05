@@ -3,7 +3,7 @@ summary: |
   historical medical record. Response indicates the request is pending review.
 value:
   permissionType: medicalRecord
-  subType: historical
+  medicalRecordType: historical
   accessLevel: detailed
   status: pending
   message: |

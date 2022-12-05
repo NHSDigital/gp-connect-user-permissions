@@ -21,11 +21,11 @@ value:
     - status: pending
       createdDateTime: "2022-10-29T23:59:59+00:00"
       message: Requires review by a healthcare worker.
-      accessLevel: book
       permissionType: appointments
+      accessLevel: book
     - status: pending
       createdDateTime: "2022-10-31T23:59:59+00:00"
       message: Requires review by a healthcare worker.
-      accessLevel: detailed
       permissionType: medicalRecord
-      subType: historical
+      medicalRecordType: historical
+      accessLevel: detailed
