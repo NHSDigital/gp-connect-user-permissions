@@ -281,8 +281,9 @@ paths:
         * detailed coded record access to their historical medical record
 
         For every request made, the response will include `createdDateTime`
-        (when it was created), a `message` (pertaining to the request) and the
-        `status` of the request. The status is either `pending` or `rejected`.
+        (when it was created), a `message` (pertaining to the request), the
+        `status` of the request (status is either `pending` or `rejected`) and
+        information specific to the request.
 
         The `message` is information that should be displayed to the patient to
         help them understand that the request has been received and will be
