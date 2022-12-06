@@ -292,7 +292,7 @@ paths:
         system's workflow. The request will be processed at some point in the
         future.
 
-        Any requests that are `pending` will be avilable when calling
+        Any requests that are `pending` will be available when calling
         [Get a patient's permissions](#api-PatientPermissions-getPatientPermissions).
 
         When a `pending` request is completed it will no longer be listed in
