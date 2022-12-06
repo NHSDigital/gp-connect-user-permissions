@@ -219,14 +219,13 @@ paths:
         `accessLevelMax` describes the maximum level of permission the patient
         may request. For example, if a patient has an `accessLevel` of
         `summary` and an `accessLevelMax` of `detailed` for their current
-        medical record they could make a request to increase their level of
+        medical record they can make a request to increase their level of
         access to `detailed` but not `documents` or `full`.
 
         The `requests` property contains information about any `pending`
-        requests. This information can be used to communicate messages to the
-        patient about the state of their requests. Any requests that have been
-        previsouly made and processed will not be listed as those changes
-        will be in evidence in the permission data.
+        requests. This information can be used to inform patients about the
+        state of their requests. Any requests that have been
+        previously processed will not be listed.
       responses:
         200:
           description: Successful response
@@ -240,14 +239,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/PatientPermission"
               examples:
-                ResponseFullPermissions:
-                  $ref: "#/components/examples/ResponseFullPermissions"
-                ResponsePendingRequestForDetailedAccess:
-                  $ref: "#/components/examples/ResponsePendingRequestForDetailedAccess"
-                ResponsePendingRequestForFullAcecssAppointments:
-                  $ref: "#/components/examples/ResponsePendingRequestForFullAccessAppointments"
-                ResponseMultiplePendingRequests:
-                  $ref: "#/components/examples/ResponseMultiplePendingRequests"
+                GetResponsePermissionsFull:
+                  $ref: "#/components/examples/GetResponsePermissionsFull"
+                GetResponsePendingRequestDetailed:
+                  $ref: "#/components/examples/GetResponsePendingRequestDetailed"
+                GetResponsePendingRequestAppointmentsFull:
+                  $ref: "#/components/examples/GetResponsePendingRequestAppointmentsFull"
+                GetResponseMultiplePendingRequests:
+                  $ref: "#/components/examples/GetResponseMultiplePendingRequests"
         4XX:
           description: |
             An error occurred as follows:
@@ -281,7 +280,7 @@ paths:
         * detailed coded record access to their historical medical record
 
         For every request made, the response will include `createdDateTime`
-        (when it was created), a `message` (pertaining to the request), the
+        (when it was created), a `message` (about to the request), the
         `status` of the request (status is either `pending` or `rejected`) and
         information specific to the request.
 
@@ -293,21 +292,23 @@ paths:
         system's workflow. The request will be processed at some point in the
         future.
 
-        Any requests that are `pending` are listed in `requests` on the
-        response to
+        Any requests that are `pending` will be avilable when calling
         [Get a patient's permissions](#api-PatientPermissions-getPatientPermissions).
 
         When a `pending` request is completed it will no longer be listed in
-        `requests`. The change to the permission be in evidence when
-        calling
+        `requests`. Should a change be made to the permission, it will be
+        available when calling
         [Get a patient's permissions](#api-PatientPermissions-getPatientPermissions).
 
         Any requests that are `rejected` have not been added to the GP system's
         workflow. The message returned in a `rejected` response will explain
         the reason for the rejection. This should be displayed to the patient.
 
-        If a request is deemed to be a duplicate, it will be deduplicated by
+        If a request is a duplicate, it will be deduplicated by
         the GP system, with the original request being preserved.
+
+        If multiple requests are made they will be combined and reviewed
+        together by a healthcare worker.
       requestBody:
         $ref: "#/components/requestBodies/UpdatePermission"
       responses:
@@ -323,12 +324,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
-                ResponsePendingRequestForHistoricalDetailedCodedAccess:
-                  $ref: "#/components/examples/ResponsePendingRequestForHistoricalDetailedCodedAccess"
-                ResponseRequestPending:
-                  $ref: "#/components/examples/ResponseRequestPending"
-                ResponseRequestRejected:
-                  $ref: "#/components/examples/ResponseRequestRejected"
+                PostResponsePendingHistoricalDetailed:
+                  $ref: "#/components/examples/PostResponsePendingHistoricalDetailed"
+                PostResponsePendingPrescriptions:
+                  $ref: "#/components/examples/PostResponsePendingPrescriptions"
+                ResponseRequestRejectedAppoint:
+                  $ref: "#/components/examples/ResponseRequestRejectedAppoint"
         4XX:
           description: |
             An error occurred as follows:
@@ -438,26 +439,26 @@ components:
       $ref: "components/examples/InvalidRequestError.yaml"
     MinimalErrorResponse:
       $ref: "components/examples/MinimalErrorResponse.yaml"
-    ResponseFullPermissions:
-      $ref: "components/examples/ResponseFullPermissions.yaml"
-    ResponseMultiplePendingRequests:
-      $ref: "components/examples/ResponseMultiplePendingRequests.yaml"
-    ResponsePendingRequestForDetailedAccess:
-      $ref: "components/examples/ResponsePendingRequestForDetailedAccess.yaml"
-    ResponsePendingRequestForFullAccessAppointments:
-      $ref: "components/examples/ResponsePendingRequestForFullAccessAppointments.yaml"
-    ResponsePendingRequestForHistoricalDetailedCodedAccess:
-      $ref: "components/examples/ResponsePendingRequestForHistoricalDetailedCodedAccess.yaml"
-    ResponseRequestPending:
-      $ref: "components/examples/ResponseRequestPending.yaml"
-    ResponseRequestRejected:
-      $ref: "components/examples/ResponseRequestRejected.yaml"
-    RequestBodyBookAppointments:
-      $ref: "components/examples/RequestBodyBookAppointments.yaml"
-    RequestBodyHistoricalDetailedAccess:
-      $ref: "components/examples/RequestBodyHistoricalDetailedAccess.yaml"
-    RequestBodyFullPrescriptions:
-      $ref: "components/examples/RequestBodyFullPrescriptions.yaml"
+    GetResponsePermissionsFull:
+      $ref: "components/examples/GetResponsePermissionsFull.yaml"
+    GetResponseMultiplePendingRequests:
+      $ref: "components/examples/GetResponseMultiplePendingRequests.yaml"
+    GetResponsePendingRequestDetailed:
+      $ref: "components/examples/GetResponsePendingRequestDetailed.yaml"
+    GetResponsePendingRequestAppointmentsFull:
+      $ref: "components/examples/GetResponsePendingRequestAppointmentsFull.yaml"
+    PostResponsePendingHistoricalDetailed:
+      $ref: "components/examples/PostResponsePendingHistoricalDetailed.yaml"
+    PostResponsePendingPrescriptions:
+      $ref: "components/examples/PostResponsePendingPrescriptions.yaml"
+    ResponseRequestRejectedAppoint:
+      $ref: "components/examples/PostResponseRejectedAppointments.yaml"
+    PostRequestBodyAppointmentsBook:
+      $ref: "components/examples/PostRequestBodyAppointmentsBook.yaml"
+    PostRequestBodyHistoricalDetailed:
+      $ref: "components/examples/PostRequestBodyHistoricalDetailed.yaml"
+    PostRequestBodyPrescriptionsFull:
+      $ref: "components/examples/PostRequestBodyPrescriptionsFull.yaml"
 
   requestBodies:
     UpdatePermission:

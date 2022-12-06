@@ -1,6 +1,6 @@
 type: object
 description: |
-  An object containing information pertaining to any pending
+  An object containing information about to any pending
   requests for changes to the medical record permissions.
 allOf:
   - type: object

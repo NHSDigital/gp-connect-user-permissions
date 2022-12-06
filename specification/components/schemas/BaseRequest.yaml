@@ -1,6 +1,6 @@
 type: object
 description: |
-  An object containing information pertaining to requests to change
+  An object containing information about to requests to change
   permissions.
 required:
   - status
@@ -14,7 +14,7 @@ properties:
     example: "2022-11-01T23:59:59+00:00"
   message:
     type: string
-    description: A message pertaining to the request and its status.
+    description: A message about to the request and its status.
     example: Request requires review by a healthcare worker.
   status:
     type: string
