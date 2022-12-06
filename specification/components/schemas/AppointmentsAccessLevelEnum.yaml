@@ -3,15 +3,13 @@ description: |
   Indicates the level of access the patient has to the appointments
   service.
 
-  | level | description                            |
-  | ----- | -----------                            |
-  | none  | no access                              |
-  | view  | view only                              |
-  | book  | can book appointments                  |
-  | full  | can amend/cancel existing appointments |
+  | level   | description                                    |
+  | -----   | -----------                                    |
+  | none    | no access                                      |
+  | view    | view only                                      |
+  | manage  | can book, amend & cancel existing appointments |
 enum:
   - none
   - view
-  - book
-  - full
+  - manage
 example: book
