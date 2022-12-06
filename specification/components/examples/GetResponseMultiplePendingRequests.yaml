@@ -1,5 +1,5 @@
 summary: |
-  Patient has multiple pending requests. The first request is to get `book`
+  The patient has multiple pending requests. The first request is to get `book`
   permissions for the `appointments` service. The second request is to get
   `detailed` permissions to the historical medical record.
 value:
@@ -21,11 +21,11 @@ value:
     - status: pending
       createdDateTime: "2022-10-29T23:59:59+00:00"
       message: Requires review by a healthcare worker.
-      accessLevel: book
       permissionType: appointments
+      accessLevel: book
     - status: pending
       createdDateTime: "2022-10-31T23:59:59+00:00"
       message: Requires review by a healthcare worker.
-      accessLevel: detailed
       permissionType: medicalRecord
-      subType: historical
+      medicalRecordType: historical
+      accessLevel: detailed

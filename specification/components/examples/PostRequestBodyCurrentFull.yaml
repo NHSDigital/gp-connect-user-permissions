@@ -1,0 +1,5 @@
+summary: Request full access for current medical record.
+value:
+  permissionType: medicalRecord
+  medicalRecordType: current
+  accessLevel: full

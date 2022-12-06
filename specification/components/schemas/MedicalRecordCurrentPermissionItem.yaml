@@ -3,6 +3,7 @@ description: |
   An object representing the level of permission a patient has to the
   current medical record along with the maximum level of access that
   could be requested.
+
   The current medical record is anything at or after the `effectiveDate`.
 required:
   - accessLevel

@@ -1,6 +1,6 @@
 summary: |
-  Patient has a pending request where they requested `full` access to the
-  appointments service.
+  The patient has a pending request where they requested `full` access to the
+  appointments service. It is waiting to be reviewed by a healthcare worker.
 value:
   medicalRecord:
     effectiveDate: "2022-11-01"

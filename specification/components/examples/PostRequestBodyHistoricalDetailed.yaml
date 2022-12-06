@@ -1,0 +1,5 @@
+summary: Request detailed access for historical medical record.
+value:
+  permissionType: medicalRecord
+  medicalRecordType: historical
+  accessLevel: detailed

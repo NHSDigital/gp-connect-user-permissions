@@ -1,18 +1,18 @@
 type: object
 description: |
-  An object containing information pertaining to any pending
+  An object containing information about any pending
   requests for changes to the medical record permissions.
 allOf:
   - type: object
     required:
+      - permissionType
+      - medicalRecordType
       - accessLevel
-      - id
-      - type
     properties:
       permissionType:
         $ref: "MedicalRecordPermissionTypeEnum.yaml"
+      medicalRecordType:
+        $ref: "MedicalRecordTypeEnum.yaml"
       accessLevel:
         $ref: "MedicalRecordAccessLevelEnum.yaml"
-      subType:
-        $ref: "MedicalRecordPermissionSubTypeEnum.yaml"
   - $ref: "BaseRequest.yaml"

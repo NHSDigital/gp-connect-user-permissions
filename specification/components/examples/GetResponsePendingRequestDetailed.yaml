@@ -1,6 +1,6 @@
 summary: |
-  Patient has a pending request where they requested access to `documents` for
-  the historical medical record.
+  The patient has a pending request where they requested access to `detailed`
+  for the historical medical record.
 value:
   medicalRecord:
     effectiveDate: "2022-11-01"
@@ -9,7 +9,7 @@ value:
       accessLevelMax: full
     historical:
       accessLevel: summary
-      accessLevelMax: documents
+      accessLevelMax: detailed
   appointments:
     accessLevel: book
     accessLevelMax: book
@@ -20,6 +20,6 @@ value:
     - status: pending
       createdDateTime: "2022-10-31T23:59:59+00:00"
       message: Requires review by a healthcare worker.
-      accessLevel: documents
+      accessLevel: detailed
       permissionType: medicalRecord
-      subType: historical
+      medicalRecordType: historical

@@ -1,12 +1,12 @@
 type: object
 description: |
-  An object containing information pertaining to any pending
+  An object containing information about any pending
   requests for changes to the prescriptions service permissions.
 allOf:
   - type: object
     required:
+      - permissionType
       - accessLevel
-      - id
     properties:
       permissionType:
         $ref: "PrescriptionsPermissionTypeEnum.yaml"
