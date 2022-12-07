@@ -19,8 +19,8 @@ content:
           appointments: "../schemas/AppointmentsPermissionUpdate.yaml"
           prescriptions: "../schemas/PrescriptionsPermissionUpdate.yaml"
     examples:
-      PostRequestBodyAppointmentsBook:
-        $ref: "../examples/PostRequestBodyAppointmentsBook.yaml"
+      PostRequestBodyAppointments:
+        $ref: "../examples/PostRequestBodyAppointments.yaml"
       PostRequestBodyPrescriptions:
         $ref: "../examples/PostRequestBodyPrescriptions.yaml"
       PostRequestBodyCurrentFull:

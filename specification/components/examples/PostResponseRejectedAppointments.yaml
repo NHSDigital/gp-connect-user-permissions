@@ -1,7 +1,7 @@
-summary: Rejected request for full access to appointments service.
+summary: Rejected request for manage access to appointments service.
 value:
   permissionType: appointments
-  accessLevel: full
+  accessLevel: manage
   status: rejected
-  message: Request rejected for full access to appointments service.
+  message: Request rejected for manage access to appointments service.
   createdDateTime: "2022-11-01T00:00:00+00:00"

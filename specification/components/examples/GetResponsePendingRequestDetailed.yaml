@@ -11,11 +11,11 @@ value:
       accessLevel: summary
       accessLevelMax: detailed
   appointments:
-    accessLevel: book
-    accessLevelMax: book
+    accessLevel: view
+    accessLevelMax: manage
   prescriptions:
     accessLevel: view
-    accessLevelMax: order
+    accessLevelMax: manage
   requests:
     - status: pending
       createdDateTime: "2022-10-31T23:59:59+00:00"

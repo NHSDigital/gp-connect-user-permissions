@@ -452,8 +452,8 @@ components:
       $ref: "components/examples/PostResponsePendingHistoricalDetailed.yaml"
     ResponseRequestRejectedAppointments:
       $ref: "components/examples/PostResponseRejectedAppointments.yaml"
-    PostRequestBodyAppointmentsBook:
-      $ref: "components/examples/PostRequestBodyAppointmentsBook.yaml"
+    PostRequestBodyAppointments:
+      $ref: "components/examples/PostRequestBodyAppointments.yaml"
     PostRequestBodyHistoricalDetailed:
       $ref: "components/examples/PostRequestBodyHistoricalDetailed.yaml"
     PostRequestBodyPrescriptions:
