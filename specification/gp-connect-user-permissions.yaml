@@ -261,8 +261,6 @@ paths:
               examples:
                 InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
-                MinimalErrorResponse:
-                  $ref: "#/components/examples/MinimalErrorResponse"
     post:
       operationId: updatePatientPermissions
       summary: Request a change to a permission
@@ -348,8 +346,6 @@ paths:
               examples:
                 InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
-                MinimalErrorResponse:
-                  $ref: "#/components/examples/MinimalErrorResponse"
 
 components:
   headers:
@@ -435,8 +431,6 @@ components:
   examples:
     InvalidRequestError:
       $ref: "components/examples/InvalidRequestError.yaml"
-    MinimalErrorResponse:
-      $ref: "components/examples/MinimalErrorResponse.yaml"
     GetResponsePermissionsFull:
       $ref: "components/examples/GetResponsePermissionsFull.yaml"
     GetResponseMultiplePendingRequests:
