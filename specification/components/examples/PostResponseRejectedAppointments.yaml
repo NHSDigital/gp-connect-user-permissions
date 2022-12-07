@@ -1,4 +1,4 @@
-summary: Request rejected for full access to appointments service.
+summary: Rejected request for full access to appointments service.
 value:
   permissionType: appointments
   accessLevel: full
