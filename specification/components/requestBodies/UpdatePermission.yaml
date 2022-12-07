@@ -19,11 +19,11 @@ content:
           appointments: "../schemas/AppointmentsPermissionUpdate.yaml"
           prescriptions: "../schemas/PrescriptionsPermissionUpdate.yaml"
     examples:
-      PostRequestBodyBookAppointments:
+      PostRequestBodyAppointmentsBook:
         $ref: "../examples/PostRequestBodyAppointmentsBook.yaml"
-      PostRequestBodyPrescriptionsFull:
-        $ref: "../examples/PostRequestBodyPrescriptionsFull.yaml"
-      PostRequestBodyHistoricalDetailedAccess:
+      PostRequestBodyPrescriptions:
+        $ref: "../examples/PostRequestBodyPrescriptions.yaml"
+      PostRequestBodyCurrentFull:
         $ref: "../examples/PostRequestBodyCurrentFull.yaml"
-      PostRequestBodyCurrentFullAccess:
+      PostRequestBodyHistoricalDetailed:
         $ref: "../examples/PostRequestBodyHistoricalDetailed.yaml"

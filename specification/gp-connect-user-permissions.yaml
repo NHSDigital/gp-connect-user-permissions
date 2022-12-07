@@ -201,6 +201,8 @@ paths:
         The appointments and prescriptions service permissions are the access
         level the patient has to them now.
 
+        ## Use cases
+
         Use cases covered by this endpoint include:
 
         * building a UI so only the elements the patient has access to are
@@ -210,22 +212,22 @@ paths:
         * presenting permissions to the patient so they can request additional
           permissions
 
-        Each permission has two properties, an `accessLevel` and an
-        `accessLevelMax`.
+      # Each permission has two properties, an `accessLevel` and an
+      # `accessLevelMax`.
 
-        `accessLevel` describes the current level of permission
-        the patient has.
+      # `accessLevel` describes the current level of permission
+      # the patient has.
 
-        `accessLevelMax` describes the maximum level of permission the patient
-        may request. For example, if a patient has an `accessLevel` of
-        `summary` and an `accessLevelMax` of `detailed` for their current
-        medical record they can make a request to increase their level of
-        access to `detailed` but not `documents` or `full`.
+      # `accessLevelMax` describes the maximum level of permission the patient
+      # may request. For example, if a patient has an `accessLevel` of
+      # `summary` and an `accessLevelMax` of `detailed` for their current
+      # medical record they can make a request to increase their level of
+      # access to `detailed` but not `documents` or `full`.
 
-        The `requests` property contains information about any `pending`
-        requests. This information can be used to inform patients about the
-        state of their requests. Any requests that have been
-        previously processed will not be listed.
+      # The `requests` property contains information about any `pending`
+      # requests. This information can be used to inform patients about the
+      # state of their requests. Any requests that have been
+      # previously processed will not be listed.
       responses:
         200:
           description: Successful response
@@ -243,8 +245,8 @@ paths:
                   $ref: "#/components/examples/GetResponsePermissionsFull"
                 GetResponsePendingRequestDetailed:
                   $ref: "#/components/examples/GetResponsePendingRequestDetailed"
-                GetResponsePendingRequestAppointmentsFull:
-                  $ref: "#/components/examples/GetResponsePendingRequestAppointmentsFull"
+                GetResponsePendingRequestAppointments:
+                  $ref: "#/components/examples/GetResponsePendingRequestAppointments"
                 GetResponseMultiplePendingRequests:
                   $ref: "#/components/examples/GetResponseMultiplePendingRequests"
         4XX:
@@ -269,6 +271,8 @@ paths:
 
         Request a change to the permission a patient has for their medical
         record or services provided by the GP practice.
+
+        ## Use cases
 
         Use cases covered by this endpoint include the patient requesting:
 
@@ -437,8 +441,8 @@ components:
       $ref: "components/examples/GetResponseMultiplePendingRequests.yaml"
     GetResponsePendingRequestDetailed:
       $ref: "components/examples/GetResponsePendingRequestDetailed.yaml"
-    GetResponsePendingRequestAppointmentsFull:
-      $ref: "components/examples/GetResponsePendingRequestAppointmentsFull.yaml"
+    GetResponsePendingRequestAppointments:
+      $ref: "components/examples/GetResponsePendingRequestAppointments.yaml"
     PostResponsePendingHistoricalDetailed:
       $ref: "components/examples/PostResponsePendingHistoricalDetailed.yaml"
     ResponseRequestRejectedAppointments:
@@ -447,8 +451,8 @@ components:
       $ref: "components/examples/PostRequestBodyAppointmentsBook.yaml"
     PostRequestBodyHistoricalDetailed:
       $ref: "components/examples/PostRequestBodyHistoricalDetailed.yaml"
-    PostRequestBodyPrescriptionsFull:
-      $ref: "components/examples/PostRequestBodyPrescriptionsFull.yaml"
+    PostRequestBodyPrescriptions:
+      $ref: "components/examples/PostRequestBodyPrescriptions.yaml"
 
   requestBodies:
     UpdatePermission:

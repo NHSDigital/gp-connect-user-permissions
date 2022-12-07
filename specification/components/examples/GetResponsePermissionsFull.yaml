@@ -13,7 +13,7 @@ value:
       accessLevelMax: detailed
   appointments:
     accessLevel: book
-    accessLevelMax: full
+    accessLevelMax: manage
   prescriptions:
     accessLevel: order
-    accessLevelMax: full
+    accessLevelMax: manage

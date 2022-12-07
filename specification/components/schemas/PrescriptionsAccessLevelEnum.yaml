@@ -11,4 +11,4 @@ enum:
   - none
   - view
   - manage
-example: order
+example: manage
