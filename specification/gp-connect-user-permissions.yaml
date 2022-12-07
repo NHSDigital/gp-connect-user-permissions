@@ -34,6 +34,14 @@ info:
     - prescriptions
     - medical record
 
+    ### Accelerated access
+
+    This API has been designed with
+    [Accelerated access](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record)
+    in mind. The result of this is that a patient's medical record permissions
+    are split into `current` and `historical` with an `effectiveDate` for
+    when the `current` permissions started.
+
     ### Access modes
 
     This API has a single access mode:
@@ -63,14 +71,14 @@ info:
 
     The GP Connect suite of APIs include the following related APIs:
 
-    - [GP Connect (1st Generation) Access Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-document-fhir) - retrieve unstructured documents from a patient's GP practice record.
-    - [GP Connect (1st Generation) Access Record: HTML - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-html-fhir) - view a patient's GP practice record, with read-only access.
-    - [GP Connect (1st Generation) Access Record: Structured - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-structured-fhir) - retrieve structured information from a patient's GP practice record.
-    - [GP Connect (1st Generation) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir) - manage GP practice appointments between different systems.
-    - [GP Connect (1st Generation) Send Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-send-document-fhir) - send a PDF consultation summary to a registered GP practice.
-    - [GP Connect (patient facing) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-access-record-fhir) - access a patient's GP records with the GP Connect (patient facing) Access Record - FHIR API.
-    - [GP Connect (patient facing) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-appointment-management-fhir) - manage a patient's GP appointments using the GP Connect (patient facing) Appointment Management - FHIR API.
-    - [GP Connect (patient facing) Prescriptions - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-prescriptions-fhir) - manage a patient's prescriptions using the GP Connect (patient facing) Prescriptions - FHIR API.
+    - [GP Connect Access Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-document-fhir) - retrieve unstructured documents from a patient's GP practice record.
+    - [GP Connect Access Record: HTML - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-html-fhir) - view a patient's GP practice record, with read-only access.
+    - [GP Connect Access Record: Structured - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-structured-fhir) - retrieve structured information from a patient's GP practice record.
+    - [GP Connect Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir) - manage GP practice appointments between different systems.
+    - [GP Connect Send Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-send-document-fhir) - send a PDF consultation summary to a registered GP practice.
+    - [GP Connect (patient facing) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-access-record-fhir) - access a patient's GP records with the GP Connect (patient facing) Access Record - FHIR API.
+    - [GP Connect (patient facing) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-appointment-management-fhir) - manage a patient's GP appointments using the GP Connect (patient facing) Appointment Management - FHIR API.
+    - [GP Connect (patient facing) Prescriptions - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-prescriptions-fhir) - manage a patient's prescriptions using the GP Connect (patient facing) Prescriptions - FHIR API.
 
     ## API status and roadmap
 
@@ -201,6 +209,8 @@ paths:
         The appointments and prescriptions service permissions are the access
         level the patient has to them now.
 
+        ## Use cases
+
         Use cases covered by this endpoint include:
 
         * building a UI so only the elements the patient has access to are
@@ -210,22 +220,19 @@ paths:
         * presenting permissions to the patient so they can request additional
           permissions
 
-        Each permission has two properties, an `accessLevel` and an
-        `accessLevelMax`.
+        ## Maximum allowable permissions
 
-        `accessLevel` describes the current level of permission
-        the patient has.
+        Not all patients will be able to request the highest level of
+        permission available. The maximum level each patient can request is
+        included within the response and can be used to prevent requests
+        being made that would automatically be rejected.
 
-        `accessLevelMax` describes the maximum level of permission the patient
-        may request. For example, if a patient has an `accessLevel` of
-        `summary` and an `accessLevelMax` of `detailed` for their current
-        medical record they can make a request to increase their level of
-        access to `detailed` but not `documents` or `full`.
+        ## Pending requests
 
-        The `requests` property contains information about any `pending`
-        requests. This information can be used to inform patients about the
-        state of their requests. Any requests that have been
-        previously processed will not be listed.
+        It is possible for a patient to make requests to change permissions and
+        those requests to not be actioned immediately. When this happens
+        there is a need to inform the patient of any pending requests. This
+        can be done using the `requests` property.
       responses:
         200:
           description: Successful response
@@ -243,8 +250,8 @@ paths:
                   $ref: "#/components/examples/GetResponsePermissionsFull"
                 GetResponsePendingRequestDetailed:
                   $ref: "#/components/examples/GetResponsePendingRequestDetailed"
-                GetResponsePendingRequestAppointmentsFull:
-                  $ref: "#/components/examples/GetResponsePendingRequestAppointmentsFull"
+                GetResponsePendingRequestAppointments:
+                  $ref: "#/components/examples/GetResponsePendingRequestAppointments"
                 GetResponseMultiplePendingRequests:
                   $ref: "#/components/examples/GetResponseMultiplePendingRequests"
         4XX:
@@ -261,16 +268,16 @@ paths:
               examples:
                 InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
-                MinimalErrorResponse:
-                  $ref: "#/components/examples/MinimalErrorResponse"
     post:
       operationId: updatePatientPermissions
-      summary: Request a change to a permission
+      summary: Request a change to a patient's permission
       description: |
         ## Overview
 
         Request a change to the permission a patient has for their medical
         record or services provided by the GP practice.
+
+        ## Use cases
 
         Use cases covered by this endpoint include the patient requesting:
 
@@ -279,36 +286,24 @@ paths:
         * additional access to their current medical record
         * detailed coded record access to their historical medical record
 
-        For every request made, the response will include `createdDateTime`
-        (when it was created), a `message` (about the request), the
-        `status` of the request (status is either `pending` or `rejected`) and
-        information specific to the request.
+        ## Request workflow
 
-        The `message` is information that should be displayed to the patient to
-        help them understand that the request has been received and will be
-        processed at some point in the future.
+        When a request is made, if it is accepted, it will be added to the GP
+        system's workflow and processed at some point in the future. Responses
+        to these requests will have a state of pending.
 
-        When a response has a status of `pending` it has been added to the GP
-        system's workflow. The request will be processed at some point in the
-        future.
+        Any rejected requests will not be added to the GP system's
+        workflow. The message included in the response to a rejected request
+        will explain the reason for the rejection. This should be displayed to
+        the patient.
 
-        Any requests that are `pending` will be available when calling
-        [Get a patient's permissions](#api-PatientPermissions-getPatientPermissions).
-
-        When a `pending` request is completed it will no longer be listed in
-        `requests`. Should a change be made to the permission, it will be
-        available when calling
-        [Get a patient's permissions](#api-PatientPermissions-getPatientPermissions).
-
-        Any requests that are `rejected` have not been added to the GP system's
-        workflow. The message returned in a `rejected` response will explain
-        the reason for the rejection. This should be displayed to the patient.
+        ## Request handling
 
         If a request is a duplicate, it will be deduplicated by
         the GP system, with the original request being preserved.
 
-        If multiple requests are made they will be combined and reviewed
-        together by a healthcare worker.
+        If multiple requests are made (and accepted) they will be combined
+        within the workflow and reviewed together by a healthcare worker.
       requestBody:
         $ref: "#/components/requestBodies/UpdatePermission"
       responses:
@@ -326,10 +321,8 @@ paths:
               examples:
                 PostResponsePendingHistoricalDetailed:
                   $ref: "#/components/examples/PostResponsePendingHistoricalDetailed"
-                PostResponsePendingPrescriptions:
-                  $ref: "#/components/examples/PostResponsePendingPrescriptions"
-                ResponseRequestRejectedAppoint:
-                  $ref: "#/components/examples/ResponseRequestRejectedAppoint"
+                ResponseRequestRejectedAppointments:
+                  $ref: "#/components/examples/ResponseRequestRejectedAppointments"
         4XX:
           description: |
             An error occurred as follows:
@@ -350,8 +343,6 @@ paths:
               examples:
                 InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
-                MinimalErrorResponse:
-                  $ref: "#/components/examples/MinimalErrorResponse"
 
 components:
   headers:
@@ -437,28 +428,24 @@ components:
   examples:
     InvalidRequestError:
       $ref: "components/examples/InvalidRequestError.yaml"
-    MinimalErrorResponse:
-      $ref: "components/examples/MinimalErrorResponse.yaml"
     GetResponsePermissionsFull:
       $ref: "components/examples/GetResponsePermissionsFull.yaml"
     GetResponseMultiplePendingRequests:
       $ref: "components/examples/GetResponseMultiplePendingRequests.yaml"
     GetResponsePendingRequestDetailed:
       $ref: "components/examples/GetResponsePendingRequestDetailed.yaml"
-    GetResponsePendingRequestAppointmentsFull:
-      $ref: "components/examples/GetResponsePendingRequestAppointmentsFull.yaml"
+    GetResponsePendingRequestAppointments:
+      $ref: "components/examples/GetResponsePendingRequestAppointments.yaml"
     PostResponsePendingHistoricalDetailed:
       $ref: "components/examples/PostResponsePendingHistoricalDetailed.yaml"
-    PostResponsePendingPrescriptions:
-      $ref: "components/examples/PostResponsePendingPrescriptions.yaml"
-    ResponseRequestRejectedAppoint:
+    ResponseRequestRejectedAppointments:
       $ref: "components/examples/PostResponseRejectedAppointments.yaml"
-    PostRequestBodyAppointmentsBook:
-      $ref: "components/examples/PostRequestBodyAppointmentsBook.yaml"
+    PostRequestBodyAppointments:
+      $ref: "components/examples/PostRequestBodyAppointments.yaml"
     PostRequestBodyHistoricalDetailed:
       $ref: "components/examples/PostRequestBodyHistoricalDetailed.yaml"
-    PostRequestBodyPrescriptionsFull:
-      $ref: "components/examples/PostRequestBodyPrescriptionsFull.yaml"
+    PostRequestBodyPrescriptions:
+      $ref: "components/examples/PostRequestBodyPrescriptions.yaml"
 
   requestBodies:
     UpdatePermission:

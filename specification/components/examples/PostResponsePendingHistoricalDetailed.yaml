@@ -1,4 +1,4 @@
-summary: Request pending for detailed access to historical medical record.
+summary: Pending request for detailed access to historical medical record.
 value:
   permissionType: medicalRecord
   medicalRecordType: historical

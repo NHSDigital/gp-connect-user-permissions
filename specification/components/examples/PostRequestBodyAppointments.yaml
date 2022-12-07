@@ -1,0 +1,4 @@
+summary: Request manage access to appointments service.
+value:
+  permissionType: appointments
+  accessLevel: manage

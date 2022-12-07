@@ -12,4 +12,4 @@ enum:
   - none
   - view
   - manage
-example: bool
+example: manage

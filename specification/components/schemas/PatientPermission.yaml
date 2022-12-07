@@ -1,17 +1,29 @@
 type: object
 description: |
-  Contains the access levels the patient has to the medical record,
-  appointments and prescriptions.
+  Contains the permissions the patient has to their medical record and the
+  appointments and prescriptions services.
 
-  Medical record access levels are split into `current.accessLevel` and
-  `historical.accessLevel` with an `effectiveDate` for when the current
-  access level started.
+  Each permission has two properties, an `accessLevel` and an
+  `accessLevelMax`.
 
-  Medical record, appointments and prescriptions also include the maximum
-  level of access the patient could have with `accessLevelMax`.
+  `accessLevel` describes the current level of permission
+  the patient has.
 
-  An optional array of objects may be included to contain any pending
-  requests.
+  `accessLevelMax` describes the maximum level of permission the patient
+  may request. This _can_ be different than the absolute maximum level of
+  permission possible. For example, if a patient has an `accessLevel` of
+  `summary` and an `accessLevelMax` of `detailed` for their current
+  medical record they can make a request to increase their level of
+  access to `detailed` but not `documents` or `full`.
+
+  Medical record access levels are split into `current` and
+  `historical` with an `effectiveDate` for when the current
+  access level started. This is to account for
+  [Accelerated access](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record).
+
+  An optional array of `requests` may be included to contain information about
+  any pending requests. This is information that should be displayed to the
+  patient to help them understand the status of their requests.
 required:
   - medicalRecord
   - appointments
