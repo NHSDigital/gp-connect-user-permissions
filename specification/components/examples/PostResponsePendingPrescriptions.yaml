@@ -1,7 +1,0 @@
-summary: Request pending for full access to prescriptions service.
-value:
-  permissionType: prescriptions
-  accessLevel: full
-  status: pending
-  message: Request received for full access to prescriptions service.
-  createdDateTime: "2022-11-01T00:00:00+00:00"

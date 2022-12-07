@@ -326,10 +326,8 @@ paths:
               examples:
                 PostResponsePendingHistoricalDetailed:
                   $ref: "#/components/examples/PostResponsePendingHistoricalDetailed"
-                PostResponsePendingPrescriptions:
-                  $ref: "#/components/examples/PostResponsePendingPrescriptions"
-                ResponseRequestRejectedAppoint:
-                  $ref: "#/components/examples/ResponseRequestRejectedAppoint"
+                ResponseRequestRejectedAppointments:
+                  $ref: "#/components/examples/ResponseRequestRejectedAppointments"
         4XX:
           description: |
             An error occurred as follows:
@@ -449,9 +447,7 @@ components:
       $ref: "components/examples/GetResponsePendingRequestAppointmentsFull.yaml"
     PostResponsePendingHistoricalDetailed:
       $ref: "components/examples/PostResponsePendingHistoricalDetailed.yaml"
-    PostResponsePendingPrescriptions:
-      $ref: "components/examples/PostResponsePendingPrescriptions.yaml"
-    ResponseRequestRejectedAppoint:
+    ResponseRequestRejectedAppointments:
       $ref: "components/examples/PostResponseRejectedAppointments.yaml"
     PostRequestBodyAppointmentsBook:
       $ref: "components/examples/PostRequestBodyAppointmentsBook.yaml"
