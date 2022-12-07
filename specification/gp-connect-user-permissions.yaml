@@ -286,36 +286,24 @@ paths:
         * additional access to their current medical record
         * detailed coded record access to their historical medical record
 
-        For every request made, the response will include `createdDateTime`
-        (when it was created), a `message` (about the request), the
-        `status` of the request (status is either `pending` or `rejected`) and
-        information specific to the request.
+        ## Request workflow
 
-        The `message` is information that should be displayed to the patient to
-        help them understand that the request has been received and will be
-        processed at some point in the future.
+        When a request is made, if it is accepted, it will be added to the GP
+        system's workflow and processed at some point in the future. Responses
+        to these requests will have a state of pending.
 
-        When a response has a status of `pending` it has been added to the GP
-        system's workflow. The request will be processed at some point in the
-        future.
+        Any rejected requests have not been added to the GP system's
+        workflow. The message included in the response to a rejected request
+        will explain the reason for the rejection. This should be displayed to
+        the patient.
 
-        Any requests that are `pending` will be avilable when calling
-        [Get a patient's permissions](#api-Default-getPatientPermissions).
-
-        When a `pending` request is completed it will no longer be listed in
-        `requests`. Should a change be made to the permission, it will be
-        available when calling
-        [Get a patient's permissions](#api-Default-getPatientPermissions).
-
-        Any requests that are `rejected` have not been added to the GP system's
-        workflow. The message returned in a `rejected` response will explain
-        the reason for the rejection. This should be displayed to the patient.
+        ## Request handling
 
         If a request is a duplicate, it will be deduplicated by
         the GP system, with the original request being preserved.
 
-        If multiple requests are made they will be combined and reviewed
-        together by a healthcare worker.
+        If multiple requests are made (and accepted) they will be combined
+        within the workflow and reviewed together by a healthcare worker.
       requestBody:
         $ref: "#/components/requestBodies/UpdatePermission"
       responses:
