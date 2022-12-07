@@ -263,7 +263,7 @@ paths:
                   $ref: "#/components/examples/InvalidRequestError"
     post:
       operationId: updatePatientPermissions
-      summary: Request a change to a permission
+      summary: Request a change to a patient's permission
       description: |
         ## Overview
 
