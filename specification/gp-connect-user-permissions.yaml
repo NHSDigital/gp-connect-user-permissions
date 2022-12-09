@@ -34,13 +34,10 @@ info:
     - prescriptions
     - medical record
 
-    ### Accelerated access
-
-    This API has been designed with
-    [Accelerated access](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record)
-    in mind. The result of this is that a patient's medical record permissions
-    are split into `current` and `historical` with an `effectiveDate` for
-    when the `current` permissions started.
+    This API is designed to respect the policy changes made in order to
+    allow patients to access their future medical record entries.
+    For more details, see
+    [access to patient records through the NHS App](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record).
 
     ### Access modes
 

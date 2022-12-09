@@ -18,8 +18,9 @@ description: |
 
   Medical record access levels are split into `current` and
   `historical` with an `effectiveDate` for when the current
-  access level started. This is to account for
-  [Accelerated access](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record).
+  access level started. This is to account for allowing patients to access
+  their future medical record entries. For more details, see
+  [access to patient records through the NHS App](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record).
 
   An optional array of `requests` may be included to contain information about
   any pending requests. This is information that should be displayed to the
