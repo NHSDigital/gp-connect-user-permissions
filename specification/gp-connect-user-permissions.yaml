@@ -39,17 +39,6 @@ info:
     For more details, see
     [access to patient records through the NHS App](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record).
 
-    ### Access modes
-
-    This API has a single access mode:
-
-    | Access mode                                                                                                                | Functions                                    | Availability |
-    | -----------                                                                                                                | ---------                                    | ------------ |
-    | [Patient access](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#patient-access-mode) | Get own permissions. Update own permissions. | TBC          |
-
-    For further details about the access modes for this API, see
-    [Security and authorisation](#api-description__security-and-authorisation) below.
-
     ## Who can use this API
 
     This API:
