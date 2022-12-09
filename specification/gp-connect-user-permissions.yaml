@@ -206,8 +206,8 @@ paths:
 
         The medical record permission includes the access level the patient
         has to both their current and their historical medical record.
-        The appointments and prescriptions service permissions are the access
-        level the patient has to them now.
+        The appointments and prescriptions service permissions represent the
+        patient's current access level.
 
         ## Use cases
 
@@ -224,8 +224,8 @@ paths:
 
         Not all patients are able to request the highest level of
         permission available. The maximum level each patient can request is
-        included within the response and can be used to prevent requests
-        being made that would automatically be rejected.
+        included within the response. This can be used to prevent patients
+        requesting additional permissions that would not be granted.
 
         ## Pending requests
 
