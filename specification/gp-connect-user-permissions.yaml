@@ -287,7 +287,7 @@ paths:
         system's workflow and processed at some point in the future. Responses
         to these requests have a state of pending.
 
-        Rejected requests are not be added to the GP system's
+        Rejected requests are not added to the GP system's
         workflow. The message included in the response to a rejected request
         explains the reason for the rejection. This should be displayed to
         the patient.
