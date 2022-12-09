@@ -84,7 +84,7 @@ info:
 
     This API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
 
-    - it is available for testing in the integration environment
+    - it is available for testing in the sandbox environment
     - it is not available for production use
     - we might make breaking changes, but only if we cannot avoid it, and we will give advance notice
 
