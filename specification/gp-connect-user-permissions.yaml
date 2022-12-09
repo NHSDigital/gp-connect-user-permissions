@@ -58,7 +58,6 @@ info:
     This API:
 
     - is only for use by patient-facing applications
-    - is only for non-clinical use
     - can only be used where there is a legal basis to do so
 
     Make sure you have a valid use case before you go too far with your
