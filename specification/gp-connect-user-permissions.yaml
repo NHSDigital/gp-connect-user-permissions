@@ -222,14 +222,14 @@ paths:
 
         ## Maximum allowable permissions
 
-        Not all patients will be able to request the highest level of
+        Not all patients are able to request the highest level of
         permission available. The maximum level each patient can request is
         included within the response and can be used to prevent requests
         being made that would automatically be rejected.
 
         ## Pending requests
 
-        It is possible for a patient to make requests to change permissions and
+        It is possible for a patient to request to change permissions and
         those requests to not be actioned immediately. When this happens
         there is a need to inform the patient of any pending requests. This
         can be done using the `requests` property.
@@ -288,21 +288,21 @@ paths:
 
         ## Request workflow
 
-        When a request is made, if it is accepted, it will be added to the GP
+        When a request is made, if it is accepted, it is added to the GP
         system's workflow and processed at some point in the future. Responses
-        to these requests will have a state of pending.
+        to these requests have a state of pending.
 
-        Any rejected requests will not be added to the GP system's
+        Rejected requests are not be added to the GP system's
         workflow. The message included in the response to a rejected request
-        will explain the reason for the rejection. This should be displayed to
+        explains the reason for the rejection. This should be displayed to
         the patient.
 
         ## Request handling
 
-        If a request is a duplicate, it will be deduplicated by
+        If a request is a duplicate, it is deduplicated by
         the GP system, with the original request being preserved.
 
-        If multiple requests are made (and accepted) they will be combined
+        If multiple requests are made (and accepted) they are combined
         within the workflow and reviewed together by a healthcare worker.
       requestBody:
         $ref: "#/components/requestBodies/UpdatePermission"

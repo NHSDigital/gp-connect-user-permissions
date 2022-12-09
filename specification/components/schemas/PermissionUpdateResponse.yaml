@@ -2,7 +2,7 @@ type: object
 description: |
   A response could be for the medical record, appointments service
   or prescriptions service depending on the request made. The response
-  will always correspond to the request.
+  always corresponds to the request.
 oneOf:
   - $ref: "MedicalRecordPermissionUpdateResponse.yaml"
   - $ref: "AppointmentsPermissionUpdateResponse.yaml"
