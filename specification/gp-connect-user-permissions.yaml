@@ -76,9 +76,9 @@ info:
     - [GP Connect Access Record: Structured - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-structured-fhir) - retrieve structured information from a patient's GP practice record.
     - [GP Connect Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir) - manage GP practice appointments between different systems.
     - [GP Connect Send Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-send-document-fhir) - send a PDF consultation summary to a registered GP practice.
-    - [GP Connect (patient facing) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-access-record-fhir) - access a patient's GP records with the GP Connect (patient facing) Access Record - FHIR API.
-    - [GP Connect (patient facing) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-appointment-management-fhir) - manage a patient's GP appointments using the GP Connect (patient facing) Appointment Management - FHIR API.
-    - [GP Connect (patient facing) Prescriptions - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-prescriptions-fhir) - manage a patient's prescriptions using the GP Connect (patient facing) Prescriptions - FHIR API.
+    - [GP Connect (Patient Facing) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-access-record-fhir) - access a patient's GP records with the GP Connect (patient facing) Access Record - FHIR API.
+    - [GP Connect (Patient Facing) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-appointment-management-fhir) - manage a patient's GP appointments using the GP Connect (patient facing) Appointment Management - FHIR API.
+    - [GP Connect (Patient Facing) Prescriptions - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-prescriptions-fhir) - manage a patient's prescriptions using the GP Connect (patient facing) Prescriptions - FHIR API.
 
     ## API status and roadmap
 
