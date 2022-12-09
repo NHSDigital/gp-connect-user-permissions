@@ -1,7 +1,6 @@
 type: object
 description: |
-  Object containing the `accessLevel` to update the appointments service
-  to.
+  Object containing the `accessLevel` to update the appointments service to.
 required:
   - permissionType
   - accessLevel

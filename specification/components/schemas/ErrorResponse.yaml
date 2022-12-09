@@ -1,7 +1,6 @@
 type: object
 description: |
-  Outcome of an operation that does not result in a resource being
-  returned.
+  Outcome of an operation that does not result in a resource being returned.
 required:
   - resourceType
   - meta
