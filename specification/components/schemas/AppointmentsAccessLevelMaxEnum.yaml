@@ -3,11 +3,11 @@ description: |
   Indicates the maximum level of access the patient could request to the
   appointments service.
 
-  | level   | description                                    |
-  | -----   | -----------                                    |
-  | none    | no access                                      |
-  | view    | view only                                      |
-  | manage  | can book, amend & cancel existing appointments |
+  | level   | description                                      |
+  | -----   | -----------                                      |
+  | none    | no access                                        |
+  | view    | view only                                        |
+  | manage  | view, book, amend & cancel existing appointments |
 enum:
   - none
   - view

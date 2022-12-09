@@ -1,7 +1,6 @@
 type: object
 description: |
-  An object containing information about requests to change
-  permissions.
+  An object containing information about requests to change permissions.
 required:
   - status
   - createdDateTime

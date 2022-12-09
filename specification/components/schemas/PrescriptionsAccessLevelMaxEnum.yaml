@@ -3,11 +3,11 @@ description: |
   Indicates the maximum level of access the patient could request to the
   prescriptions service.
 
-  | level   | description                                      |
-  | -----   | -----------                                      |
-  | none    | no access                                        |
-  | view    | view only                                        |
-  | manage  | can order, amend & cancel existing prescriptions |
+  | level   | description                                        |
+  | -----   | -----------                                        |
+  | none    | no access                                          |
+  | view    | view only                                          |
+  | manage  | view, order, amend & cancel existing prescriptions |
 enum:
   - none
   - view
