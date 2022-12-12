@@ -264,9 +264,9 @@ paths:
         Once you submit a request, it waits in a queue to be processed by a
         healthcare worker. Exactly when this will happen is unpredictable.
 
-        You can tell if the request has been processed from the response to
-        getting the permissions. The response will contain any pending requests
-        including information on when the request was made and what it was for.
+        The response to getting patient permissions contains information on
+        pending requests. Once the request is processed it is no longer
+        included in pending requests.
 
         If you like, you can share this information with the patient to help
         set their expectations.
