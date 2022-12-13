@@ -261,6 +261,16 @@ paths:
         Request a change to the permission a patient has for their medical
         record or services provided by the GP practice.
 
+        Once you submit a request, it waits in a queue to be processed by a
+        healthcare worker. Exactly when this will happen is unpredictable.
+
+        The response to getting patient permissions contains information on
+        pending requests. Once the request is processed it is no longer
+        included in pending requests.
+
+        If you like, you can share this information with the patient to help
+        set their expectations.
+
         ## Use cases
 
         Use cases covered by this endpoint include the patient requesting:
