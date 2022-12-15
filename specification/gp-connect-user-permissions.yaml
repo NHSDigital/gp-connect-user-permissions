@@ -11,6 +11,8 @@ info:
   description: |
     ## Overview
 
+    ![GP Connect Patient Facing User Permissions API Overview](https://raw.githubusercontent.com/NHSDigital/gp-connect-user-permissions/master/specification/diagrams/overview.svg)
+
     Use this API to list and manage the permissions a patient has to their
     medical record and a selection of services provided at their GP practice.
 
