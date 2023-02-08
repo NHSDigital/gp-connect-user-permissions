@@ -13,7 +13,7 @@ steps:
       make push tag=${image_tag}
 
     displayName: Build and Push MockReceiver Docker to ECR
-    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/PrismMockReceiver"
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/mock-receiver"
 
 
 
