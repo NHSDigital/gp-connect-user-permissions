@@ -26,7 +26,8 @@ clean:
 	rm -rf dist
 
 #Creates the fully expanded OAS spec in json
-publish: clean
+publish:
+	rm -rf build
 	mkdir -p build
 	npm run publish 2> /dev/null
 	cp build/gp-connect-user-permissions.json mock-receiver/

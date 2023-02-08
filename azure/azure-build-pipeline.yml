@@ -30,5 +30,5 @@ extends:
   parameters:
     service_name: ${{ variables.service_name }}
     short_service_name: ${{ variables.short_service_name }}
-#    post_ecs_push:
-#      - template: ./templates/push-mock-receiver-image.yml
+    post_ecs_push:
+      - template: ./templates/push-mock-receiver-image.yml
