@@ -392,14 +392,14 @@ components:
       $ref: "components/schemas/MedicalRecordPermission.yaml"
     MedicalRecordPermissionRequest:
       $ref: "components/schemas/MedicalRecordPermissionRequest.yaml"
-    # MedicalRecordPermissionTypeEnum:
-    #   $ref: "components/schemas/MedicalRecordPermissionTypeEnum.yaml"
+    MedicalRecordPermissionTypeEnum:
+      $ref: "components/schemas/MedicalRecordPermissionTypeEnum.yaml"
     MedicalRecordPermissionUpdate:
       $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
     MedicalRecordPermissionUpdateResponse:
       $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
-    # MedicalRecordTypeEnum:
-    #   $ref: "components/schemas/MedicalRecordTypeEnum.yaml"
+    MedicalRecordTypeEnum:
+      $ref: "components/schemas/MedicalRecordTypeEnum.yaml"
     PatientPermission:
       $ref: "components/schemas/PatientPermission.yaml"
     PermissionUpdateResponse:
