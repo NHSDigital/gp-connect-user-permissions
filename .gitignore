@@ -15,6 +15,7 @@ __pycache__/
 .idea/
 .venv/
 **/.env
+openapitools.json
 
 smoketest-report.xml
 env
