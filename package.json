@@ -5,7 +5,6 @@
   "scripts": {
     "lint": "node_modules/.bin/openapi-generator-cli validate -i specification/gp-connect-access-user-permissions.yaml",
     "publish": "./node_modules/.bin/openapi-generator-cli generate -i specification/gp-connect-access-user-permissions.yaml --generator-key v3.0  -g openapi -o build && rm openapitools.json && mv build/openapi.json build/gp-connect-access-user-permissions.json",
-    "serve": "node_modules/.bin/speccy serve build/gp-connect-user-permissions.json",
     "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL"
   },
   "author": "NHS Digital",
