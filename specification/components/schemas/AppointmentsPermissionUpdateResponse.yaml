@@ -1,8 +1,5 @@
 type: object
 allOf:
-  # - $ref: "#/components/schemas/BaseRequest"
-  # - $ref: "#/components/schemas/AppointmentsPermissionUpdate"
-
   - schema:
       $ref: "BaseRequest.yaml"
   - schema:
