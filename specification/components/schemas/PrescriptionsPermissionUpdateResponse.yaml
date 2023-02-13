@@ -1,4 +1,6 @@
 type: object
 allOf:
-  - $ref: "BaseRequest.yaml"
-  - $ref: "PrescriptionsPermissionUpdate.yaml"
+  - schema:
+      $ref: "BaseRequest.yaml"
+  - schema:
+      $ref: "PrescriptionsPermissionUpdate.yaml"

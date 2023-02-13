@@ -67,7 +67,6 @@ Each API and team is unique. We encourage you to use a `test/` folder in the roo
 ### Speccy
 
 > [Speccy](http://speccy.io/) *A handy toolkit for OpenAPI, with a linter to enforce quality rules, documentation rendering, and resolution.*
-
 Speccy does the lifting for the following npm scripts:
 
  * `test` -- Lints the definition
@@ -114,7 +113,7 @@ Contains templates defining Azure Devops pipelines. By default the following pip
 
 The `project.yml` file needs to be populated with your service names to make them available to the pipelines
 
-`/azure/templates`: Here you can define reusable actions, such as running tests, and call these actions during Azure Devops pipelines. 
+`/azure/templates`: Here you can define reusable actions, such as running tests, and call these actions during Azure Devops pipelines. 
 
 #### `/proxies`:
 
@@ -136,7 +135,7 @@ See the APM confluence for more information on how the [_ping](https://nhsd-conf
 #### `/sandbox`:
 
 This folder contains a template for a sandbox API. This example is a NodeJs application running in Docker. The application handles a few simple endpoints such as: /_ping, /health, /_status, /hello and some logging logic.
-For more information about building sandbox APIs see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Setting+up+your+API+sandbox ).
+For more information about building sandbox APIs see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Setting+up+your+API+sandbox ).
 
 #### `/scripts`:
 
@@ -148,7 +147,7 @@ Create an OpenAPI Specification to document your API. For more information about
 
 #### `/tests`:
 
-End to End tests. These tests are written in Python and use the PyTest test runner. Before running these tests you will need to set environment variables. The `test_endpoint.py` file provides a template of how to set up tests which test your api endpoints. For more information about testing your API see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Testing+your+API ).
+End to End tests. These tests are written in Python and use the PyTest test runner. Before running these tests you will need to set environment variables. The `test_endpoint.py` file provides a template of how to set up tests which test your api endpoints. For more information about testing your API see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Testing+your+API ).
 
 #### `Makefile`:
 Useful make targets to get started including: installing dependencies and running smoke tests.
@@ -157,15 +156,15 @@ Useful make targets to get started including: installing dependencies and runnin
 
 These files are required to deploy containers alongside your Apigee proxy during the Azure Devops `azure-build-pipeline`. In this template repo we are deploying our sandbox container which is used as the target server for the sandbox proxy.
 
-`ecs-proxies-containers.yml`: The path to a container's Dockerfile is defined here. This path needs to be defined to allow containers to be pushed to our repository during the `azure-build-pipeline`.
+`ecs-proxies-containers.yml`: The path to a container's Dockerfile is defined here. This path needs to be defined to allow containers to be pushed to our repository during the `azure-build-pipeline`.
 
-`ecs-proxies-deploy.yml` : Here you can define config for your container deployment.  
+`ecs-proxies-deploy.yml` : Here you can define config for your container deployment.  
 
-For more information about deploying ECS containers see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Developing+ECS+proxies#DevelopingECSproxies-Buildingandpushingdockercontainers ).
+For more information about deploying ECS containers see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Developing+ECS+proxies#DevelopingECSproxies-Buildingandpushingdockercontainers ).
 
 #### `manifest_template.yml`:
 
-This file defines 2 dictionaries of fields that are required for the Apigee deployment. For more info see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Manifest.yml+reference ).
+This file defines 2 dictionaries of fields that are required for the Apigee deployment. For more info see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Manifest.yml+reference ).
 
 #### Package management:
 

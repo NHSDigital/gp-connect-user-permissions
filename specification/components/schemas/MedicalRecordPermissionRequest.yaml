@@ -15,4 +15,5 @@ allOf:
         $ref: "MedicalRecordTypeEnum.yaml"
       accessLevel:
         $ref: "MedicalRecordAccessLevelEnum.yaml"
-  - $ref: "BaseRequest.yaml"
+  - schema:
+      $ref: "BaseRequest.yaml"
