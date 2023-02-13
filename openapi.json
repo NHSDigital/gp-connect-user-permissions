@@ -1,0 +1,964 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "contact" : {
+      "email" : "api.management@nhs.net",
+      "name" : "GP Connect - Patient Permissions API Support",
+      "url" : "https://digital.nhs.uk/developer/help-and-support"
+    },
+    "description" : "## Overview\n\n![GP Connect Patient Facing User Permissions API Overview](https://raw.githubusercontent.com/NHSDigital/gp-connect-user-permissions/master/specification/diagrams/overview.svg)\n\nUse this API to list and manage the permissions a patient has to their\nmedical record and a selection of services provided at their GP practice.\n\nYou can:\n\n- get a patient's permissions\n- request to update a patient's permissions to a higher level\n\nYou cannot:\n\n- request to update a patient's permissions to a lower level\n\nTo use this API, the end user must be a patient who is:\n\n- registered with the GP practice\n- registered with NHS login to P9 identity verification level\n\nThis API allows you to manage the permissions for:\n\n- appointments\n- prescriptions\n- medical record\n\nThis API is designed to respect the policy changes made in order to\nallow patients to access their future medical record entries.\nFor more details, see\n[access to patient records through the NHS App](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record).\n\n## Who can use this API\n\nThis API:\n\n- is only for use by patient-facing applications\n- can only be used where there is a legal basis to do so\n\nMake sure you have a valid use case before you go too far with your\ndevelopment. To do this, [contact us](https://digital.nhs.uk/developer/help-and-support).\n\nYou must do this before you can go live (see\n[Onboarding](#api-description__onboarding) below).\n\n## Related APIs\n\nThe GP Connect suite of APIs include the following related APIs:\n\n- [GP Connect Access Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-document-fhir) - retrieve unstructured documents from a patient's GP practice record.\n- [GP Connect Access Record: HTML - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-html-fhir) - view a patient's GP practice record, with read-only access.\n- [GP Connect Access Record: Structured - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-structured-fhir) - retrieve structured information from a patient's GP practice record.\n- [GP Connect Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir) - manage GP practice appointments between different systems.\n- [GP Connect Send Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-send-document-fhir) - send a PDF consultation summary to a registered GP practice.\n- [GP Connect (Patient Facing) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-access-record-fhir) - access a patient's GP records with the GP Connect (patient facing) Access Record - FHIR API.\n- [GP Connect (Patient Facing) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-appointment-management-fhir) - manage a patient's GP appointments using the GP Connect (patient facing) Appointment Management - FHIR API.\n- [GP Connect (Patient Facing) Prescriptions - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-prescriptions-fhir) - manage a patient's prescriptions using the GP Connect (patient facing) Prescriptions - FHIR API.\n\n## API status and roadmap\n\nThis API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:\n\n- it is available for testing in the sandbox environment\n- it is not available for production use\n- we might make breaking changes, but only if we cannot avoid it, and we will give advance notice\n\nTo see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/341390/gp-connect-user-permissions).\n\nIf you have any other queries,\n[contact us](https://digital.nhs.uk/developer/help-and-support).\n\n## Service level\n\nThis API is a silver service, meaning it is operational 24 x 7 x 365 but\nonly supported during business hours (8am to 6pm), Monday to Friday\nexcluding bank holidays.\n\nFor more details, see [service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).\n\n## Technology\n\nThis API is\n[RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).\n\n## Network access\n\nThis API is available on the internet and, indirectly, on the\n[Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network).\n\nFor more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).\n\n## Security and authorisation\n\nThis API is\n[user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis),\nmeaning an end user must be present and authenticated to use it.\n\nThe end user must be:\n\n- a patient\n- authenticated with NHS login to P9 identity verification level\n\nThe API uses Open ID Connect to authenticate the end user and OAuth 2.0 to\nauthorise the calling system. It supports the following security pattern\nusing NHS login:\n\n- [User-restricted RESTful APIs - NHS login separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-login-separate-authentication-and-authorisation)\n\n## Environments and testing\n\n| Purpose          | URL                                                                        |\n| -------          | ---                                                                        |\n| Sandbox          | `https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/permissions` |\n| Integration test | Not yet available                                                          |\n| Production       | Not yet available                                                          |\n\n### Sandbox testing\n\nOur [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):\n\n- is for early developer testing\n- only covers a limited set of scenarios\n- is stateless, so it does not store data\n- is open access, so does not allow you to test authorisation\n\nFor more details on sandbox testing, or to try out the sandbox using our\n\"Try this API\" feature, see the documentation for each endpoint.\n\n### Integration testing (not yet available)\n\nOur [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):\n\n- is for formal integration testing\n- is stateful, so it does persist data\n- includes authorisation\n\nFor more details see\n [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).\n\n## Onboarding\n\nThis API is not yet available for onboarding.\n\n## Errors\n\nWe use standard HTTP status codes to show whether an API request succeeded\nor not. They are usually in the range:\n\n- 200 to 299 if it succeeded, including code 202 if it was accepted by an\n  API that needs to wait for further action\n\n- 400 to 499 if it failed because of a client error by your application\n\n- 500 to 599 if it failed because of an error on our server\n\nErrors specific to each API are shown in the Endpoints section, under\nResponse. See our\n[reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes)\nfor more on errors.\n",
+    "title" : "GP Connect - Patient Permissions",
+    "version" : "Computed and injected at build time by `scripts/set_version.py`"
+  },
+  "servers" : [ {
+    "description" : "Sandbox environment",
+    "url" : "https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/permissions"
+  } ],
+  "paths" : {
+    "/Patient/{id}" : {
+      "get" : {
+        "description" : "## Overview\n\nGet a patient's permissions. The permissions describe the level of\naccess the patient has to their medical record, the appointments\nservice and the prescriptions service provided at their GP practice.\n\nThe medical record permission includes the access level the patient\nhas to both their current and their historical medical record.\nThe appointments and prescriptions service permissions represent the\npatient's current access level.\n\n## Use cases\n\nUse cases covered by this endpoint include:\n\n* building a UI so only the elements the patient has access to are\n  available\n* presenting permissions to the patient so they can see what they do\n  and do not have access to\n* presenting permissions to the patient so they can request additional\n  permissions\n\n## Maximum allowable permissions\n\nNot all patients are able to request the highest level of\npermission available. The maximum level each patient can request is\nincluded within the response. This can be used to prevent patients\nrequesting additional permissions that would not be granted.\n\n## Pending requests\n\nIt is possible for a patient to request to change permissions and\nthose requests to not be actioned immediately. When this happens\nthere is a need to inform the patient of any pending requests. This\ncan be done using the `requests` property.\n",
+        "operationId" : "getPatientPermissions",
+        "parameters" : [ {
+          "description" : "The patient's NHS number. The primary identifier of a patient, unique\nwithin NHS England and Wales. Always 10 digits and must be a\n[valid NHS number](https://www.datadictionary.nhs.uk/attributes/nhs_number.html).\n",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "example" : "9000000009",
+            "type" : "string"
+          }
+        }, {
+          "description" : "An\n[OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis)\nfrom NHS login.\n",
+          "in" : "header",
+          "name" : "Authorization",
+          "required" : true,
+          "schema" : {
+            "example" : "Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM",
+            "format" : "^Bearer\\ [[:ascii:]]+$",
+            "type" : "string"
+          }
+        }, {
+          "description" : "An optional ID which you can use to track transactions across multiple\nsystems. It can take any value, but we recommend avoiding `.`\ncharacters.\n\nMirrored back in a response header.\n",
+          "in" : "header",
+          "name" : "X-Correlation-ID",
+          "schema" : {
+            "$ref" : "#/components/schemas/CorrelationID"
+          }
+        }, {
+          "description" : "A globally unique identifier (GUID) for the request, which we use to\nde-duplicate repeated requests and to trace the request if you contact\nour helpdesk.\n\nMust be a universally unique identifier (UUID) (ideally version 4).\nMirrored back in a response header.\nIf you re-send a failed request, use the same value in this header.\n",
+          "in" : "header",
+          "name" : "X-Request-ID",
+          "schema" : {
+            "$ref" : "#/components/schemas/RequestID"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "GetResponsePermissionsFull" : {
+                    "$ref" : "#/components/examples/GetResponsePermissionsFull",
+                    "value" : null
+                  },
+                  "GetResponsePendingRequestDetailed" : {
+                    "$ref" : "#/components/examples/GetResponsePendingRequestDetailed",
+                    "value" : null
+                  },
+                  "GetResponsePendingRequestAppointments" : {
+                    "$ref" : "#/components/examples/GetResponsePendingRequestAppointments",
+                    "value" : null
+                  },
+                  "GetResponseMultiplePendingRequests" : {
+                    "$ref" : "#/components/examples/GetResponseMultiplePendingRequests",
+                    "value" : null
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/PatientPermission"
+                }
+              }
+            },
+            "description" : "Successful response",
+            "headers" : {
+              "X-Correlation-ID" : {
+                "$ref" : "#/components/headers/X-Correlation-ID"
+              },
+              "X-Request-ID" : {
+                "$ref" : "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "4XX" : {
+            "content" : {
+              "application/fhir+json" : {
+                "examples" : {
+                  "InvalidRequestError" : {
+                    "$ref" : "#/components/examples/InvalidRequestError",
+                    "value" : null
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description" : "An error occurred as follows:\n\n| HTTP status | Error code             | Description                                                                                                                               |\n| ----------- | ----------             | -----------                                                                                                                               |\n| 400         | INVALID_RESOURCE_ID    | Invalid NHS number.                                                                                                                       |\n"
+          }
+        },
+        "summary" : "Get a patient's permissions"
+      },
+      "post" : {
+        "description" : "## Overview\n\nRequest a change to the permission a patient has for their medical\nrecord or services provided by the GP practice.\n\nOnce you submit a request, it waits in a queue to be processed by a\nhealthcare worker. Exactly when this will happen is unpredictable.\n\nThe response to getting patient permissions contains information on\npending requests. Once the request is processed it is no longer\nincluded in pending requests.\n\nIf you like, you can share this information with the patient to help\nset their expectations.\n\n## Use cases\n\nUse cases covered by this endpoint include the patient requesting:\n\n* additional access to the appointments\n* additional access to the prescriptions\n* additional access to their current medical record\n* detailed coded record access to their historical medical record\n\n## Request workflow\n\nWhen a request is made, if it is accepted, it is added to the GP\nsystem's workflow and processed at some point in the future. Responses\nto these requests have a state of pending.\n\nRejected requests are not added to the GP system's\nworkflow. The message included in the response to a rejected request\nexplains the reason for the rejection. This should be displayed to\nthe patient.\n\n## Request handling\n\nIf a request is a duplicate, it is deduplicated by\nthe GP system, with the original request being preserved.\n\nIf multiple requests are made (and accepted) they are combined\nwithin the workflow and reviewed together by a healthcare worker.\n",
+        "operationId" : "updatePatientPermissions",
+        "parameters" : [ {
+          "description" : "The patient's NHS number. The primary identifier of a patient, unique\nwithin NHS England and Wales. Always 10 digits and must be a\n[valid NHS number](https://www.datadictionary.nhs.uk/attributes/nhs_number.html).\n",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "example" : "9000000009",
+            "type" : "string"
+          }
+        }, {
+          "description" : "An\n[OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis)\nfrom NHS login.\n",
+          "in" : "header",
+          "name" : "Authorization",
+          "required" : true,
+          "schema" : {
+            "example" : "Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM",
+            "format" : "^Bearer\\ [[:ascii:]]+$",
+            "type" : "string"
+          }
+        }, {
+          "description" : "An optional ID which you can use to track transactions across multiple\nsystems. It can take any value, but we recommend avoiding `.`\ncharacters.\n\nMirrored back in a response header.\n",
+          "in" : "header",
+          "name" : "X-Correlation-ID",
+          "schema" : {
+            "$ref" : "#/components/schemas/CorrelationID"
+          }
+        }, {
+          "description" : "A globally unique identifier (GUID) for the request, which we use to\nde-duplicate repeated requests and to trace the request if you contact\nour helpdesk.\n\nMust be a universally unique identifier (UUID) (ideally version 4).\nMirrored back in a response header.\nIf you re-send a failed request, use the same value in this header.\n",
+          "in" : "header",
+          "name" : "X-Request-ID",
+          "schema" : {
+            "$ref" : "#/components/schemas/RequestID"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/UpdatePermission"
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "PostResponsePendingHistoricalDetailed" : {
+                    "$ref" : "#/components/examples/PostResponsePendingHistoricalDetailed",
+                    "value" : null
+                  },
+                  "ResponseRequestRejectedAppointments" : {
+                    "$ref" : "#/components/examples/ResponseRequestRejectedAppointments",
+                    "value" : null
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/PermissionUpdateResponse"
+                }
+              }
+            },
+            "description" : "Successful response",
+            "headers" : {
+              "X-Correlation-ID" : {
+                "$ref" : "#/components/headers/X-Correlation-ID"
+              },
+              "X-Request-ID" : {
+                "$ref" : "#/components/headers/X-Request-ID"
+              }
+            }
+          },
+          "4XX" : {
+            "content" : {
+              "application/fhir+json" : {
+                "examples" : {
+                  "InvalidRequestError" : {
+                    "$ref" : "#/components/examples/InvalidRequestError",
+                    "value" : null
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description" : "An error occurred as follows:\n\n| HTTP status | Error code                      | Description                                                                                                                                                              |\n| ----------- | ----------                      | -----------                                                                                                                                                              |\n| 400         | INVALID_RESOURCE_ID             | Invalid NHS number.                                                                                                                                                      |\n| 400         | INVALID_UPDATE                  | Malformed request.                                                                                                                                                       |\n| 400         | VALIDATION_ERROR                | This is the \"default\" error thrown when no others are applicable.                                                                                                        |\n| 400         | UNSUPPORTED_CHARACTERS_IN_FIELD | Invalid value in body of patch request. For details, see the `diagnostics` field.                                                                                        |\n| 400         | ADDITIONAL_PROPERTIES           | The user sent additional properties within the dictionary.                                                                                                               |\n| 400         | UNSUPPORTED_VALUE               | There was an unsupported value in the request. For example sending a request and attempting to set a permission for an unknown permission type such as `communications`. |\n| 403         | FORBIDDEN_UPDATE                | The user is not permitted to make certain requests. For example, no user can request access beyond the level of access denoted by `accessLevelMax`.                      |\n"
+          }
+        },
+        "summary" : "Request a change to a patient's permission"
+      }
+    }
+  },
+  "components" : {
+    "examples" : {
+      "InvalidRequestError" : {
+        "summary" : "Invalid request error response.",
+        "value" : {
+          "resourceType" : "OperationOutcome",
+          "meta" : {
+            "lastUpdated" : "2021-04-14T11:35:00+00:00"
+          },
+          "issue" : [ {
+            "severity" : "error",
+            "code" : "value",
+            "details" : {
+              "coding" : [ {
+                "system" : "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode",
+                "version" : "1",
+                "code" : "INVALID_VALUE",
+                "display" : "Provided value is invalid."
+              } ],
+              "diagnostics" : "(invalid_request) firstName is missing.",
+              "expression" : [ "/data/attributes/firstName" ]
+            }
+          } ]
+        }
+      },
+      "GetResponsePermissionsFull" : {
+        "summary" : "The patient has full permission to their current medical record, the\nappointments and prescriptions service and summary permission to their\nhistorical medical record.\n",
+        "value" : {
+          "medicalRecord" : {
+            "effectiveDate" : "2022-11-01",
+            "current" : {
+              "accessLevel" : "full",
+              "accessLevelMax" : "full"
+            },
+            "historical" : {
+              "accessLevel" : "summary",
+              "accessLevelMax" : "detailed"
+            }
+          },
+          "appointments" : {
+            "accessLevel" : "manage",
+            "accessLevelMax" : "manage"
+          },
+          "prescriptions" : {
+            "accessLevel" : "manage",
+            "accessLevelMax" : "manage"
+          }
+        }
+      },
+      "GetResponseMultiplePendingRequests" : {
+        "summary" : "The patient has multiple pending requests. The first request is to get\n`manage` permissions for the `appointments` service. The second request is\nto get `detailed` permissions to the historical medical record.\n",
+        "value" : {
+          "medicalRecord" : {
+            "effectiveDate" : "2022-11-01",
+            "current" : {
+              "accessLevel" : "full",
+              "accessLevelMax" : "full"
+            },
+            "historical" : {
+              "accessLevel" : "summary",
+              "accessLevelMax" : "detailed"
+            }
+          },
+          "appointments" : {
+            "accessLevel" : "view",
+            "accessLevelMax" : "manage"
+          },
+          "prescriptions" : {
+            "accessLevel" : "view",
+            "accessLevelMax" : "manage"
+          },
+          "requests" : [ {
+            "status" : "pending",
+            "createdDateTime" : "2022-10-29T23:59:59+00:00",
+            "message" : "Requires review by a healthcare worker.",
+            "permissionType" : "appointments",
+            "accessLevel" : "manage"
+          }, {
+            "status" : "pending",
+            "createdDateTime" : "2022-10-31T23:59:59+00:00",
+            "message" : "Requires review by a healthcare worker.",
+            "permissionType" : "medicalRecord",
+            "medicalRecordType" : "historical",
+            "accessLevel" : "detailed"
+          } ]
+        }
+      },
+      "GetResponsePendingRequestDetailed" : {
+        "summary" : "The patient has a pending request where they requested access to `detailed`\nfor the historical medical record.\n",
+        "value" : {
+          "medicalRecord" : {
+            "effectiveDate" : "2022-11-01",
+            "current" : {
+              "accessLevel" : "full",
+              "accessLevelMax" : "full"
+            },
+            "historical" : {
+              "accessLevel" : "summary",
+              "accessLevelMax" : "detailed"
+            }
+          },
+          "appointments" : {
+            "accessLevel" : "view",
+            "accessLevelMax" : "manage"
+          },
+          "prescriptions" : {
+            "accessLevel" : "view",
+            "accessLevelMax" : "manage"
+          },
+          "requests" : [ {
+            "status" : "pending",
+            "createdDateTime" : "2022-10-31T23:59:59+00:00",
+            "message" : "Requires review by a healthcare worker.",
+            "accessLevel" : "detailed",
+            "permissionType" : "medicalRecord",
+            "medicalRecordType" : "historical"
+          } ]
+        }
+      },
+      "GetResponsePendingRequestAppointments" : {
+        "summary" : "The patient has a pending request where they requested `manage` access to the\nappointments service.\n",
+        "value" : {
+          "medicalRecord" : {
+            "effectiveDate" : "2022-11-01",
+            "current" : {
+              "accessLevel" : "full",
+              "accessLevelMax" : "full"
+            },
+            "historical" : {
+              "accessLevel" : "summary",
+              "accessLevelMax" : "detailed"
+            }
+          },
+          "appointments" : {
+            "accessLevel" : "view",
+            "accessLevelMax" : "manage"
+          },
+          "prescriptions" : {
+            "accessLevel" : "view",
+            "accessLevelMax" : "manage"
+          },
+          "requests" : [ {
+            "status" : "pending",
+            "createdDateTime" : "2022-10-31T23:59:59+00:00",
+            "message" : "Requires review by a healthcare worker.",
+            "accessLevel" : "manage",
+            "permissionType" : "appointments"
+          } ]
+        }
+      },
+      "PostResponsePendingHistoricalDetailed" : {
+        "summary" : "Pending request for detailed access to historical medical record.",
+        "value" : {
+          "permissionType" : "medicalRecord",
+          "medicalRecordType" : "historical",
+          "accessLevel" : "detailed",
+          "status" : "pending",
+          "message" : "Request received to update historical medical record access to detailed.",
+          "createdDateTime" : "2022-11-01T00:00:00+00:00"
+        }
+      },
+      "ResponseRequestRejectedAppointments" : {
+        "$ref" : "#/components/examples/PostResponseRejectedAppointments",
+        "value" : null
+      },
+      "PostRequestBodyAppointments" : {
+        "summary" : "Request manage access to appointments service.",
+        "value" : {
+          "permissionType" : "appointments",
+          "accessLevel" : "manage"
+        }
+      },
+      "PostRequestBodyHistoricalDetailed" : {
+        "summary" : "Request detailed access for historical medical record.",
+        "value" : {
+          "permissionType" : "medicalRecord",
+          "medicalRecordType" : "historical",
+          "accessLevel" : "detailed"
+        }
+      },
+      "PostRequestBodyPrescriptions" : {
+        "summary" : "Request manage access to prescriptions service.",
+        "value" : {
+          "permissionType" : "prescriptions",
+          "accessLevel" : "manage"
+        }
+      },
+      "PostResponseRejectedAppointments" : {
+        "summary" : "Rejected request for manage access to appointments service.",
+        "value" : {
+          "permissionType" : "appointments",
+          "accessLevel" : "manage",
+          "status" : "rejected",
+          "message" : "Request rejected for manage access to appointments service.",
+          "createdDateTime" : "2022-11-01T00:00:00+00:00"
+        }
+      }
+    },
+    "headers" : {
+      "X-Correlation-ID" : {
+        "explode" : false,
+        "schema" : {
+          "$ref" : "#/components/schemas/CorrelationID"
+        },
+        "style" : "simple"
+      },
+      "X-Request-ID" : {
+        "explode" : false,
+        "schema" : {
+          "$ref" : "#/components/schemas/RequestID"
+        },
+        "style" : "simple"
+      }
+    },
+    "parameters" : {
+      "BearerAuthorization" : {
+        "description" : "An\n[OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis)\nfrom NHS login.\n",
+        "in" : "header",
+        "name" : "Authorization",
+        "required" : true,
+        "schema" : {
+          "example" : "Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM",
+          "format" : "^Bearer\\ [[:ascii:]]+$",
+          "type" : "string"
+        }
+      },
+      "CorrelationID" : {
+        "description" : "An optional ID which you can use to track transactions across multiple\nsystems. It can take any value, but we recommend avoiding `.`\ncharacters.\n\nMirrored back in a response header.\n",
+        "in" : "header",
+        "name" : "X-Correlation-ID",
+        "schema" : {
+          "$ref" : "#/components/schemas/CorrelationID"
+        }
+      },
+      "Id" : {
+        "description" : "The patient's NHS number. The primary identifier of a patient, unique\nwithin NHS England and Wales. Always 10 digits and must be a\n[valid NHS number](https://www.datadictionary.nhs.uk/attributes/nhs_number.html).\n",
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "schema" : {
+          "example" : "9000000009",
+          "type" : "string"
+        }
+      },
+      "RequestID" : {
+        "description" : "A globally unique identifier (GUID) for the request, which we use to\nde-duplicate repeated requests and to trace the request if you contact\nour helpdesk.\n\nMust be a universally unique identifier (UUID) (ideally version 4).\nMirrored back in a response header.\nIf you re-send a failed request, use the same value in this header.\n",
+        "in" : "header",
+        "name" : "X-Request-ID",
+        "schema" : {
+          "$ref" : "#/components/schemas/RequestID"
+        }
+      }
+    },
+    "requestBodies" : {
+      "UpdatePermission" : {
+        "content" : {
+          "application/json" : {
+            "examples" : {
+              "PostRequestBodyAppointments" : {
+                "$ref" : "./components/examples/PostRequestBodyAppointments.yaml",
+                "value" : null
+              },
+              "PostRequestBodyPrescriptions" : {
+                "$ref" : "./components/examples/PostRequestBodyPrescriptions.yaml",
+                "value" : null
+              },
+              "PostRequestBodyCurrentFull" : {
+                "$ref" : "./components/examples/PostRequestBodyCurrentFull.yaml",
+                "value" : null
+              },
+              "PostRequestBodyHistoricalDetailed" : {
+                "$ref" : "./components/examples/PostRequestBodyHistoricalDetailed.yaml",
+                "value" : null
+              }
+            },
+            "schema" : {
+              "$ref" : "#/components/schemas/updatePatientPermissions_request"
+            }
+          }
+        },
+        "description" : "Object containing information about the permission to update along with\nthe `accessLevel` to update to.\n",
+        "required" : true
+      }
+    },
+    "schemas" : {
+      "AppointmentsAccessLevelEnum" : {
+        "description" : "Indicates the level of access the patient has to the appointments service.\n\n| level   | description                                      |\n| -----   | -----------                                      |\n| none    | no access                                        |\n| view    | view only                                        |\n| manage  | view, book, amend & cancel existing appointments |\n",
+        "enum" : [ "none", "view", "manage" ],
+        "example" : "manage",
+        "type" : "string"
+      },
+      "AppointmentsAccessLevelMaxEnum" : {
+        "description" : "Indicates the maximum level of access the patient could request to the\nappointments service.\n\n| level   | description                                      |\n| -----   | -----------                                      |\n| none    | no access                                        |\n| view    | view only                                        |\n| manage  | view, book, amend & cancel existing appointments |\n",
+        "enum" : [ "none", "view", "manage" ],
+        "example" : "manage",
+        "type" : "string"
+      },
+      "AppointmentsPermission" : {
+        "description" : "An object representing the level of permission a patient has to the\nappointments service along with the maximum level of access that\ncould be requested.\n",
+        "properties" : {
+          "accessLevel" : {
+            "$ref" : "#/components/schemas/AppointmentsAccessLevelEnum"
+          },
+          "accessLevelMax" : {
+            "$ref" : "#/components/schemas/AppointmentsAccessLevelMaxEnum"
+          }
+        },
+        "required" : [ "accessLevel", "accessLevelMax" ],
+        "type" : "object"
+      },
+      "AppointmentsPermissionTypeEnum" : {
+        "description" : "Appointments permission type.",
+        "enum" : [ "appointments" ],
+        "type" : "string"
+      },
+      "AppointmentsPermissionRequest" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/AppointmentsPermissionRequest_allOf"
+        }, {
+          "type" : "object"
+        } ],
+        "description" : "An object containing information about any pending\nrequests for changes to the appointments service permissions.\n",
+        "type" : "object"
+      },
+      "AppointmentsPermissionUpdate" : {
+        "description" : "Object containing the `accessLevel` to update the appointments service to.\n",
+        "properties" : {
+          "permissionType" : {
+            "$ref" : "#/components/schemas/AppointmentsPermissionTypeEnum"
+          },
+          "accessLevel" : {
+            "$ref" : "#/components/schemas/AppointmentsAccessLevelEnum"
+          }
+        },
+        "required" : [ "accessLevel", "permissionType" ],
+        "type" : "object"
+      },
+      "AppointmentsPermissionUpdateResponse" : {
+        "allOf" : [ {
+          "type" : "object"
+        }, {
+          "type" : "object"
+        } ],
+        "type" : "object"
+      },
+      "BaseRequest" : {
+        "description" : "An object containing information about requests to change permissions.\n",
+        "properties" : {
+          "createdDateTime" : {
+            "description" : "The date-time when the request for change was created.",
+            "example" : "2022-11-01T23:59:59Z",
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "message" : {
+            "description" : "A message about the request and its status.",
+            "example" : "Request requires review by a healthcare worker.",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "The status of the request.",
+            "enum" : [ "pending", "rejected" ],
+            "example" : "pending",
+            "type" : "string"
+          }
+        },
+        "required" : [ "createdDateTime", "message", "status" ],
+        "type" : "object"
+      },
+      "CorrelationID" : {
+        "description" : "The X-Correlation-ID from the request header, if supplied, mirrored back.\n",
+        "example" : "11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA",
+        "pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+        "type" : "string"
+      },
+      "ErrorResponse" : {
+        "description" : "Outcome of an operation that does not result in a resource being returned.\n",
+        "properties" : {
+          "resourceType" : {
+            "description" : "The type of FHIR resource - primarily used by FHIR clients and used\nin non-FHIR APIs for consistency across the platform.\n",
+            "enum" : [ "OperationOutcome" ],
+            "type" : "string"
+          },
+          "meta" : {
+            "$ref" : "#/components/schemas/ErrorResponse_meta"
+          },
+          "issue" : {
+            "description" : "List of issues that have occurred.",
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorResponse_issue_inner"
+            },
+            "minItems" : 1,
+            "type" : "array"
+          }
+        },
+        "required" : [ "issue", "meta", "resourceType" ],
+        "type" : "object"
+      },
+      "MedicalRecordAccessLevelEnum" : {
+        "description" : "Indicates the level of access the patient has to the medical record.\n\n| level     | description                  |\n| -----     | -----------                  |\n| none      | no access                    |\n| summary   | summary record access        |\n| detailed  | detailed coded record access |\n| documents | documents access             |\n| full      | full access                  |\n",
+        "enum" : [ "none", "summary", "detailed", "documents", "full" ],
+        "example" : "detailed",
+        "type" : "string"
+      },
+      "MedicalRecordAccessLevelMaxEnum" : {
+        "description" : "Indicates the maximum level of access the patient could request to the\nmedical record.\n\n| level     | description                  |\n| -----     | -----------                  |\n| none      | no access                    |\n| summary   | summary record access        |\n| detailed  | detailed coded record access |\n| documents | documents access             |\n| full      | full access                  |\n",
+        "enum" : [ "none", "summary", "detailed", "documents", "full" ],
+        "example" : "detailed",
+        "type" : "string"
+      },
+      "MedicalRecordCurrentPermissionItem" : {
+        "description" : "An object representing the level of permission a patient has to the\ncurrent medical record along with the maximum level of access that\ncould be requested.\n\nThe current medical record is anything at or after the `effectiveDate`.\n",
+        "properties" : {
+          "accessLevel" : {
+            "$ref" : "#/components/schemas/MedicalRecordAccessLevelEnum"
+          },
+          "accessLevelMax" : {
+            "$ref" : "#/components/schemas/MedicalRecordAccessLevelMaxEnum"
+          }
+        },
+        "required" : [ "accessLevel", "accessLevelMax" ],
+        "type" : "object"
+      },
+      "MedicalRecordHistoricalPermissionItem" : {
+        "description" : "An object representing the level of permission a patient has to the\nhistorical medical record along with the maximum level of access that\ncould be requested.\n\nThe historical medical record is anything before the `effectiveDate`.\n",
+        "properties" : {
+          "accessLevel" : {
+            "$ref" : "#/components/schemas/MedicalRecordAccessLevelEnum"
+          },
+          "accessLevelMax" : {
+            "$ref" : "#/components/schemas/MedicalRecordAccessLevelMaxEnum"
+          }
+        },
+        "required" : [ "accessLevel", "accessLevelMax" ],
+        "type" : "object"
+      },
+      "MedicalRecordPermission" : {
+        "description" : "Contains the access level the patient has to the medical record. This\nis split into `current.accessLevel` and `historical.accessLevel` with\nan `effectiveDate`, representing the date when the current level of\naccess started.\n\nAlongside `accessLevel` is `accessLevelMax` which represents the\nhighest level of permission that could be requested.\n",
+        "properties" : {
+          "effectiveDate" : {
+            "description" : "The date when the `current` permissions started.",
+            "example" : "2022-11-01",
+            "format" : "date",
+            "type" : "string"
+          },
+          "current" : {
+            "$ref" : "#/components/schemas/MedicalRecordCurrentPermissionItem"
+          },
+          "historical" : {
+            "$ref" : "#/components/schemas/MedicalRecordHistoricalPermissionItem"
+          }
+        },
+        "required" : [ "current", "effectiveDate" ],
+        "type" : "object"
+      },
+      "MedicalRecordPermissionRequest" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/MedicalRecordPermissionRequest_allOf"
+        }, {
+          "type" : "object"
+        } ],
+        "description" : "An object containing information about any pending\nrequests for changes to the medical record permissions.\n",
+        "type" : "object"
+      },
+      "MedicalRecordPermissionTypeEnum" : {
+        "description" : "Medical record permission type.",
+        "enum" : [ "medicalRecord" ],
+        "type" : "string"
+      },
+      "MedicalRecordPermissionUpdate" : {
+        "description" : "Object containing information about the request to update the\npermission to the medical record.\n",
+        "properties" : {
+          "permissionType" : {
+            "$ref" : "#/components/schemas/MedicalRecordPermissionTypeEnum"
+          },
+          "accessLevel" : {
+            "$ref" : "#/components/schemas/MedicalRecordAccessLevelEnum"
+          },
+          "medicalRecordType" : {
+            "$ref" : "#/components/schemas/MedicalRecordTypeEnum"
+          }
+        },
+        "required" : [ "accessLevel", "medicalRecordType", "permissionType" ],
+        "type" : "object"
+      },
+      "MedicalRecordPermissionUpdateResponse" : {
+        "allOf" : [ {
+          "type" : "object"
+        }, {
+          "type" : "object"
+        } ],
+        "type" : "object"
+      },
+      "MedicalRecordTypeEnum" : {
+        "description" : "The type of the medical record.",
+        "enum" : [ "current", "historical" ],
+        "example" : "current",
+        "type" : "string"
+      },
+      "PatientPermission" : {
+        "description" : "Contains the permissions the patient has to their medical record and the\nappointments and prescriptions services.\n\nEach permission has two properties, an `accessLevel` and an\n`accessLevelMax`.\n\n`accessLevel` describes the current level of permission\nthe patient has.\n\n`accessLevelMax` describes the maximum level of permission the patient\nmay request. This _can_ be different than the absolute maximum level of\npermission possible. For example, if a patient has an `accessLevel` of\n`summary` and an `accessLevelMax` of `detailed` for their current\nmedical record they can make a request to increase their level of\naccess to `detailed` but not `documents` or `full`.\n\nMedical record access levels are split into `current` and\n`historical` with an `effectiveDate` for when the current\naccess level started. This is to account for allowing patients to access\ntheir future medical record entries. For more details, see\n[access to patient records through the NHS App](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record).\n\nAn optional array of `requests` may be included to contain information about\nany pending requests. This is information that should be displayed to the\npatient to help them understand the status of their requests.\n",
+        "properties" : {
+          "medicalRecord" : {
+            "$ref" : "#/components/schemas/MedicalRecordPermission"
+          },
+          "appointments" : {
+            "$ref" : "#/components/schemas/AppointmentsPermission"
+          },
+          "prescriptions" : {
+            "$ref" : "#/components/schemas/PrescriptionsPermission"
+          },
+          "requests" : {
+            "description" : "List of requests that have been made to update permissions but have\nyet to be processed.\n",
+            "items" : {
+              "$ref" : "#/components/schemas/PatientPermission_requests_inner"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "appointments", "medicalRecord", "prescriptions" ],
+        "type" : "object"
+      },
+      "PermissionUpdateResponse" : {
+        "description" : "A response could be for the medical record, appointments service\nor prescriptions service depending on the request made. The response\nalways corresponds to the request.\n",
+        "discriminator" : {
+          "mapping" : {
+            "medicalRecord" : "./components/schemas/MedicalRecordPermissionUpdateResponse.yaml",
+            "appointments" : "./components/schemas/AppointmentsPermissionUpdateResponse.yaml",
+            "prescriptions" : "./components/schemas/PrescriptionsPermissionUpdateResponse.yaml"
+          },
+          "propertyName" : "id"
+        },
+        "oneOf" : [ {
+          "$ref" : "./components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
+        }, {
+          "$ref" : "./components/schemas/AppointmentsPermissionUpdateResponse.yaml"
+        }, {
+          "$ref" : "./components/schemas/PrescriptionsPermissionUpdateResponse.yaml"
+        } ],
+        "type" : "object"
+      },
+      "PrescriptionsAccessLevelEnum" : {
+        "description" : "Indicates the level of access the patient has to the prescriptions service.\n\n| level   | description                                        |\n| -----   | -----------                                        |\n| none    | no access                                          |\n| view    | view only                                          |\n| manage  | view, order, amend & cancel existing prescriptions |\n",
+        "enum" : [ "none", "view", "manage" ],
+        "example" : "manage",
+        "type" : "string"
+      },
+      "PrescriptionsAccessLevelMaxEnum" : {
+        "description" : "Indicates the maximum level of access the patient could request to the\nprescriptions service.\n\n| level   | description                                        |\n| -----   | -----------                                        |\n| none    | no access                                          |\n| view    | view only                                          |\n| manage  | view, order, amend & cancel existing prescriptions |\n",
+        "enum" : [ "none", "view", "manage" ],
+        "example" : "manage",
+        "type" : "string"
+      },
+      "PrescriptionsPermission" : {
+        "description" : "An object representing the level of permission a patient has to the\nprescriptions service along with the maximum level of access that\ncould be requested.\n",
+        "properties" : {
+          "accessLevel" : {
+            "$ref" : "#/components/schemas/PrescriptionsAccessLevelEnum"
+          },
+          "accessLevelMax" : {
+            "$ref" : "#/components/schemas/PrescriptionsAccessLevelMaxEnum"
+          }
+        },
+        "required" : [ "accessLevel", "accessLevelMax" ],
+        "type" : "object"
+      },
+      "PrescriptionsPermissionRequest" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/PrescriptionsPermissionRequest_allOf"
+        }, {
+          "type" : "object"
+        } ],
+        "description" : "An object containing information about any pending\nrequests for changes to the prescriptions service permissions.\n",
+        "type" : "object"
+      },
+      "PrescriptionsPermissionUpdate" : {
+        "description" : "Object containing the `accessLevel` to update the prescriptions service to.\n",
+        "properties" : {
+          "permissionType" : {
+            "$ref" : "#/components/schemas/PrescriptionsPermissionTypeEnum"
+          },
+          "accessLevel" : {
+            "$ref" : "#/components/schemas/PrescriptionsAccessLevelEnum"
+          }
+        },
+        "required" : [ "accessLevel", "permissionType" ],
+        "type" : "object"
+      },
+      "PrescriptionsPermissionUpdateResponse" : {
+        "allOf" : [ {
+          "type" : "object"
+        }, {
+          "type" : "object"
+        } ],
+        "type" : "object"
+      },
+      "PrescriptionsPermissionTypeEnum" : {
+        "description" : "Prescriptions permission type.",
+        "enum" : [ "prescriptions" ],
+        "type" : "string"
+      },
+      "RequestID" : {
+        "description" : "The X-Request-ID from the request header, if supplied, mirrored back.\n",
+        "example" : "60E0B220-8136-4CA5-AE46-1D97EF59D068",
+        "pattern" : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+        "type" : "string"
+      },
+      "updatePatientPermissions_request" : {
+        "description" : "A request could be for the medical record, appointments service\nor prescriptions service.\n",
+        "discriminator" : {
+          "mapping" : {
+            "medicalRecord" : "../schemas/MedicalRecordPermissionUpdate.yaml",
+            "appointments" : "../schemas/AppointmentsPermissionUpdate.yaml",
+            "prescriptions" : "../schemas/PrescriptionsPermissionUpdate.yaml"
+          },
+          "propertyName" : "id"
+        },
+        "oneOf" : [ {
+          "$ref" : "./components/schemas/MedicalRecordPermissionUpdate.yaml"
+        }, {
+          "$ref" : "./components/schemas/AppointmentsPermissionUpdate.yaml"
+        }, {
+          "$ref" : "./components/schemas/PrescriptionsPermissionUpdate.yaml"
+        } ]
+      },
+      "AppointmentsPermissionRequest_allOf" : {
+        "properties" : {
+          "permissionType" : {
+            "$ref" : "./components/schemas/AppointmentsPermissionTypeEnum.yaml"
+          },
+          "accessLevel" : {
+            "$ref" : "./components/schemas/AppointmentsAccessLevelEnum.yaml"
+          }
+        },
+        "required" : [ "accessLevel", "permissionType" ],
+        "type" : "object",
+        "example" : null
+      },
+      "ErrorResponse_meta" : {
+        "description" : "Object to hold meta information about the error.",
+        "properties" : {
+          "lastUpdated" : {
+            "description" : "UTC date and time stamp when the error occurred.",
+            "example" : "2022-11-01T00:00:00+00:00",
+            "type" : "string"
+          }
+        },
+        "required" : [ "lastUpdated" ],
+        "type" : "object"
+      },
+      "ErrorResponse_issue_inner_details_coding_inner" : {
+        "properties" : {
+          "system" : {
+            "description" : "URI of the coding system specification.",
+            "example" : "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode",
+            "type" : "string"
+          },
+          "version" : {
+            "description" : "Version of the coding system in use.",
+            "example" : "1",
+            "type" : "string"
+          },
+          "code" : {
+            "description" : "Symbol in syntax defined by the system.",
+            "example" : "INVALID_VALUE",
+            "type" : "string"
+          },
+          "display" : {
+            "description" : "Representation defined by the system.",
+            "example" : "Provided value is invalid.",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ErrorResponse_issue_inner_details" : {
+        "description" : "Internal error code.",
+        "properties" : {
+          "coding" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorResponse_issue_inner_details_coding_inner"
+            },
+            "type" : "array"
+          },
+          "diagnostics" : {
+            "description" : "Additional diagnostic information about the issue.\n",
+            "example" : "(invalid_request) firstName is missing.",
+            "type" : "string"
+          },
+          "expression" : {
+            "description" : "JSON pointer of element(s) related to the error.",
+            "items" : {
+              "example" : "/data/attributes/firstName",
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
+      "ErrorResponse_issue_inner" : {
+        "properties" : {
+          "severity" : {
+            "description" : "Severity of the error.",
+            "enum" : [ "fatal", "error", "warning", "information" ],
+            "example" : "error",
+            "type" : "string"
+          },
+          "code" : {
+            "description" : "A FHIR error code - primarily used by FHIR clients and used in\nnon-FHIR APIs for consistency across the platform.\n",
+            "enum" : [ "business-rule", "code-invalid", "conflict", "deleted", "duplicate", "exception", "expired", "extension", "forbidden", "incomplete", "informational", "invalid", "invariant", "lock-error", "login", "multiple-matches", "no-store", "not-found", "not-supported", "processing", "required", "security", "structure", "suppressed", "throttled", "timeout", "too-costly", "too-long", "transient", "unknown", "value" ],
+            "example" : "forbidden",
+            "type" : "string"
+          },
+          "details" : {
+            "$ref" : "#/components/schemas/ErrorResponse_issue_inner_details"
+          }
+        },
+        "required" : [ "code", "severity" ],
+        "type" : "object"
+      },
+      "MedicalRecordPermissionRequest_allOf" : {
+        "properties" : {
+          "permissionType" : {
+            "$ref" : "./components/schemas/MedicalRecordPermissionTypeEnum.yaml"
+          },
+          "medicalRecordType" : {
+            "$ref" : "./components/schemas/MedicalRecordTypeEnum.yaml"
+          },
+          "accessLevel" : {
+            "$ref" : "./components/schemas/MedicalRecordAccessLevelEnum.yaml"
+          }
+        },
+        "required" : [ "accessLevel", "medicalRecordType", "permissionType" ],
+        "type" : "object",
+        "example" : null
+      },
+      "PatientPermission_requests_inner" : {
+        "anyOf" : [ {
+          "$ref" : "#/components/schemas/MedicalRecordPermissionRequest"
+        }, {
+          "$ref" : "#/components/schemas/AppointmentsPermissionRequest"
+        }, {
+          "$ref" : "#/components/schemas/PrescriptionsPermissionRequest"
+        } ],
+        "description" : "A request could be for the medical record, appointments service\nor prescriptions service.\n"
+      },
+      "PrescriptionsPermissionRequest_allOf" : {
+        "properties" : {
+          "permissionType" : {
+            "$ref" : "./components/schemas/PrescriptionsPermissionTypeEnum.yaml"
+          },
+          "accessLevel" : {
+            "$ref" : "./components/schemas/PrescriptionsAccessLevelEnum.yaml"
+          }
+        },
+        "required" : [ "accessLevel", "permissionType" ],
+        "type" : "object",
+        "example" : null
+      }
+    }
+  }
+}

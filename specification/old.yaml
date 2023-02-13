@@ -1,0 +1,448 @@
+# This is an OpenAPI Specification (https://swagger.io/specification/)
+# for gp-connect-user-permissions owned by NHS Digital (https://digital.nhs.uk/)
+openapi: 3.0.0
+info:
+  version: Computed and injected at build time by `scripts/set_version.py`
+  title: GP Connect - Patient Permissions
+  contact:
+    name: GP Connect - Patient Permissions API Support
+    url: https://digital.nhs.uk/developer/help-and-support
+    email: api.management@nhs.net
+  description: |
+    ## Overview
+
+    ![GP Connect Patient Facing User Permissions API Overview](https://raw.githubusercontent.com/NHSDigital/gp-connect-user-permissions/master/specification/diagrams/overview.svg)
+
+    Use this API to list and manage the permissions a patient has to their
+    medical record and a selection of services provided at their GP practice.
+
+    You can:
+
+    - get a patient's permissions
+    - request to update a patient's permissions to a higher level
+
+    You cannot:
+
+    - request to update a patient's permissions to a lower level
+
+    To use this API, the end user must be a patient who is:
+
+    - registered with the GP practice
+    - registered with NHS login to P9 identity verification level
+
+    This API allows you to manage the permissions for:
+
+    - appointments
+    - prescriptions
+    - medical record
+
+    This API is designed to respect the policy changes made in order to
+    allow patients to access their future medical record entries.
+    For more details, see
+    [access to patient records through the NHS App](https://digital.nhs.uk/services/nhs-app/nhs-app-guidance-for-gp-practices/guidance-on-nhs-app-features/accelerating-patient-access-to-their-record).
+
+    ## Who can use this API
+
+    This API:
+
+    - is only for use by patient-facing applications
+    - can only be used where there is a legal basis to do so
+
+    Make sure you have a valid use case before you go too far with your
+    development. To do this, [contact us](https://digital.nhs.uk/developer/help-and-support).
+
+    You must do this before you can go live (see
+    [Onboarding](#api-description__onboarding) below).
+
+    ## Related APIs
+
+    The GP Connect suite of APIs include the following related APIs:
+
+    - [GP Connect Access Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-document-fhir) - retrieve unstructured documents from a patient's GP practice record.
+    - [GP Connect Access Record: HTML - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-html-fhir) - view a patient's GP practice record, with read-only access.
+    - [GP Connect Access Record: Structured - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-access-record-structured-fhir) - retrieve structured information from a patient's GP practice record.
+    - [GP Connect Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-appointment-management-fhir) - manage GP practice appointments between different systems.
+    - [GP Connect Send Document - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-send-document-fhir) - send a PDF consultation summary to a registered GP practice.
+    - [GP Connect (Patient Facing) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-access-record-fhir) - access a patient's GP records with the GP Connect (patient facing) Access Record - FHIR API.
+    - [GP Connect (Patient Facing) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-appointment-management-fhir) - manage a patient's GP appointments using the GP Connect (patient facing) Appointment Management - FHIR API.
+    - [GP Connect (Patient Facing) Prescriptions - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-prescriptions-fhir) - manage a patient's prescriptions using the GP Connect (patient facing) Prescriptions - FHIR API.
+
+    ## API status and roadmap
+
+    This API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+
+    - it is available for testing in the sandbox environment
+    - it is not available for production use
+    - we might make breaking changes, but only if we cannot avoid it, and we will give advance notice
+
+    To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/341390/gp-connect-user-permissions).
+
+    If you have any other queries,
+    [contact us](https://digital.nhs.uk/developer/help-and-support).
+
+    ## Service level
+
+    This API is a silver service, meaning it is operational 24 x 7 x 365 but
+    only supported during business hours (8am to 6pm), Monday to Friday
+    excluding bank holidays.
+
+    For more details, see [service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).
+
+    ## Technology
+
+    This API is
+    [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
+
+    ## Network access
+
+    This API is available on the internet and, indirectly, on the
+    [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network).
+
+    For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
+
+    ## Security and authorisation
+
+    This API is
+    [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis),
+    meaning an end user must be present and authenticated to use it.
+
+    The end user must be:
+
+    - a patient
+    - authenticated with NHS login to P9 identity verification level
+
+    The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to
+    authorise the calling system. It supports the following security pattern
+    using NHS login:
+
+    - [User-restricted RESTful APIs - NHS login separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-login-separate-authentication-and-authorisation)
+
+    ## Environments and testing
+
+    | Purpose          | URL                                                                        |
+    | -------          | ---                                                                        |
+    | Sandbox          | `https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/permissions` |
+    | Integration test | Not yet available                                                          |
+    | Production       | Not yet available                                                          |
+
+    ### Sandbox testing
+
+    Our [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):
+
+    - is for early developer testing
+    - only covers a limited set of scenarios
+    - is stateless, so it does not store data
+    - is open access, so does not allow you to test authorisation
+
+    For more details on sandbox testing, or to try out the sandbox using our
+    "Try this API" feature, see the documentation for each endpoint.
+
+    ### Integration testing (not yet available)
+
+    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+
+    - is for formal integration testing
+    - is stateful, so it does persist data
+    - includes authorisation
+
+    For more details see
+     [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
+
+    ## Onboarding
+
+    This API is not yet available for onboarding.
+
+    ## Errors
+
+    We use standard HTTP status codes to show whether an API request succeeded
+    or not. They are usually in the range:
+
+    - 200 to 299 if it succeeded, including code 202 if it was accepted by an
+      API that needs to wait for further action
+
+    - 400 to 499 if it failed because of a client error by your application
+
+    - 500 to 599 if it failed because of an error on our server
+
+    Errors specific to each API are shown in the Endpoints section, under
+    Response. See our
+    [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes)
+    for more on errors.
+
+servers:
+  - url: https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/permissions
+    description: Sandbox environment
+
+paths:
+  /Patient/{id}:
+    parameters:
+      - $ref: "#/components/parameters/Id"
+      - $ref: "#/components/parameters/BearerAuthorization"
+      - $ref: "#/components/parameters/CorrelationID"
+      - $ref: "#/components/parameters/RequestID"
+    get:
+      operationId: getPatientPermissions
+      summary: Get a patient's permissions
+      description: |
+        ## Overview
+
+        Get a patient's permissions. The permissions describe the level of
+        access the patient has to their medical record, the appointments
+        service and the prescriptions service provided at their GP practice.
+
+        The medical record permission includes the access level the patient
+        has to both their current and their historical medical record.
+        The appointments and prescriptions service permissions represent the
+        patient's current access level.
+
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+        * building a UI so only the elements the patient has access to are
+          available
+        * presenting permissions to the patient so they can see what they do
+          and do not have access to
+        * presenting permissions to the patient so they can request additional
+          permissions
+
+        ## Maximum allowable permissions
+
+        Not all patients are able to request the highest level of
+        permission available. The maximum level each patient can request is
+        included within the response. This can be used to prevent patients
+        requesting additional permissions that would not be granted.
+
+        ## Pending requests
+
+        It is possible for a patient to request to change permissions and
+        those requests to not be actioned immediately. When this happens
+        there is a need to inform the patient of any pending requests. This
+        can be done using the `requests` property.
+      responses:
+        200:
+          description: Successful response
+          headers:
+            X-Correlation-ID:
+              $ref: "#/components/headers/X-Correlation-ID"
+            X-Request-ID:
+              $ref: "#/components/headers/X-Request-ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PatientPermission"
+              examples:
+                GetResponsePermissionsFull:
+                  $ref: "#/components/examples/GetResponsePermissionsFull"
+                GetResponsePendingRequestDetailed:
+                  $ref: "#/components/examples/GetResponsePendingRequestDetailed"
+                GetResponsePendingRequestAppointments:
+                  $ref: "#/components/examples/GetResponsePendingRequestAppointments"
+                GetResponseMultiplePendingRequests:
+                  $ref: "#/components/examples/GetResponseMultiplePendingRequests"
+        4XX:
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Error code             | Description                                                                                                                               |
+            | ----------- | ----------             | -----------                                                                                                                               |
+            | 400         | INVALID_RESOURCE_ID    | Invalid NHS number.                                                                                                                       |
+          content:
+            application/fhir+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InvalidRequestError:
+                  $ref: "#/components/examples/InvalidRequestError"
+    post:
+      operationId: updatePatientPermissions
+      summary: Request a change to a patient's permission
+      description: |
+        ## Overview
+
+        Request a change to the permission a patient has for their medical
+        record or services provided by the GP practice.
+
+        Once you submit a request, it waits in a queue to be processed by a
+        healthcare worker. Exactly when this will happen is unpredictable.
+
+        The response to getting patient permissions contains information on
+        pending requests. Once the request is processed it is no longer
+        included in pending requests.
+
+        If you like, you can share this information with the patient to help
+        set their expectations.
+
+        ## Use cases
+
+        Use cases covered by this endpoint include the patient requesting:
+
+        * additional access to the appointments
+        * additional access to the prescriptions
+        * additional access to their current medical record
+        * detailed coded record access to their historical medical record
+
+        ## Request workflow
+
+        When a request is made, if it is accepted, it is added to the GP
+        system's workflow and processed at some point in the future. Responses
+        to these requests have a state of pending.
+
+        Rejected requests are not added to the GP system's
+        workflow. The message included in the response to a rejected request
+        explains the reason for the rejection. This should be displayed to
+        the patient.
+
+        ## Request handling
+
+        If a request is a duplicate, it is deduplicated by
+        the GP system, with the original request being preserved.
+
+        If multiple requests are made (and accepted) they are combined
+        within the workflow and reviewed together by a healthcare worker.
+      requestBody:
+        $ref: "#/components/requestBodies/UpdatePermission"
+      responses:
+        200:
+          description: Successful response
+          headers:
+            X-Correlation-ID:
+              $ref: "#/components/headers/X-Correlation-ID"
+            X-Request-ID:
+              $ref: "#/components/headers/X-Request-ID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionUpdateResponse"
+              examples:
+                PostResponsePendingHistoricalDetailed:
+                  $ref: "#/components/examples/PostResponsePendingHistoricalDetailed"
+                ResponseRequestRejectedAppointments:
+                  $ref: "#/components/examples/ResponseRequestRejectedAppointments"
+        4XX:
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Error code                      | Description                                                                                                                                                              |
+            | ----------- | ----------                      | -----------                                                                                                                                                              |
+            | 400         | INVALID_RESOURCE_ID             | Invalid NHS number.                                                                                                                                                      |
+            | 400         | INVALID_UPDATE                  | Malformed request.                                                                                                                                                       |
+            | 400         | VALIDATION_ERROR                | This is the "default" error thrown when no others are applicable.                                                                                                        |
+            | 400         | UNSUPPORTED_CHARACTERS_IN_FIELD | Invalid value in body of patch request. For details, see the `diagnostics` field.                                                                                        |
+            | 400         | ADDITIONAL_PROPERTIES           | The user sent additional properties within the dictionary.                                                                                                               |
+            | 400         | UNSUPPORTED_VALUE               | There was an unsupported value in the request. For example sending a request and attempting to set a permission for an unknown permission type such as `communications`. |
+            | 403         | FORBIDDEN_UPDATE                | The user is not permitted to make certain requests. For example, no user can request access beyond the level of access denoted by `accessLevelMax`.                      |
+          content:
+            application/fhir+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InvalidRequestError:
+                  $ref: "#/components/examples/InvalidRequestError"
+
+components:
+  headers:
+    X-Correlation-ID:
+      schema:
+        $ref: "#/components/schemas/CorrelationID"
+    X-Request-ID:
+      schema:
+        $ref: "#/components/schemas/RequestID"
+
+  parameters:
+    BearerAuthorization:
+      $ref: "components/parameters/BearerAuthorization.yaml"
+    CorrelationID:
+      $ref: "components/parameters/CorrelationID.yaml"
+    Id:
+      $ref: "components/parameters/Id.yaml"
+    RequestID:
+      $ref: "components/parameters/RequestID.yaml"
+
+  schemas:
+    AppointmentsAccessLevelEnum:
+      $ref: "components/schemas/AppointmentsAccessLevelEnum.yaml"
+    AppointmentsAccessLevelMaxEnum:
+      $ref: "components/schemas/AppointmentsAccessLevelMaxEnum.yaml"
+    AppointmentsPermission:
+      $ref: "components/schemas/AppointmentsPermission.yaml"
+    AppointmentsPermissionTypeEnum:
+      $ref: "components/schemas/AppointmentsPermissionTypeEnum.yaml"
+    AppointmentsPermissionRequest:
+      $ref: "components/schemas/AppointmentsPermissionRequest.yaml"
+    AppointmentsPermissionUpdate:
+      $ref: "components/schemas/AppointmentsPermissionUpdate.yaml"
+    AppointmentsPermissionUpdateResponse:
+      $ref: "components/schemas/AppointmentsPermissionUpdateResponse.yaml"
+    BaseRequest:
+      $ref: "components/schemas/BaseRequest.yaml"
+    CorrelationID:
+      $ref: "components/schemas/CorrelationID.yaml"
+    ErrorResponse:
+      $ref: "components/schemas/ErrorResponse.yaml"
+    MedicalRecordAccessLevelEnum:
+      $ref: "components/schemas/MedicalRecordAccessLevelEnum.yaml"
+    MedicalRecordAccessLevelMaxEnum:
+      $ref: "components/schemas/MedicalRecordAccessLevelMaxEnum.yaml"
+    MedicalRecordCurrentPermissionItem:
+      $ref: "components/schemas/MedicalRecordCurrentPermissionItem.yaml"
+    MedicalRecordHistoricalPermissionItem:
+      $ref: "components/schemas/MedicalRecordHistoricalPermissionItem.yaml"
+    MedicalRecordPermission:
+      $ref: "components/schemas/MedicalRecordPermission.yaml"
+    MedicalRecordPermissionRequest:
+      $ref: "components/schemas/MedicalRecordPermissionRequest.yaml"
+    MedicalRecordPermissionTypeEnum:
+      $ref: "components/schemas/MedicalRecordPermissionTypeEnum.yaml"
+    MedicalRecordPermissionUpdate:
+      $ref: "components/schemas/MedicalRecordPermissionUpdate.yaml"
+    MedicalRecordPermissionUpdateResponse:
+      $ref: "components/schemas/MedicalRecordPermissionUpdateResponse.yaml"
+    MedicalRecordTypeEnum:
+      $ref: "components/schemas/MedicalRecordTypeEnum.yaml"
+    PatientPermission:
+      $ref: "components/schemas/PatientPermission.yaml"
+    PermissionUpdateResponse:
+      $ref: "components/schemas/PermissionUpdateResponse.yaml"
+    PrescriptionsAccessLevelEnum:
+      $ref: "components/schemas/PrescriptionsAccessLevelEnum.yaml"
+    PrescriptionsAccessLevelMaxEnum:
+      $ref: "components/schemas/PrescriptionsAccessLevelMaxEnum.yaml"
+    PrescriptionsPermission:
+      $ref: "components/schemas/PrescriptionsPermission.yaml"
+    PrescriptionsPermissionRequest:
+      $ref: "components/schemas/PrescriptionsPermissionRequest.yaml"
+    PrescriptionsPermissionUpdate:
+      $ref: "components/schemas/PrescriptionsPermissionUpdate.yaml"
+    PrescriptionsPermissionUpdateResponse:
+      $ref: "components/schemas/PrescriptionsPermissionUpdateResponse.yaml"
+    PrescriptionsPermissionTypeEnum:
+      $ref: "components/schemas/PrescriptionsPermissionTypeEnum.yaml"
+    RequestID:
+      $ref: "components/schemas/RequestID.yaml"
+
+  examples:
+    InvalidRequestError:
+      $ref: "components/examples/InvalidRequestError.yaml"
+    GetResponsePermissionsFull:
+      $ref: "components/examples/GetResponsePermissionsFull.yaml"
+    GetResponseMultiplePendingRequests:
+      $ref: "components/examples/GetResponseMultiplePendingRequests.yaml"
+    GetResponsePendingRequestDetailed:
+      $ref: "components/examples/GetResponsePendingRequestDetailed.yaml"
+    GetResponsePendingRequestAppointments:
+      $ref: "components/examples/GetResponsePendingRequestAppointments.yaml"
+    PostResponsePendingHistoricalDetailed:
+      $ref: "components/examples/PostResponsePendingHistoricalDetailed.yaml"
+    ResponseRequestRejectedAppointments:
+      $ref: "components/examples/PostResponseRejectedAppointments.yaml"
+    PostRequestBodyAppointments:
+      $ref: "components/examples/PostRequestBodyAppointments.yaml"
+    PostRequestBodyHistoricalDetailed:
+      $ref: "components/examples/PostRequestBodyHistoricalDetailed.yaml"
+    PostRequestBodyPrescriptions:
+      $ref: "components/examples/PostRequestBodyPrescriptions.yaml"
+
+  requestBodies:
+    UpdatePermission:
+      $ref: "components/requestBodies/UpdatePermission.yaml"
