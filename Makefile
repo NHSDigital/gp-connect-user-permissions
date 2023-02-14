@@ -7,7 +7,6 @@ install-python:
 #Installs dependencies using npm.
 install-node:
 	npm install --legacy-peer-deps
-	cd sandbox && npm install --legacy-peer-deps
 
 #Configures Git Hooks, which are scipts that run given a specified event.
 .git/hooks/pre-commit:
@@ -27,9 +26,11 @@ clean:
 	rm -rf dist
 
 #Creates the fully expanded OAS spec in json
-publish: clean
+publish:
+	rm -rf build
 	mkdir -p build
 	npm run publish 2> /dev/null
+	cp build/gp-connect-user-permissions.json mock-receiver/
 
 #Runs build proxy script
 build-proxy:

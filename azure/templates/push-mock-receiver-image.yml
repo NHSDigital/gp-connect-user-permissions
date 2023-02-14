@@ -1,0 +1,17 @@
+steps:
+  - template: "azure/components/aws-assume-role.yml@common"
+    parameters:
+      role: "auto-ops"
+      profile: "apim-dev"
+      aws_account: "dev"
+
+  - bash: |
+      export AWS_PROFILE=apim-dev
+      account_id="$(aws sts get-caller-identity --query Account --output text)"
+      repository_url=${account_id}.dkr.ecr.eu-west-2.amazonaws.com/gpconnect-user-permissions
+      image_tag=${repository_url}:$(Build.BuildId)
+      
+      make push tag=${image_tag}
+
+    displayName: Build and Push MockReceiver Docker to ECR
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/mock-receiver"
