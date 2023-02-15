@@ -12,7 +12,6 @@ allOf:
         $ref: "AppointmentsPermissionTypeEnum.yaml"
       accessLevel:
         $ref: "AppointmentsAccessLevelEnum.yaml"
-  - schema:
-      $ref: "BaseRequest.yaml"
+  - $ref: "BaseRequest.yaml"
 
 

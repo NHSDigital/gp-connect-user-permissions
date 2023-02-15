@@ -12,5 +12,4 @@ allOf:
         $ref: "PrescriptionsPermissionTypeEnum.yaml"
       accessLevel:
         $ref: "PrescriptionsAccessLevelEnum.yaml"
-  - schema:
-      $ref: "BaseRequest.yaml"
+  - $ref: "BaseRequest.yaml"
