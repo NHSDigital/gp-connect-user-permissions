@@ -13,7 +13,9 @@ required:
 properties:
   effectiveDate:
     type: string
-    description: The date when the `current` permissions started.
+    description: |
+      The date when the `current` permissions started. This must not be in the
+      future.
     format: date
     example: "2022-11-01"
   current:
