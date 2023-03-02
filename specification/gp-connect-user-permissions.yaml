@@ -93,6 +93,10 @@ info:
     This API is
     [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
 
+    ### Resources
+
+    Use the [GP Connect User Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Patient-Facing-User-Management/Home?version=current) to assit with your integration.
+
     ## Network access
 
     This API is available on the internet and, indirectly, on the
