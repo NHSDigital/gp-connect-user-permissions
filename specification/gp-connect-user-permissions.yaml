@@ -170,7 +170,7 @@ info:
     for more on errors.
 
 servers:
-  - url: https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/permissions
+  - url: https://sandbox.api.service.nhs.uk/gp-connect-user-permissions
     description: Sandbox environment
 
 paths:
