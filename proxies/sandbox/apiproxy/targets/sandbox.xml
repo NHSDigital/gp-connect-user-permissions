@@ -3,7 +3,11 @@
     <FaultRules/>
     <Flows/>
     <PostFlow name="PostFlow">
-        <Request/>
+        <Request>
+          <Step>
+            <Name>AssignMessage.AddAuthorization</Name>
+          </Step>
+        </Request>
         <Response/>
     </PostFlow>
     <PreFlow name="PreFlow">
