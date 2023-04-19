@@ -5,7 +5,7 @@ interactionId=$(environment)
 aws_profile = apim-dev
 tf_cmd = AWS_PROFILE=$(aws_profile) terraform
 
-project_name = gp-connect-user-permissions-fhir
+project_name = gp-connect-user-permissions
 project_short_name = gcupf
 state_bucket = $(project_name)-terraform-state
 tf_state= -backend-config="bucket=$(state_bucket)"
