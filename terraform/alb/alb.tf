@@ -1,13 +1,10 @@
-resource "aws_lb" "alb" {
-  name               = var.short_prefix
-  internal           = true
-  load_balancer_type = "application"
+resource "aws_lb_listener" "api_http_80" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = var.listener_port
+  protocol          = "HTTP"
 
-  subnets         = var.private_subnet_ids
-  security_groups = [aws_security_group.alb_security_group.id]
-
-  access_logs {
-    bucket  = aws_s3_bucket.lb_logs.bucket
-    enabled = true
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.http_mock_provider_tg.arn
   }
 }

@@ -30,7 +30,7 @@ publish:
 	rm -rf build
 	mkdir -p build
 	npm run publish 2> /dev/null
-	cp build/gp-connect-user-permissions.json mock-receiver/
+	cp build/gp-connect-user-permissions.json PrismMockProvider/
 
 #Runs build proxy script
 build-proxy:
