@@ -1,0 +1,114 @@
+parameters:
+  - name: aws_dev
+    default: aws --profile=apim-dev
+  - name: is_ptl
+    default: true
+
+steps:
+  - ${{ if parameters.is_ptl }}:
+    - template: "azure/components/aws-assume-role.yml@common"
+      parameters:
+          role: "auto-ops"
+          profile: "apm_ptl"
+
+    - template: "azure/components/get-aws-secrets-and-ssm-params.yml@common"
+      parameters:
+          secret_file_ids:
+              - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
+          secret_ids:
+              - ptl/app-credentials/gp-connect-user-permissions-testing-app/non-prod/INTROSPECTION_CLIENT_ID
+              - ptl/app-credentials/gp-connect-user-permissions-testing-app/non-prod/INTROSPECTION_CLIENT_SECRET
+              - ptl/app-credentials/gp-connect-user-permissions-testing-app/non-prod/INTROSPECTION_CLIENT_ID_INT
+              - ptl/app-credentials/gp-connect-user-permissions-testing-app/non-prod/INTROSPECTION_CLIENT_SECRET_INT
+
+  - bash: |
+      make install-python
+    workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+    displayName: Setup pytests
+    condition: always()
+  - bash: |
+      name=$(FULLY_QUALIFIED_SERVICE_NAME)
+      workspace=$(echo $name | grep -oE '[0-9]+$')
+      isItPR=0
+      if [ -z ${workspace} ]; then
+          workspace=$APIGEE_ENVIRONMENT
+      else
+          isItPR=1
+          echo "##vso[task.setvariable variable=PR_NO]${workspace}"
+          workspace=pr-${workspace}
+      fi
+      echo Workspace name is ${workspace}
+      echo "##vso[task.setvariable variable=IS_IT_PR]${isItPR}"
+      echo "##vso[task.setvariable variable=WORKSPACE]${workspace}"
+    displayName: Set workspace
+  - template: "azure/components/aws-assume-role.yml@common"
+    parameters:
+      role: "auto-ops"
+      profile: "apim-dev"
+      aws_account: "dev"
+
+  - bash: |
+      set -e
+      if [[ $APIGEE_ENVIRONMENT = int ]]; then
+          export AWS_PROFILE=apim-dev
+          aws_account_no="$(aws sts get-caller-identity --query Account --output text)"
+          make init
+          make apply aws_account_no=${aws_account_no} environment=$(WORKSPACE) \
+            client_id=$(INTROSPECTION_CLIENT_ID_INT) \
+            client_secret=$(INTROSPECTION_CLIENT_SECRET_INT) \
+            keycloak_environment=$(APIGEE_ENVIRONMENT)
+      elif ! [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]; then
+          export AWS_PROFILE=apim-dev
+          aws_account_no="$(aws sts get-caller-identity --query Account --output text)"
+          make init
+          make apply aws_account_no=${aws_account_no} environment=$(WORKSPACE) \
+            client_id=$(INTROSPECTION_CLIENT_ID) \
+            client_secret=$(INTROSPECTION_CLIENT_SECRET) \
+            keycloak_environment=$(APIGEE_ENVIRONMENT)
+      fi
+    displayName: Run Terraform
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
+    retryCountOnTaskFailure: 2
+  - bash: |
+      set -e
+      if ! [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]; then
+          if [ $(IS_IT_PR) -eq 1 ]; then
+              #if its not sandbox and it should be PR
+              source ../.venv/bin/activate
+              domain_name=https://$(make -s output name=service_domain_name)
+              oauth_endpoint="https://identity.ptl.api.platform.nhs.uk/auth/realms/gpconnect-pfs-mock-$APIGEE_ENVIRONMENT/protocol/openid-connect/token"
+              python ../scripts/apigee_kvm.py --env $APIGEE_ENVIRONMENT --access-token $(secret.AccessToken) populate-interaction-ids gp-connect-access-record-endpoints-pr-$(PR_NO) --ods REPC --provider-endpoint $domain_name --oauth-endpoint $oauth_endpoint
+          fi
+      fi
+    displayName: Update endpoints KVM
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
+  - bash: |
+      # DEBUG - echo vars
+      env | sort
+    displayName: Echo pipeline vars for debug
+  - bash: |
+      set -e
+      export RELEASE_RELEASEID=$(Build.BuildId)
+      export SOURCE_COMMIT_ID=$(Build.SourceVersion)
+      export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
+      export SERVICE_BASE_PATH="$(SERVICE_BASE_PATH)"
+      export APIGEE_ACCESS_TOKEN="$(secret.AccessToken)"
+      export PROXY_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)"
+      export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
+      export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
+      export client_id="$(INTROSPECTION_CLIENT_ID)"
+      export client_secret="$(INTROSPECTION_CLIENT_SECRET)"
+      if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
+      then
+       poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-access-record-fhir --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+      else
+       poetry run pytest -v --api-name=gp-connect-access-record-fhir --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+      fi
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests"
+    displayName: Run full test suite
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    condition: always()
+    inputs:
+      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests/test-report.xml'
+      failTaskOnFailedTests: true
