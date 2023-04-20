@@ -1,4 +1,5 @@
 docker_containers:
   - name: sandbox
-    dockerfile: "mock-receiver/Dockerfile"
-    path: "mock-receiver"
+    dockerfile: "PrismMockProvider/Dockerfile"
+    path: "PrismMockProvider"
+
