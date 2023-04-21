@@ -35,9 +35,9 @@ extends:
     apigee_deployments:
       - environment: internal-dev
         jinja_templates:
-          GP_CONNECT_ENDPOINTS: gp-connect-access-record-endpoints-pr-${{ variables.pr_number }}
-          GP_CONNECT_CONFIG: gp-connect-access-record-config
-          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-access-record-config-encrypted
+          GP_CONNECT_ENDPOINTS: gp-connect-user-permissions-endpoints-pr-${{ variables.pr_number }}
+          GP_CONNECT_CONFIG: gp-connect-user-permissions-config
+          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-user-permissions-config-encrypted
         post_deploy:
           - template: ./templates/post-deploy.yml
             parameters:

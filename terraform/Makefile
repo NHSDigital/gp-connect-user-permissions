@@ -39,7 +39,7 @@ add-endpoint:
 output:
 	$(tf_cmd) output -raw $(name)
 
-mock_provider_repository_name = gp-connect-access-record-fhir-infra-dev-mock-provider
+mock_provider_repository_name = gp-connect-user-permissions-infra-dev-mock-provider
 mock_provider_repository_url = $(aws_account_no).dkr.ecr.eu-west-2.amazonaws.com/$(mock_provider_repository_name)
 build_version=$(environment)
 dockerImageName=$(mock_provider_repository_url):$(build_version)

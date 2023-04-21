@@ -77,7 +77,7 @@ steps:
               source ../.venv/bin/activate
               domain_name=https://$(make -s output name=service_domain_name)
               oauth_endpoint="https://identity.ptl.api.platform.nhs.uk/auth/realms/gpconnect-pfs-mock-$APIGEE_ENVIRONMENT/protocol/openid-connect/token"
-              python ../scripts/apigee_kvm.py --env $APIGEE_ENVIRONMENT --access-token $(secret.AccessToken) populate-interaction-ids gp-connect-access-record-endpoints-pr-$(PR_NO) --ods REPC --provider-endpoint $domain_name --oauth-endpoint $oauth_endpoint
+              python ../scripts/apigee_kvm.py --env $APIGEE_ENVIRONMENT --access-token $(secret.AccessToken) populate-interaction-ids gp-connect-user-permissions-endpoints-pr-$(PR_NO) --ods REPC --provider-endpoint $domain_name --oauth-endpoint $oauth_endpoint
           fi
       fi
     displayName: Update endpoints KVM
@@ -99,9 +99,9 @@ steps:
       export client_secret="$(INTROSPECTION_CLIENT_SECRET)"
       if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
       then
-       poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-access-record-fhir --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+       poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       else
-       poetry run pytest -v --api-name=gp-connect-access-record-fhir --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+       poetry run pytest -v --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       fi
     workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests"
     displayName: Run full test suite
