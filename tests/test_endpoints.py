@@ -14,6 +14,7 @@ def test_ping(nhsd_apim_proxy_url):
     resp = requests.get(f"{nhsd_apim_proxy_url}/_ping")
     assert resp.status_code == 200
 
+
 @pytest.mark.smoketest
 def test_wait_for_ping(nhsd_apim_proxy_url):
     retries = 0
