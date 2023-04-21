@@ -26,21 +26,7 @@ steps:
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
     displayName: Setup pytests
     condition: always()
-  - bash: |
-      name=$(FULLY_QUALIFIED_SERVICE_NAME)
-      workspace=$(echo $name | grep -oE '[0-9]+$')
-      isItPR=0
-      if [ -z ${workspace} ]; then
-          workspace=$APIGEE_ENVIRONMENT
-      else
-          isItPR=1
-          echo "##vso[task.setvariable variable=PR_NO]${workspace}"
-          workspace=pr-${workspace}
-      fi
-      echo Workspace name is ${workspace}
-      echo "##vso[task.setvariable variable=IS_IT_PR]${isItPR}"
-      echo "##vso[task.setvariable variable=WORKSPACE]${workspace}"
-    displayName: Set workspace
+
   - template: "azure/components/aws-assume-role.yml@common"
     parameters:
       role: "auto-ops"
@@ -49,42 +35,53 @@ steps:
 
   - bash: |
       set -e
-      if [[ $APIGEE_ENVIRONMENT = int ]]; then
-          export AWS_PROFILE=apim-dev
-          aws_account_no="$(aws sts get-caller-identity --query Account --output text)"
-          make init
-          make apply aws_account_no=${aws_account_no} environment=$(WORKSPACE) \
-            client_id=$(INTROSPECTION_CLIENT_ID_INT) \
-            client_secret=$(INTROSPECTION_CLIENT_SECRET_INT) \
-            keycloak_environment=$(APIGEE_ENVIRONMENT)
-      elif ! [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]; then
-          export AWS_PROFILE=apim-dev
-          aws_account_no="$(aws sts get-caller-identity --query Account --output text)"
-          make init
-          make apply aws_account_no=${aws_account_no} environment=$(WORKSPACE) \
-            client_id=$(INTROSPECTION_CLIENT_ID) \
-            client_secret=$(INTROSPECTION_CLIENT_SECRET) \
-            keycloak_environment=$(APIGEE_ENVIRONMENT)
-      fi
-    displayName: Run Terraform
-    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
-    retryCountOnTaskFailure: 2
-  - bash: |
-      set -e
       if ! [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]; then
-          if [ $(IS_IT_PR) -eq 1 ]; then
-              #if its not sandbox and it should be PR
-              source ../.venv/bin/activate
-              domain_name=https://$(make -s output name=service_domain_name)
-              oauth_endpoint="https://identity.ptl.api.platform.nhs.uk/auth/realms/gpconnect-pfs-mock-$APIGEE_ENVIRONMENT/protocol/openid-connect/token"
-              python ../scripts/apigee_kvm.py --env $APIGEE_ENVIRONMENT --access-token $(secret.AccessToken) populate-interaction-ids gp-connect-user-permissions-endpoints-pr-$(PR_NO) --ods REPC --provider-endpoint $domain_name --oauth-endpoint $oauth_endpoint
+          export AWS_PROFILE=apim-dev
+          aws_account_no="$(aws sts get-caller-identity --query Account --output text)"
+
+          service_name=$(FULLY_QUALIFIED_SERVICE_NAME)
+
+          introspection_client_id=$(INTROSPECTION_CLIENT_ID)
+          introspection_client_secret=$(INTROSPECTION_CLIENT_SECRET)
+          if [[ $APIGEE_ENVIRONMENT = int ]]; then
+            introspection_client_id=$(INTROSPECTION_CLIENT_ID_INT)
+            introspection_client_secret=$(INTROSPECTION_CLIENT_SECRET_INT)
+          fi
+
+          pr_no=$(echo $service_name | grep -oE '[0-9]+$')
+          if [ -z $pr_no ]; then
+            workspace=$APIGEE_ENVIRONMENT
+          else
+            workspace=pr-$pr_no
+          fi
+
+          echo Deploy mock provider with following parameters:
+          echo service_name: $service_name
+          echo workspace: $workspace
+          echo Apigee environment: $APIGEE_ENVIRONMENT
+          echo pr_no: $pr_no
+          echo introspection client id: $introspection_client_id
+
+          cd terraform
+          make init
+          make apply aws_account_no=${aws_account_no} environment=$workspace \
+            client_id=$introspection_client_id \
+            client_secret=$introspection_client_secret \
+            keycloak_environment=$APIGEE_ENVIRONMENT
+          cd ..
+
+          if [ -n "$pr_no" ]; then
+            echo add KVM for PR-$pr_no
+            source .venv/bin/activate
+            domain_name=https://$(make -C terraform -s output name=service_domain_name)
+            oauth_endpoint="https://identity.ptl.api.platform.nhs.uk/auth/realms/gpconnect-pfs-mock-$APIGEE_ENVIRONMENT/protocol/openid-connect/token"
+            python scripts/apigee_kvm.py --env $APIGEE_ENVIRONMENT --access-token $(secret.AccessToken) populate-interaction-ids gp-connect-user-permissions-endpoints-pr-$pr_no --ods REPC --provider-endpoint $domain_name --oauth-endpoint $oauth_endpoint
           fi
       fi
-    displayName: Update endpoints KVM
-    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
-  - bash: |
-      env | sort
-    displayName: Echo pipeline vars for debug
+    displayName: Deploy mock provider
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)"
+    retryCountOnTaskFailure: 2
+
   - bash: |
       set -e
       export RELEASE_RELEASEID=$(Build.BuildId)

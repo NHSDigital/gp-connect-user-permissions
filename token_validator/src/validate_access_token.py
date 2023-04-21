@@ -19,6 +19,7 @@ def validate_access_token(keycloak_env: str, client_id: str, client_secret: str,
         f"auth/realms/gpconnect-pfs-mock-{keycloak_env}/.well-known/uma2-configuration"
     discovery = requests.get(discovery_url).json()
     introspection_endpoint = discovery.get('introspection_endpoint')
+    print(introspection_endpoint)
 
     # Get an Access Token for the realm using the client_id and client_secret
     validation_response = requests.post(
@@ -29,6 +30,7 @@ def validate_access_token(keycloak_env: str, client_id: str, client_secret: str,
             'token': token
         }
     ).json()
+    print(validation_response)
 
     return validation_response.get("active") or False
 
