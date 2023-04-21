@@ -48,6 +48,18 @@ steps:
       aws_account: "dev"
 
   - bash: |
+      echo "Structure of work folder of this pipeline:"
+      tree $(Agent.WorkFolder)\1 /f
+      echo "Build.ArtifactStagingDirectory:"
+      echo "$(Build.ArtifactStagingDirectory)"
+      echo "Build.BinariesDirectory:"
+      echo "$(Build.BinariesDirectory)"
+      echo "Build.SourcesDirectory:"
+      echo "$(Build.SourcesDirectory)"
+    displayName: Debug - show folder structure
+
+
+  - bash: |
       set -e
       if [[ $APIGEE_ENVIRONMENT = int ]]; then
           export AWS_PROFILE=apim-dev
