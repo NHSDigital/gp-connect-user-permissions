@@ -70,7 +70,6 @@ steps:
     workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
     retryCountOnTaskFailure: 2
   - bash: |
-      cd terraform
       set -e
       if ! [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]; then
           if [ $(IS_IT_PR) -eq 1 ]; then
@@ -84,11 +83,9 @@ steps:
     displayName: Update endpoints KVM
     workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
   - bash: |
-      # DEBUG - echo vars
       env | sort
     displayName: Echo pipeline vars for debug
   - bash: |
-      cd tests
       set -e
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
