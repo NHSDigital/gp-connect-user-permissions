@@ -6,6 +6,7 @@ steps:
     condition: always()
 
   - bash: |
+      set -e
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
       export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
@@ -13,11 +14,19 @@ steps:
       export APIGEE_ACCESS_TOKEN="$(secret.AccessToken)"
       export PROXY_NAME="$(FULLY_QUALIFIED_SERVICE_NAME)"
       export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
+      export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
+      export client_id="$(INTROSPECTION_CLIENT_ID)"
+      export client_secret="$(INTROSPECTION_CLIENT_SECRET)"
+      export APIGEE_APP_ID=d86027dc-09fc-41d2-8c52-dab5ce3102b0
       
       if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
       then
        poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
 
+      elif [[ $APIGEE_ENVIRONMENT == "int" ]]
+      then
+       make run-int
+      
       else
        poetry run pytest -v --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       fi
