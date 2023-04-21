@@ -62,6 +62,8 @@ steps:
   - bash: |
       pwd
       ls
+      ls $(SERVICE_NAME)
+      ls $(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
       set -e
       if [[ $APIGEE_ENVIRONMENT = int ]]; then
           export AWS_PROFILE=apim-dev
@@ -81,7 +83,7 @@ steps:
             keycloak_environment=$(APIGEE_ENVIRONMENT)
       fi
     displayName: Run Terraform
-#    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
+    workingDirectory: "$(Pipeline.Workspace)/s"#/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
     retryCountOnTaskFailure: 2
   - bash: |
       cd terraform
