@@ -60,7 +60,8 @@ steps:
 
 
   - bash: |
-      cd terraform
+      pwd
+      ls
       set -e
       if [[ $APIGEE_ENVIRONMENT = int ]]; then
           export AWS_PROFILE=apim-dev
