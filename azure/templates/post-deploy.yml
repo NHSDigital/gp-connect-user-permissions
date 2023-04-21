@@ -64,6 +64,8 @@ steps:
       ls
       ls $(SERVICE_NAME)
       ls $(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+      ls $(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform
+      ls $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform
       set -e
       if [[ $APIGEE_ENVIRONMENT = int ]]; then
           export AWS_PROFILE=apim-dev
