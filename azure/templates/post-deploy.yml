@@ -49,7 +49,7 @@ steps:
 
   - bash: |
       echo "Structure of work folder of this pipeline:"
-      tree $(Agent.WorkFolder)\1 /f
+      tree $(Agent.WorkFolder)/1
       echo "Build.ArtifactStagingDirectory:"
       echo "$(Build.ArtifactStagingDirectory)"
       echo "Build.BinariesDirectory:"
