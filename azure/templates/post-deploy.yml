@@ -60,6 +60,7 @@ steps:
 
 
   - bash: |
+      cd terraform
       set -e
       if [[ $APIGEE_ENVIRONMENT = int ]]; then
           export AWS_PROFILE=apim-dev
@@ -79,9 +80,10 @@ steps:
             keycloak_environment=$(APIGEE_ENVIRONMENT)
       fi
     displayName: Run Terraform
-    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/terraform"
+#    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
     retryCountOnTaskFailure: 2
   - bash: |
+      cd terraform
       set -e
       if ! [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]; then
           if [ $(IS_IT_PR) -eq 1 ]; then
@@ -93,12 +95,13 @@ steps:
           fi
       fi
     displayName: Update endpoints KVM
-    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/terraform"
+#    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
   - bash: |
       # DEBUG - echo vars
       env | sort
     displayName: Echo pipeline vars for debug
   - bash: |
+      cd tests
       set -e
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
@@ -116,11 +119,11 @@ steps:
       else
        poetry run pytest -v --api-name=gp-connect-access-record-fhir --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       fi
-    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/tests"
+#    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests"
     displayName: Run full test suite
   - task: PublishTestResults@2
     displayName: 'Publish test results'
     condition: always()
     inputs:
-      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/tests/test-report.xml'
+      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests/test-report.xml'
       failTaskOnFailedTests: true
