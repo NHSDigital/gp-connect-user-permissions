@@ -2,9 +2,9 @@ steps:
   - bash: |
       mkdir -p build
       npm run publish 2> /dev/null
-      cp build/gp-connect-user-permissions.json PrismMockProvider/
+      cp build/gp-connect-user-permissions.json mock_provider/
 
-      cd PrismMockProvider
+      cd mock_provider
       docker build -t mock-reciever .
     displayName: Build mock-reciever image
     workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)"

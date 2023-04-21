@@ -11,8 +11,8 @@ locals {
 
 resource null_resource ecr_image {
   triggers = {
-    python_file = md5(file("${path.module}/../../PrismMockProvider/auth/src/validate_access_token.py"))
-    docker_file = md5(file("${path.module}/../../PrismMockProvider/auth/Dockerfile"))
+    python_file = md5(file("${path.module}/../../mock_provider/auth/src/validate_access_token.py"))
+    docker_file = md5(file("${path.module}/../../mock_provider/auth/Dockerfile"))
   }
 
   # The local-exec provisioner invokes a local executable after a resource is created.

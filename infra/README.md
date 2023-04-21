@@ -48,7 +48,7 @@ This may ask you for confirmation before execution.
 ```
 $ make docker-build
 ```
-This will build PrismMockProvider docker
+This will build mock_provider docker
 ```
 $ make docker-deploy
 ```

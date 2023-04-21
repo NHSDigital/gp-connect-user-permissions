@@ -1,5 +1,5 @@
 locals {
-  mock_provider_path = "${path.cwd}/../PrismMockProvider"
+  mock_provider_path = "${path.cwd}/../mock_provider"
   specification_path = "${path.cwd}/../specification"
 }
 
@@ -12,7 +12,7 @@ data "archive_file" "specification_archive" {
 data "archive_file" "prism_archive" {
   type        = "zip"
   source_dir  = local.mock_provider_path
-  output_path = "build/PrismMockProvider.zip"
+  output_path = "build/mock_provider.zip"
 }
 
 data "aws_caller_identity" "current" {}
