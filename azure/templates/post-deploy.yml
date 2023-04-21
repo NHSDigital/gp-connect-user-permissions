@@ -48,24 +48,6 @@ steps:
       aws_account: "dev"
 
   - bash: |
-      echo "Structure of work folder of this pipeline:"
-      tree $(Agent.WorkFolder)/1
-      echo "Build.ArtifactStagingDirectory:"
-      echo "$(Build.ArtifactStagingDirectory)"
-      echo "Build.BinariesDirectory:"
-      echo "$(Build.BinariesDirectory)"
-      echo "Build.SourcesDirectory:"
-      echo "$(Build.SourcesDirectory)"
-    displayName: Debug - show folder structure
-
-
-  - bash: |
-      pwd
-      ls
-      ls $(SERVICE_NAME)
-      ls $(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
-      ls $(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform
-      ls $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform
       set -e
       if [[ $APIGEE_ENVIRONMENT = int ]]; then
           export AWS_PROFILE=apim-dev
@@ -85,7 +67,7 @@ steps:
             keycloak_environment=$(APIGEE_ENVIRONMENT)
       fi
     displayName: Run Terraform
-    workingDirectory: "$(Pipeline.Workspace)/s"#/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
     retryCountOnTaskFailure: 2
   - bash: |
       cd terraform
@@ -100,7 +82,7 @@ steps:
           fi
       fi
     displayName: Update endpoints KVM
-#    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/terraform"
   - bash: |
       # DEBUG - echo vars
       env | sort
@@ -124,7 +106,7 @@ steps:
       else
        poetry run pytest -v --api-name=gp-connect-access-record-fhir --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       fi
-#    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests"
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests"
     displayName: Run full test suite
   - task: PublishTestResults@2
     displayName: 'Publish test results'

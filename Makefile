@@ -37,7 +37,7 @@ build-proxy:
 	scripts/build_proxy.sh
 
 #Files to loop over in release
-_dist_include="poetry.lock poetry.toml pyproject.toml Makefile build/. tests"
+_dist_include="poetry.lock poetry.toml pyproject.toml Makefile build/. tests scripts terraform specification PrismMockProvider"
 
 #Create /dist/ sub-directory and copy files into directory
 release: clean publish build-proxy
