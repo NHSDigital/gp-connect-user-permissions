@@ -182,4 +182,4 @@ def encode_jwt(client_id, audience, jwt_kid, jwt_private_key):
     client_assertion = jwt.encode(
         claims, jwt_private_key, algorithm="RS512", headers=additional_headers
     )
-    return
+    return client_assertion
