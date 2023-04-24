@@ -45,6 +45,7 @@ extends:
         post_deploy:
           - template: ./templates/post-deploy.yml
       - environment: int
+        is_ptl: false
         depends_on:
           - internal_dev
         post_deploy:

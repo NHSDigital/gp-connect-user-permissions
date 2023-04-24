@@ -1,4 +1,26 @@
+parameters:
+  - name: aws_dev
+    default: aws --profile=apim-dev
+  - name: is_ptl
+    default: true
+
 steps:
+  - ${{ if parameters.is_ptl }}:
+    - template: "azure/components/aws-assume-role.yml@common"
+      parameters:
+          role: "auto-ops"
+          profile: "apm_ptl"
+
+    - template: "azure/components/get-aws-secrets-and-ssm-params.yml@common"
+      parameters:
+          secret_file_ids:
+              - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
+          secret_ids:
+              - ptl/app-credentials/gp-connect-user-permissions-testing-app/non-prod/INTROSPECTION_CLIENT_ID
+              - ptl/app-credentials/gp-connect-user-permissions-testing-app/non-prod/INTROSPECTION_CLIENT_SECRET
+              - ptl/app-credentials/gp-connect-user-permissions-testing-app/non-prod/INTROSPECTION_CLIENT_ID_INT
+              - ptl/app-credentials/gp-connect-user-permissions-testing-app/non-prod/INTROSPECTION_CLIENT_SECRET_INT
+
   - bash: |
       make install-python
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
@@ -17,7 +39,7 @@ steps:
       export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
       export client_id="$(INTROSPECTION_CLIENT_ID)"
       export client_secret="$(INTROSPECTION_CLIENT_SECRET)"
-      export APIGEE_APP_ID=d86027dc-09fc-41d2-8c52-dab5ce3102b0
+      export APIGEE_APP_ID=6e8f18e7-612b-465c-9dbc-d089203bc91e 
       
       if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
       then
