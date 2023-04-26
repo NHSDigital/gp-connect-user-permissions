@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KeyValueMapOperations async="false" continueOnError="false" enabled="true" name="KeyValueMapOperations.GetSecureVariables" mapIdentifier="{{ GP_CONNECT_CONFIG_ENCRYPTED }}">
+    <Get assignTo="private.jwt" index="1">
+        <Key>
+            <Parameter ref="endpointConfigEncryptedKey"/>
+        </Key>
+    </Get>
+</KeyValueMapOperations>
