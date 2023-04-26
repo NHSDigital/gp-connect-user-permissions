@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.GPCAuthErrorResponse">
+    <Set>
+        <StatusCode>401</StatusCode>
+        <Payload contentType="application/json">
+      {
+        "resourceType": "OperationOutcome",
+        "issue": [
+          {
+            "severity": "error",
+            "code": "forbidden",
+            "details": {
+              "coding": [
+                {
+                  "system": "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode",
+                  "version": "1",
+                  "code": "ACCESS_DENIED",
+                  "display": "Access Token for GPC Expired"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    </Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response"/>
+</AssignMessage>
