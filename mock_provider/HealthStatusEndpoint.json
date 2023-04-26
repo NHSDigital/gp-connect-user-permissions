@@ -11,7 +11,7 @@
               "schema": {
                 "type": "string"
               },
-              "example": "OKie"
+              "example": "OK"
             }
           }
         }
