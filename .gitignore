@@ -9,6 +9,7 @@ newman/
 .idea
 .DS_Store
 .#*
+mock_provider/components/
 
 __pycache__/
 .envrc

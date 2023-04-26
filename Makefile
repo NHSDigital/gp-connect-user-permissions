@@ -31,6 +31,7 @@ publish:
 	mkdir -p build
 	npm run publish 2> /dev/null
 	cp build/gp-connect-user-permissions.json mock_provider/
+	cp -r specification/components mock_provider/components
 
 #Runs build proxy script
 build-proxy:
