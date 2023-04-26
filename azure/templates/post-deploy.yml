@@ -63,7 +63,14 @@ steps:
           echo introspection client id: $introspection_client_id
 
           cd terraform
+          
           make init
+          
+          make destroy aws_account_no=${aws_account_no} environment=$workspace \
+            client_id=$introspection_client_id \
+            client_secret=$introspection_client_secret \
+            keycloak_environment=$APIGEE_ENVIRONMENT
+
           make apply aws_account_no=${aws_account_no} environment=$workspace \
             client_id=$introspection_client_id \
             client_secret=$introspection_client_secret \
