@@ -32,34 +32,32 @@ extends:
     service_base_path: ${{ variables.service_base_path }}
     apigee_deployments:
       - environment: internal-dev
+        jinja_templates:
+          GP_CONNECT_ENDPOINTS: gp-connect-user-permissions-endpoints
+          GP_CONNECT_CONFIG: gp-connect-user-permissions-config
+          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-user-permissions-config-encrypted
         post_deploy:
           - template: ./templates/run-tests.yml
             parameters:
               full: true
       - environment: internal-dev-sandbox
         proxy_path: sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-      - environment: internal-qa
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              full: true
-      - environment: internal-qa-sandbox
-        proxy_path: sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-      - environment: ref
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
+        jinja_templates:
+          GP_CONNECT_ENDPOINTS: just-dummy-value-for-successful-build
+          GP_CONNECT_CONFIG: just-dummy-value-for-successful-build
+          GP_CONNECT_CONFIG_ENCRYPTED: just-dummy-value-for-successful-build
       - environment: sandbox
+        depends_on:
+          - internal_dev_sandbox
         proxy_path: sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
+        jinja_templates:
+          GP_CONNECT_ENDPOINTS: just-dummy-value-for-successful-build
+          GP_CONNECT_CONFIG: just-dummy-value-for-successful-build
+          GP_CONNECT_CONFIG_ENCRYPTED: just-dummy-value-for-successful-build
       - environment: int
         depends_on:
-          - internal_qa
-          - internal_qa_sandbox
+          - internal_dev
+        jinja_templates:
+          GP_CONNECT_ENDPOINTS: gp-connect-user-permissions-endpoints
+          GP_CONNECT_CONFIG: gp-connect-user-permissions-config
+          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-user-permissions-config-encrypted

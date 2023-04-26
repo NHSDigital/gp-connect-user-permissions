@@ -7,6 +7,21 @@
       <Step>
         <Name>FlowCallout.ApplyRateLimiting</Name>
       </Step>
+      <Step>
+        <Name>JavaScript.CreateKVMKeyNames</Name>
+      </Step>
+      <Step>
+         <Name>KeyValueMapOperations.GetEndpoints</Name>
+      </Step>
+      <Step>
+         <Name>KeyValueMapOperations.GetConfig</Name>
+      </Step>
+      <Step>
+         <Name>JavaScript.SetEndpoints</Name>
+       </Step>
+      <Step>
+        <Name>KeyValueMapOperations.GetSecureVariables</Name>
+      </Step>
     </Request>
   </PreFlow>
   <FaultRules>
