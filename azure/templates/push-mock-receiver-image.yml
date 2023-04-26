@@ -1,17 +1,10 @@
 steps:
-  - template: "azure/components/aws-assume-role.yml@common"
-    parameters:
-      role: "auto-ops"
-      profile: "apim-dev"
-      aws_account: "dev"
-
   - bash: |
-      export AWS_PROFILE=apim-dev
-      account_id="$(aws sts get-caller-identity --query Account --output text)"
-      repository_url=${account_id}.dkr.ecr.eu-west-2.amazonaws.com/gpconnect-user-permissions
-      image_tag=${repository_url}:$(Build.BuildId)
-      
-      make push tag=${image_tag}
+      mkdir -p build
+      npm run publish 2> /dev/null
+      cp build/gp-connect-user-permissions.json mock_provider/
 
-    displayName: Build and Push MockReceiver Docker to ECR
-    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/mock-receiver"
+      cd mock_provider
+      docker build -t mock-reciever .
+    displayName: Build mock-reciever image
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)"

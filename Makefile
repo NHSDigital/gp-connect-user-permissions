@@ -30,14 +30,14 @@ publish:
 	rm -rf build
 	mkdir -p build
 	npm run publish 2> /dev/null
-	cp build/gp-connect-user-permissions.json mock-receiver/
+	cp build/gp-connect-user-permissions.json mock_provider/
 
 #Runs build proxy script
 build-proxy:
 	scripts/build_proxy.sh
 
 #Files to loop over in release
-_dist_include="poetry.lock poetry.toml pyproject.toml Makefile build/. tests"
+_dist_include="poetry.lock poetry.toml pyproject.toml Makefile build/. tests scripts terraform specification mock_provider token_validator"
 
 #Create /dist/ sub-directory and copy files into directory
 release: clean publish build-proxy
