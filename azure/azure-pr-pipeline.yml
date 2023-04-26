@@ -29,14 +29,26 @@ variables:
 extends:
   template: azure/common/apigee-deployment.yml@common
   parameters:
-    service_name: ${{ variables.service_name }} 
-    short_service_name: ${{ variables.short_service_name }} 
-    service_base_path: ${{ variables.service_base_path }} 
+    service_name: ${{ variables.service_name }}
+    short_service_name: ${{ variables.short_service_name }}
+    service_base_path: ${{ variables.service_base_path }}
     apigee_deployments:
       - environment: internal-dev
+        jinja_templates:
+          GP_CONNECT_ENDPOINTS: gp-connect-user-permissions-endpoints-pr-${{ variables.pr_number }}
+          GP_CONNECT_CONFIG: gp-connect-user-permissions-config
+          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-user-permissions-config-encrypted
         post_deploy:
           - template: ./templates/post-deploy.yml
+            parameters:
+              is_ptl: true
       - environment: internal-dev-sandbox
         proxy_path: sandbox
+        jinja_templates:
+            GP_CONNECT_ENDPOINTS: just-dummy-value-for-successful-build
+            GP_CONNECT_CONFIG: just-dummy-value-for-successful-build
+            GP_CONNECT_CONFIG_ENCRYPTED: just-dummy-value-for-successful-build
         post_deploy:
           - template: ./templates/post-deploy.yml
+            parameters:
+              is_ptl: true
