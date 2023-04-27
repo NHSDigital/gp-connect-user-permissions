@@ -48,7 +48,7 @@ steps:
             introspection_client_secret=$(INTROSPECTION_CLIENT_SECRET_INT)
           fi
 
-          pr_no=$(echo $service_name | grep -oE '[0-9]+$')
+          pr_no=$(echo $service_name | { grep -oE '[0-9]+$' || true; })
           if [ -z $pr_no ]; then
             workspace=$APIGEE_ENVIRONMENT
           else
