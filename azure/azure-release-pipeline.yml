@@ -35,7 +35,7 @@ extends:
         jinja_templates:
           GP_CONNECT_ENDPOINTS: gp-connect-user-permissions-endpoints
           GP_CONNECT_CONFIG: gp-connect-user-permissions-config
-          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-user-permissions-config-encrypted
+          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-encrypted
         post_deploy:
           - template: ./templates/post-deploy.yml
       - environment: internal-dev-sandbox
@@ -60,7 +60,7 @@ extends:
         jinja_templates:
           GP_CONNECT_ENDPOINTS: gp-connect-user-permissions-endpoints
           GP_CONNECT_CONFIG: gp-connect-user-permissions-config
-          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-user-permissions-config-encrypted
+          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-encrypted
         post_deploy:
           - template: ./templates/post-deploy.yml
 
