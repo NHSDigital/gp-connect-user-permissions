@@ -88,7 +88,7 @@ def test_auth_level0(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
 def test_nhs_login_p9(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
     headers = {
         "Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1",
-        "accept": "application/fhir+json",
+        "accept": "*/*",
         "X-Correlation-ID": "11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA",
         "X-Request-ID": "60E0B220-8136-4CA5-AE46-1D97EF59D068"
     }
