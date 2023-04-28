@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GenerateJWT async="false" continueOnError="false" enabled="true" name="GenerateJWT.GPCLoginClientAssertion">
+    <DisplayName>GenerateJWT.GPCLoginClientAssertion</DisplayName>
+    <Algorithm>RS512</Algorithm>
+    <PrivateKey>
+        <Value ref="private.jwt"/>
+        <Id ref="kid_config"/>
+    </PrivateKey>
+    <Subject ref="client_id_config"/>
+    <Issuer ref="client_id_config"/>
+    <Audience ref="audience_config"/>
+    <ExpiresIn>1h</ExpiresIn>
+    <OutputVariable>client_assertion</OutputVariable>
+</GenerateJWT>

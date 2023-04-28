@@ -2,7 +2,10 @@
   <PreFlow>
     <Request>
       <Step>
-        <Name>OauthV2.VerifyAccessTokenAppLevel3OrCis2Aal3</Name>
+        <Name>OauthV2.VerifyAccessToken</Name>
+      </Step>
+      <Step>
+        <Name>DecodeJWT.DecodeIDToken</Name>
       </Step>
       <Step>
         <Name>FlowCallout.ApplyRateLimiting</Name>
@@ -22,6 +25,19 @@
       <Step>
         <Name>KeyValueMapOperations.GetSecureVariables</Name>
       </Step>
+      <Step>
+        <Name>GenerateJWT.GPCLoginClientAssertion</Name>
+      </Step>
+      <Step>
+        <Name>ServiceCallout.AuthenticateAgainstGPC</Name>
+      </Step>
+      <Step>
+        <Name>JavaScript.GetGPCAuthCode</Name>
+      </Step>
+      <Step>
+        <Name>RaiseFault.404TargetNotFound</Name>
+        <Condition>endpointNotFound == true</Condition>
+      </Step>
     </Request>
   </PreFlow>
   <FaultRules>
@@ -33,6 +49,12 @@
         <Name>AssignMessage.OAuthPolicyErrorResponse</Name>
       </Step>
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
+    </FaultRule>
+    <FaultRule name="gpc_access_token_expired">
+     <Step>
+         <Name>AssignMessage.GPCAuthErrorResponse</Name>
+      </Step>
+            <Condition>GPCAuthResponse.status.code=="500"</Condition>
     </FaultRule>
   </FaultRules>
   <!--

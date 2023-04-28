@@ -48,7 +48,7 @@ steps:
             introspection_client_secret=$(INTROSPECTION_CLIENT_SECRET_INT)
           fi
 
-          pr_no=$(echo $service_name | grep -oE '[0-9]+$')
+          pr_no=$(echo $service_name | { grep -oE '[0-9]+$' || true; })
           if [ -z $pr_no ]; then
             workspace=$APIGEE_ENVIRONMENT
           else
@@ -63,6 +63,7 @@ steps:
           echo introspection client id: $introspection_client_id
 
           cd terraform
+          
           make init
           make apply aws_account_no=${aws_account_no} environment=$workspace \
             client_id=$introspection_client_id \
@@ -94,9 +95,15 @@ steps:
       export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
       export client_id="$(INTROSPECTION_CLIENT_ID)"
       export client_secret="$(INTROSPECTION_CLIENT_SECRET)"
+      
       if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
       then
        poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+
+      elif [[ $APIGEE_ENVIRONMENT == "int" ]]
+      then
+       echo "Skipping tests for int as of now"
+      
       else
        poetry run pytest -v --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       fi

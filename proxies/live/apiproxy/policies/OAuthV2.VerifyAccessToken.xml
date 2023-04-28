@@ -1,0 +1,4 @@
+<OAuthV2 async="false" continueOnError="false" enabled="true" name="OauthV2.VerifyAccessToken">
+  <Operation>VerifyAccessToken</Operation>
+  <Scopes>urn:nhsd:apim:user-nhs-login:P9:gp-connect-user-permissions</Scopes>
+</OAuthV2>
