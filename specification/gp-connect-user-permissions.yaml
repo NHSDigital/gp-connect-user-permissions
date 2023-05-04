@@ -3,7 +3,7 @@
 openapi: 3.0.0
 info:
   version: Computed and injected at build time by `scripts/set_version.py`
-  title: GP Connect - Patient Permissions
+  title: GP Connect - Patient Permissions TEST
   contact:
     name: GP Connect - Patient Permissions API Support
     url: https://digital.nhs.uk/developer/help-and-support
