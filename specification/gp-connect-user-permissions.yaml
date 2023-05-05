@@ -237,17 +237,13 @@ paths:
                 $ref: "#/components/schemas/PatientPermission"
               examples:
                 GetResponsePermissionsFull:
-                  value:
-                    $ref: "#/components/examples/GetResponsePermissionsFull"
+                  $ref: "#/components/examples/GetResponsePermissionsFull"
                 GetResponsePendingRequestDetailed:
-                  value:
-                    $ref: "#/components/examples/GetResponsePendingRequestDetailed"
+                  $ref: "#/components/examples/GetResponsePendingRequestDetailed"
                 GetResponsePendingRequestAppointments:
-                  value:
-                    $ref: "#/components/examples/GetResponsePendingRequestAppointments"
+                  $ref: "#/components/examples/GetResponsePendingRequestAppointments"
                 GetResponseMultiplePendingRequests:
-                  value:
-                    $ref: "#/components/examples/GetResponseMultiplePendingRequests"
+                  $ref: "#/components/examples/GetResponseMultiplePendingRequests"
         4XX:
           description: |
             An error occurred as follows:
@@ -261,8 +257,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 InvalidRequestError:
-                  value:
-                    $ref: "#/components/examples/InvalidRequestError"
+                  $ref: "#/components/examples/InvalidRequestError"
     post:
       operationId: updatePatientPermissions
       summary: Request a change to a patient's permission
@@ -325,11 +320,9 @@ paths:
                 $ref: "#/components/schemas/PermissionUpdateResponse"
               examples:
                 PostResponsePendingHistoricalDetailed:
-                  value:
-                    $ref: "#/components/examples/PostResponsePendingHistoricalDetailed"
+                  $ref: "#/components/examples/PostResponsePendingHistoricalDetailed"
                 ResponseRequestRejectedAppointments:
-                  value:
-                    $ref: "#/components/examples/ResponseRequestRejectedAppointments"
+                  $ref: "#/components/examples/ResponseRequestRejectedAppointments"
         4XX:
           description: |
             An error occurred as follows:
@@ -349,8 +342,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               examples:
                 InvalidRequestError:
-                  value:
-                    $ref: "#/components/examples/InvalidRequestError"
+                  $ref: "#/components/examples/InvalidRequestError"
 
 components:
   headers:
