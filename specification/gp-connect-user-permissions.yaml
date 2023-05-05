@@ -9,7 +9,7 @@ info:
     url: https://digital.nhs.uk/developer/help-and-support
     email: api.management@nhs.net
   description: |
-    ## Overview
+    ## Overview - v1.0.231-alpha
 
     ![GP Connect Patient Facing User Permissions API Overview](https://raw.githubusercontent.com/NHSDigital/gp-connect-user-permissions/master/specification/diagrams/overview.svg)
 
