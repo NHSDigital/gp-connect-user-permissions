@@ -1,0 +1,37 @@
+parameters:
+- name: workspace_tag
+  type: string
+
+steps:
+  - bash: |
+      make install-python
+    displayName: Install python
+    condition: always()
+
+  - template: "azure/components/aws-assume-role.yml@common"
+    parameters:
+      role: "auto-ops"
+      profile: "apm_ptl"
+
+  - template: "azure/components/get-aws-secrets-and-ssm-params.yml@common"
+    parameters:
+      secret_ids:
+        - ptl/azure-devops/apigee-nonprod/APIGEE_OTP_KEY
+        - ptl/azure-devops/apigee-nonprod/APIGEE_PASSWORD
+      config_ids:
+        - /ptl/azure-devops/apigee-nonprod/APIGEE_USERNAME
+
+  - template: "azure/components/get-mfa-code.yml@common"
+    parameters:
+      apigee_otp_key: $(APIGEE_OTP_KEY)
+
+  - template: "azure/components/get-access-token.yml@common"
+    parameters:
+      apigee_username: $(APIGEE_USERNAME)
+      apigee_password: $(APIGEE_PASSWORD)
+
+  - bash: |
+      PR_NO=${{ parameters.workspace_tag }}
+      source .venv/bin/activate
+      python scripts/apigee_kvm.py --env internal-dev --access-token $(secret.AccessToken) delete gp-connect-user-permissions-endpoints-pr-$PR_NO
+    displayName: Update endpoints KVM
