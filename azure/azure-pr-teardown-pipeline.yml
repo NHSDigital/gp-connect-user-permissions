@@ -59,3 +59,4 @@ jobs:
       - template: ./templates/remove-kvm-entry.yml
         parameters:
           workspace_tag: $(ACTION_PR_NUMBER)
+
