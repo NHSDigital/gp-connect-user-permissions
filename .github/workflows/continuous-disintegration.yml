@@ -18,6 +18,6 @@ jobs:
         uses: Azure/pipelines@v1.2
         with:
           azure-devops-project-url: 'https://dev.azure.com/NHSD-APIM/API%20Platform'
-          azure-pipeline-name: 'gp-connect-access-user-permissions-pr-teardown'
+          azure-pipeline-name: 'gp-connect-user-permissions-pr-teardown'
           azure-pipeline-variables: '{ "action_pr_number": "${{ github.event.pull_request.number }}" }'
           azure-devops-token: ${{ steps.get-access-token.outputs.ACCESS_TOKEN }}
