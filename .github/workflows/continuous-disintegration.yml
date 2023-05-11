@@ -21,5 +21,3 @@ jobs:
           azure-pipeline-name: 'gp-connect-user-permissions-pr-teardown'
           azure-pipeline-variables: '{ "action_pr_number": "${{ github.event.pull_request.number }}" }'
           azure-devops-token: ${{ steps.get-access-token.outputs.ACCESS_TOKEN }}
-
-# Test change to trigger PR action
