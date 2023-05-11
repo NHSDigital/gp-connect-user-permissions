@@ -9,12 +9,14 @@ import pytest
 import os
 from os import getenv
 
+
 @pytest.fixture()
 def proxy_url():
     base_path = os.getenv("SERVICE_BASE_PATH")
     apigee_env = os.getenv("APIGEE_ENVIRONMENT")
 
     return f"https://{apigee_env}.api.service.nhs.uk/{base_path}"
+
 
 @pytest.mark.smoketest
 def test_ping(proxy_url):
@@ -53,13 +55,13 @@ def test_status(proxy_url, status_endpoint_auth_headers):
 @pytest.mark.smoketest
 def test_wait_for_status(proxy_url, status_endpoint_auth_headers):
     retries = 0
-    resp = requests.get(f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")}
+    resp = requests.get(f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")})
     deployed_commitId = resp.json().get("commitId")
     while (deployed_commitId != getenv('SOURCE_COMMIT_ID')
            and retries <= 30
            and resp.status_code == 200
            and resp.json().get("version")):
-        resp = requests.get(f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")}
+        resp = requests.get(f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")})
         deployed_commitId = resp.json().get("commitId")
         retries += 1
         logging.warning(f"Expected commit id {getenv('SOURCE_COMMIT_ID')} but was {deployed_commitId}, retrying")
