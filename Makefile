@@ -59,6 +59,10 @@ TEST_CMD := @APIGEE_ACCESS_TOKEN=$(APIGEE_ACCESS_TOKEN) \
 		--proxy-name=$(PROXY_NAME) \
 		-s
 
+PROD_TEST_CMD := $(TEST_CMD) \
+		--apigee-app-id=$(APIGEE_APP_ID) \
+		--status-endpoint-api-key=$(STATUS_ENDPOINT_API_KEY)
+
 #Command to run end-to-end smoktests post-deployment to verify the environment is working
 smoketest:
 	$(TEST_CMD) \
