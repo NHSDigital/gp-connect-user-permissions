@@ -6,24 +6,33 @@ for more ideas on how to test the authorization of your API.
 import logging
 import requests
 import pytest
+import os
 from os import getenv
 
 
+@pytest.fixture()
+def proxy_url():
+    base_path = os.getenv("SERVICE_BASE_PATH")
+    apigee_env = os.getenv("APIGEE_ENVIRONMENT")
+
+    return f"https://{apigee_env}.api.service.nhs.uk/{base_path}"
+
+
 @pytest.mark.smoketest
-def test_ping(nhsd_apim_proxy_url):
-    resp = requests.get(f"{nhsd_apim_proxy_url}/_ping")
+def test_ping(proxy_url):
+    resp = requests.get(f"{proxy_url}/_ping")
     assert resp.status_code == 200
 
 
 @pytest.mark.smoketest
-def test_wait_for_ping(nhsd_apim_proxy_url):
+def test_wait_for_ping(proxy_url):
     retries = 0
-    resp = requests.get(f"{nhsd_apim_proxy_url}/_ping")
+    resp = requests.get(f"{proxy_url}/_ping")
     deployed_commitId = resp.json().get("commitId")
     while (deployed_commitId != getenv('SOURCE_COMMIT_ID')
            and retries <= 30
            and resp.status_code == 200):
-        resp = requests.get(f"{nhsd_apim_proxy_url}/_ping")
+        resp = requests.get(f"{proxy_url}/_ping")
         deployed_commitId = resp.json().get("commitId")
         retries += 1
         logging.warning(f"Expected commit id {getenv('SOURCE_COMMIT_ID')} but was {deployed_commitId}, retrying")
@@ -35,24 +44,24 @@ def test_wait_for_ping(nhsd_apim_proxy_url):
 
 
 @pytest.mark.smoketest
-def test_status(nhsd_apim_proxy_url, status_endpoint_auth_headers):
+def test_status(proxy_url, status_endpoint_auth_headers):
     resp = requests.get(
-        f"{nhsd_apim_proxy_url}/_status", headers=status_endpoint_auth_headers
+        f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")}
     )
     assert resp.status_code == 200
     # Make some additional assertions about your status response here!
 
 
 @pytest.mark.smoketest
-def test_wait_for_status(nhsd_apim_proxy_url, status_endpoint_auth_headers):
+def test_wait_for_status(proxy_url, status_endpoint_auth_headers):
     retries = 0
-    resp = requests.get(f"{nhsd_apim_proxy_url}/_status", headers=status_endpoint_auth_headers)
+    resp = requests.get(f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")})
     deployed_commitId = resp.json().get("commitId")
     while (deployed_commitId != getenv('SOURCE_COMMIT_ID')
            and retries <= 30
            and resp.status_code == 200
            and resp.json().get("version")):
-        resp = requests.get(f"{nhsd_apim_proxy_url}/_status", headers=status_endpoint_auth_headers)
+        resp = requests.get(f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")})
         deployed_commitId = resp.json().get("commitId")
         retries += 1
         logging.warning(f"Expected commit id {getenv('SOURCE_COMMIT_ID')} but was {deployed_commitId}, retrying")
