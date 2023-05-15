@@ -45,7 +45,7 @@ def test_wait_for_ping(proxy_url):
 
 
 @pytest.mark.smoketest
-def test_status(proxy_url, status_endpoint_auth_headers):
+def test_status(proxy_url):
     resp = requests.get(
         f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")}
     )
@@ -54,7 +54,7 @@ def test_status(proxy_url, status_endpoint_auth_headers):
 
 
 @pytest.mark.smoketest
-def test_wait_for_status(proxy_url, status_endpoint_auth_headers):
+def test_wait_for_status(proxy_url):
     retries = 0
     resp = requests.get(f"{proxy_url}/_status", headers={"apikey": os.getenv("STATUS_ENDPOINT_API_KEY")})
     deployed_commitId = resp.json().get("commitId")
