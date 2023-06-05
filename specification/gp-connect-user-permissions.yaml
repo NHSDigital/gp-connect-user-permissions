@@ -17,7 +17,7 @@ info:
     medical record and a selection of services provided at their GP practice.
 
     You can:
-
+    
     - get a patient's permissions
     - request to update a patient's permissions to a higher level
 
@@ -140,6 +140,10 @@ info:
 
     For more details on sandbox testing, or to try out the sandbox using our
     "Try this API" feature, see the documentation for each endpoint.
+    
+    Alternatively, you can try out the sandbox using our Postman collection:
+    
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/23494791-716bf4c4-5c62-4e87-b584-bcf06bedc343?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D23494791-716bf4c4-5c62-4e87-b584-bcf06bedc343%26entityType%3Dcollection%26workspaceId%3De0e123ef-5780-42f5-bae8-23b5785694d0)
 
     ### Integration testing (not yet available)
 
