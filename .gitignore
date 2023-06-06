@@ -17,6 +17,7 @@ __pycache__/
 .venv/
 **/.env
 openapitools.json
+postman-collection.json
 
 smoketest-report.xml
 env
