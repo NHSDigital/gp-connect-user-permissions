@@ -65,7 +65,7 @@ steps:
           echo introspection client id: $introspection_client_id
 
           cd terraform
-          
+
           make init
           make apply aws_account_no=${aws_account_no} environment=$workspace \
             client_id=$introspection_client_id \
@@ -77,7 +77,7 @@ steps:
             echo add KVM for PR-$pr_no
             source .venv/bin/activate
             domain_name=https://$(make -C terraform -s output name=service_domain_name)
-            oauth_endpoint="https://identity.ptl.api.platform.nhs.uk/auth/realms/gpconnect-pfs-mock-$APIGEE_ENVIRONMENT/protocol/openid-connect/token"
+            oauth_endpoint="https://identity.ptl.api.platform.nhs.uk/realms/gpconnect-pfs-mock-$APIGEE_ENVIRONMENT/protocol/openid-connect/token"
             python scripts/apigee_kvm.py --env $APIGEE_ENVIRONMENT --access-token $(secret.AccessToken) populate-interaction-ids gp-connect-user-permissions-endpoints-pr-$pr_no --ods REPC --provider-endpoint $domain_name --oauth-endpoint $oauth_endpoint
           fi
       fi
@@ -97,8 +97,8 @@ steps:
       export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
       export client_id="$(INTROSPECTION_CLIENT_ID)"
       export client_secret="$(INTROSPECTION_CLIENT_SECRET)"
-      export APIGEE_APP_ID=6e8f18e7-612b-465c-9dbc-d089203bc91e 
-      
+      export APIGEE_APP_ID=6e8f18e7-612b-465c-9dbc-d089203bc91e
+
       if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
       then
        poetry run pytest -v -m "not nhsd_apim_authorization and not mock_provider_int" --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
@@ -108,7 +108,7 @@ steps:
        export DEFAULT_CLIENT_ID="$(INT_CLIENT_ID)"
        export DEFAULT_CLIENT_SECRET="$(INT_CLIENT_SECRET)"
        poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
-      
+
       else
        poetry run pytest -v -m "not mock_provider_int" --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       fi

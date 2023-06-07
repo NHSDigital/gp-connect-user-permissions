@@ -116,7 +116,7 @@ def get_access_token(environment, client_credentials):
     id_token = authenticator.get_token()["access_token"]
 
     # Need to post the ID Token to GPC's /token endpoint with a signed JWT to get an Access Token
-    url = f"https://identity.ptl.api.platform.nhs.uk/auth/" \
+    url = f"https://identity.ptl.api.platform.nhs.uk/" \
         f"realms/gpconnect-pfs-mock-{environment}/protocol/openid-connect/token"
 
     with open(getenv("JWT_PRIVATE_KEY_ABSOLUTE_PATH"), "r") as key:
@@ -147,14 +147,14 @@ def get_access_token(environment, client_credentials):
 
 def invalidate_token(token, environment):
     # Call the revocation endpoint to invalidate the token/session
-    url = f"https://identity.ptl.api.platform.nhs.uk/auth/" \
+    url = f"https://identity.ptl.api.platform.nhs.uk/" \
         f"realms/gpconnect-pfs-mock-{environment}/protocol/openid-connect/token"
 
     with open(getenv("JWT_PRIVATE_KEY_ABSOLUTE_PATH"), "r") as key:
         private_key = key.read()
 
     requests.post(
-        "https://identity.ptl.api.platform.nhs.uk/auth/" +
+        "https://identity.ptl.api.platform.nhs.uk/" +
         f"realms/gpconnect-pfs-mock-{environment}/protocol/openid-connect/revoke",
         data={
             "client_id": "gpconnect-pfs-user-permissions",
