@@ -107,6 +107,8 @@ steps:
       then
        export DEFAULT_CLIENT_ID="$(INT_CLIENT_ID)"
        export DEFAULT_CLIENT_SECRET="$(INT_CLIENT_SECRET)"
+       export client_id="$(INTROSPECTION_CLIENT_ID_INT)"
+       export client_secret="$(INTROSPECTION_CLIENT_SECRET_INT)"
        poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
 
       else
