@@ -6,7 +6,6 @@
       </Step>
     </Request>
   </PreFlow>
-
   <Flows>
     <Flow name="OptionsPreFlight">
       <Request/>
@@ -44,6 +43,14 @@
       </Response>
       <Condition>(proxy.pathsuffix MatchesPath "/_status") and ((request.verb = "GET") or (request.verb = "HEAD"))
       </Condition>
+    </Flow>
+    <Flow name="GET-Patient">
+      <Request>
+        <Step>
+          <Name>AssignMessage.AddInteractionID</Name>
+        </Step>
+      </Request>
+      <Condition>((proxy.pathsuffix MatchesPath "/Patient/9000000009") and (request.verb = "GET"))</Condition>
     </Flow>
   </Flows>
   <PostClientFlow name="PostClientFlow">

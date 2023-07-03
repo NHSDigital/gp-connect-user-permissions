@@ -1,0 +1,9 @@
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.AddInteractionID">
+  <Add>
+      <Headers>
+          <Header name="Interaction-ID">urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1</Header>
+      </Headers>
+  </Add>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>
