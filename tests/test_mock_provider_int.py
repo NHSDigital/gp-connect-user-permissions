@@ -108,7 +108,6 @@ class IntNhsLoginMockAuth:
 def test_mock_provider_int_happy_path(nhs_login_mock_token):
     headers = {
         "Authorization": f"Bearer {nhs_login_mock_token}",
-        "Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1",
         "X-Request-ID": "60E0B220-8136-4CA5-AE46-1D97EF59D068",
     }
     base_path = os.getenv("SERVICE_BASE_PATH")
