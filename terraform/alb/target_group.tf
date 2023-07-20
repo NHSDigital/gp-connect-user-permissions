@@ -1,4 +1,5 @@
 resource "aws_lb_target_group" "http_mock_provider_tg" {
+  depends_on  = [aws_lb.alb]
   name        = var.short_prefix
   port        = var.container_port
   protocol    = "HTTP"
