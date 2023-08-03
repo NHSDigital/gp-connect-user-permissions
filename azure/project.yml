@@ -1,5 +1,5 @@
 variables:
   service_name: gp-connect-user-permissions
   short_service_name: gcup
-  service_base_path: gp-connect-user-permissions/FHIR/R4
+  service_base_path: gp-connect/user-permissions/FHIR/R4
   pr_number: ${{ split(variables['Build.SourceBranch'], '/')[2] }}
