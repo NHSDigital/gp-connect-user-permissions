@@ -1,7 +1,7 @@
 summary: |
   The patient has multiple pending requests. The first request is to get
   `manage` permissions for the `appointments` service. The second request is
-  to get `detailed` permissions to the historical medical record. The final request it 
+  to get `detailed` permissions to the historical medical record. The final request is 
   to get `manage` permissions for the prescriptions service.
 value:
   medicalRecord:
