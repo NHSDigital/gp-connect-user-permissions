@@ -254,7 +254,10 @@ paths:
 
             | HTTP status | Error code             | Description                                                                                                                               |
             | ----------- | ----------             | -----------                                                                                                                               |
-            | 400         | INVALID_RESOURCE_ID    | Invalid NHS number.                                                                                                                       |
+            | 400         | INVALID_RESOURCE_ID    | Invalid NHS number.
+            | 404         | PATIENT_NOT_FOUND      | The patient's NHS number in the provider system is not associated with a NHS number status indicator code of 'Number present and verified'                               |
+            | 404         | PATIENT_NOT_FOUND      | The request is for the permissions of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)                                               |
+            | 404         | PATIENT_NOT_FOUND      | The request is for the permissions of an inactive or deceased patient                                                                                                                                |
           content:
             application/fhir+json:
               schema:
