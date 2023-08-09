@@ -248,6 +248,8 @@ paths:
                   $ref: "#/components/examples/GetResponsePendingRequestAppointments"
                 GetResponseMultiplePendingRequests:
                   $ref: "#/components/examples/GetResponseMultiplePendingRequests"
+                GetResponseThreeRequests:
+                  $ref: "#/components/examples/GetResponseThreeRequests"
         4XX:
           description: |
             An error occurred as follows:
@@ -440,6 +442,8 @@ components:
       $ref: "components/examples/GetResponsePermissionsFull.yaml"
     GetResponseMultiplePendingRequests:
       $ref: "components/examples/GetResponseMultiplePendingRequests.yaml"
+    GetResponseThreeRequests:
+      $ref: "#components/examples/GetResponseThreeRequests.yaml"
     GetResponsePendingRequestDetailed:
       $ref: "components/examples/GetResponsePendingRequestDetailed.yaml"
     GetResponsePendingRequestAppointments:
