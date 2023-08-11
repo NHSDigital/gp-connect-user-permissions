@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ServiceCallout async="false" continueOnError="false" enabled="true" name="ServiceCallout.AuthenticateForPDS">
+    <DisplayName>ServiceCallout.AuthenticateForPDS</DisplayName>
+    <Properties/>
+    <Request clearPayload="true" variable="AuthRequest">
+        <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+        <Set>
+            <Verb>POST</Verb>
+            <Headers>
+                <Header name="Content-Type">application/x-www-form-urlencoded</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="accept">*/*</Header>
+                <Header name="accept-encoding">gzip, deflate, br</Header>
+                <Header name="cache-control">no-cache</Header>
+                <Header name="user-agent">APIM</Header>
+            </Headers>
+            <FormParams>
+                <FormParam name="client_assertion">{pds_client_assertion}</FormParam>
+                <FormParam name="client_assertion_type">urn:ietf:params:oauth:client-assertion-type:jwt-bearer</FormParam>
+                <FormParam name="grant_type">client_credentials</FormParam>
+            </FormParams>
+        </Set>
+    </Request>
+    <Response>PDSAuthResponse</Response>
+    <HTTPTargetConnection>
+        <URL>https://int.api.service.nhs.uk/oauth2/token</URL>
+    </HTTPTargetConnection>
+    <Timeout>20000</Timeout>
+</ServiceCallout>

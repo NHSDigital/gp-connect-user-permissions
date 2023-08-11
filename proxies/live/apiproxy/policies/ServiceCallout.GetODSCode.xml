@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ServiceCallout async="false" continueOnError="false" enabled="true" name="ServiceCallout.GetODSCode">
+    <DisplayName>ServiceCallout.GetODSCode</DisplayName>
+    <Properties/>
+    <Request clearPayload="true" variable="PDSRequest">
+        <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+        <Set>
+            <Verb>GET</Verb>
+            <Headers>
+                <Header name="accept">application/fhir+json</Header>
+                <Header name="authorization">Bearer {PDSAccessToken}</Header>
+                <Header name="X-Request-ID">{x_request_id}</Header>
+            </Headers>
+            <Path>/Patient/{nhs_number}</Path>
+        </Set>
+    </Request>
+    <Response>PDSResponse</Response>
+    <HTTPTargetConnection>
+        <URL>https://int.api.service.nhs.uk/personal-demographics/FHIR/R4</URL>
+    </HTTPTargetConnection>
+    <Timeout>20000</Timeout>
+</ServiceCallout>

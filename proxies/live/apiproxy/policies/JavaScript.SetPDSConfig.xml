@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JavaScript.SetPDSConfig">
+    <DisplayName>JavaScript.SetPDSConfig</DisplayName>
+    <Properties/>
+    <ResourceURL>jsc://SetPDSConfig.js</ResourceURL>
+</Javascript>
