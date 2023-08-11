@@ -30,6 +30,8 @@ extends:
     service_name: ${{ variables.service_name }}
     short_service_name: ${{ variables.short_service_name }}
     service_base_path: ${{ variables.service_base_path }}
+    prod_producer_approval: true
+    prod_requires_approval: true
     apigee_deployments:
       - environment: internal-dev
         jinja_templates:
@@ -63,4 +65,13 @@ extends:
           GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-encrypted
         post_deploy:
           - template: ./templates/post-deploy.yml
-
+      - environment: prod
+        depends_on:
+          - int
+          - sandbox
+        jinja_templates:
+          GP_CONNECT_ENDPOINTS: gp-connect-user-permissions-endpoints
+          GP_CONNECT_CONFIG: gp-connect-user-permissions-config
+          GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-encrypted
+        post_deploy:
+          - template: ./templates/post-deploy.yml
