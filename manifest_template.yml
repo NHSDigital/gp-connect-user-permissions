@@ -30,7 +30,7 @@ APIGEE_ENVIRONMENTS:
     has_mock_auth: true
   - name: prod
     approval_type: manual
-    display_name_suffix: Production
+    display_name: Production
     quota: '7800'
     ratelimit: '15000pm'
 ---
