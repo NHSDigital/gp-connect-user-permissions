@@ -19,3 +19,5 @@ context.setVariable("endpointInteractionKey", interactionId)
 context.setVariable("endpointConfigEncryptedKey", endpointConfigEncryptedKey)
 
 var GPCAuthInteractionId = properties.GPCAuthInteractionId
+
+context.setVariable("GPCAuthInteractionId", GPCAuthInteractionId)
