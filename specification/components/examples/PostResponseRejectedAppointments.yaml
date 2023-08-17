@@ -1,7 +1,0 @@
-summary: Rejected request for manage access to appointments service.
-value:
-  permissionType: appointments
-  accessLevel: manage
-  status: rejected
-  message: Request rejected for manage access to appointments service.
-  createdDateTime: "2022-11-01T00:00:00+00:00"

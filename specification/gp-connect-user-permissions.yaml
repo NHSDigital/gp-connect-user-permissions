@@ -328,24 +328,22 @@ paths:
               examples:
                 PostResponsePendingHistoricalDetailed:
                   $ref: "#/components/examples/PostResponsePendingHistoricalDetailed"
-                ResponseRequestRejectedAppointments:
-                  $ref: "#/components/examples/ResponseRequestRejectedAppointments"
         4XX:
           description: |
             An error occurred as follows:
 
-            | HTTP status | Error code                      | Description                                                                                                                                                              |
-            | ----------- | ----------                      | -----------                                                                                                                                                              |
-            | 400         | INVALID_RESOURCE_ID             | Invalid NHS number.                                                                                                                                                      |
-            | 400         | INVALID_UPDATE                  | Malformed request.                                                                                                                                                       |
-            | 400         | VALIDATION_ERROR                | This is the "default" error thrown when no others are applicable.                                                                                                        |
-            | 400         | UNSUPPORTED_CHARACTERS_IN_FIELD | Invalid value in body of patch request. For details, see the `diagnostics` field.                                                                                        |
-            | 400         | ADDITIONAL_PROPERTIES           | The user sent additional properties within the dictionary.                                                                                                               |
-            | 400         | UNSUPPORTED_VALUE               | There was an unsupported value in the request. For example sending a request and attempting to set a permission for an unknown permission type such as `communications`. |
-            | 403         | FORBIDDEN_UPDATE                | The user is not permitted to make certain requests. For example, no user can request access beyond the level of access denoted by `accessLevelMax`.                      |
-            | 404         | PATIENT_NOT_FOUND               | The patient's NHS number in the provider system is not associated with a NHS number status indicator code of 'Number present and verified'                               |
-            | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)                                               |
-            | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of an inactive or deceased patient                                                                                                    |
+            | HTTP status | Error code                      | Description                                                                                                                                                                                                             |
+            | ----------- | ----------                      | -----------                                                                                                                                                                                                             |
+            | 400         | INVALID_NHS_NUMBER              | Invalid NHS number.                                                                                                                                                                                                     |
+            | 400         | INVALID_UPDATE                  | Malformed request.                                                                                                                                                                                                      |
+            | 400         | VALIDATION_ERROR                | This is the "default" error thrown when no others are applicable.                                                                                                                                                       |
+            | 400         | UNSUPPORTED_CHARACTERS_IN_FIELD | Invalid value in body of patch request. For details, see the `diagnostics` field.                                                                                                                                       |
+            | 400         | ADDITIONAL_PROPERTIES           | The user sent additional properties within the dictionary.                                                                                                                                                              |
+            | 400         | UNSUPPORTED_VALUE               | There was an unsupported value in the request. For example sending a request and attempting to set a permission for an unknown permission type such as `communications`.                                                |
+            | 403         | FORBIDDEN_UPDATE                | The user is not permitted to make certain requests. For example, no user can request access beyond the level of access denoted by `accessLevelMax`, or send a request for lower or the same access they currently have. |
+            | 404         | PATIENT_NOT_FOUND               | The patient's NHS number in the provider system is not associated with a NHS number status indicator code of 'Number present and verified'                                                                              |
+            | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)                                                                                              |
+            | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of an inactive or deceased patient                                                                                                                                                   |
             
           content:
             application/fhir+json:
@@ -354,6 +352,8 @@ paths:
               examples:
                 InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
+                RejectedRequestError:
+                  $ref: "#/components/examples/RejectedRequestError"
 
 components:
   headers:
@@ -449,15 +449,14 @@ components:
       $ref: "components/examples/GetResponsePendingRequestAppointments.yaml"
     PostResponsePendingHistoricalDetailed:
       $ref: "components/examples/PostResponsePendingHistoricalDetailed.yaml"
-    ResponseRequestRejectedAppointments:
-      $ref: "components/examples/PostResponseRejectedAppointments.yaml"
     PostRequestBodyAppointments:
       $ref: "components/examples/PostRequestBodyAppointments.yaml"
     PostRequestBodyHistoricalDetailed:
       $ref: "components/examples/PostRequestBodyHistoricalDetailed.yaml"
     PostRequestBodyPrescriptions:
       $ref: "components/examples/PostRequestBodyPrescriptions.yaml"
-
+    RejectedRequestError:
+      $ref: "components/examples/RejectedRequestError.yaml"
   requestBodies:
     UpdatePermission:
       $ref: "components/requestBodies/UpdatePermission.yaml"
