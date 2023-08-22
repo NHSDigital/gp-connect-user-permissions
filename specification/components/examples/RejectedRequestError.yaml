@@ -12,4 +12,5 @@ value:
             version: "1"
             code: INVALID_UPDATE
             display: Update is invalid
-        text: Request rejected for manage access to appointments service.
+        text: "Request rejected due to requested access being below the users current level for prescriptions."
+
