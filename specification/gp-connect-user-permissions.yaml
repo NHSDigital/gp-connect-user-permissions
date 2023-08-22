@@ -300,8 +300,8 @@ paths:
         to these requests have a state of pending.
 
         Rejected requests are not added to the GP system's
-        workflow. The message included in the response to a rejected request
-        explains the reason for the rejection. This should be displayed to
+        workflow. The text included in the response to a rejected request
+        explains the reason for the rejection, this should be under details.text in the OperationOutcome. This should be displayed to
         the patient.
 
         ## Request handling
