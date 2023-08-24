@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<LookupCache async="false" continueOnError="false" enabled="true" name="LookupCache.PdsAccessToken">
+  <DisplayName>LookupCache.PdsAccessToken</DisplayName>
+  <Properties/>
+  <Scope>Exclusive</Scope>
+  <CacheKey>
+    <KeyFragment>pdsAccessToken</KeyFragment>
+  </CacheKey>
+  <AssignTo>pdsCachedAccessToken</AssignTo>
+</LookupCache>
