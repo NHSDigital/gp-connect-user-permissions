@@ -1,7 +1,0 @@
-<AssignMessage>
-  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
-  <AssignVariable>
-    <Name>targets</Name>
-    <Ref>private.config_raw.content</Ref>
-  </AssignVariable>
-</AssignMessage>

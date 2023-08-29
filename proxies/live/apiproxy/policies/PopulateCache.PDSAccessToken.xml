@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PopulateCache async="false" continueOnError="false" enabled="true" name="PopulateCache.PdsfAccessToken">
-  <DisplayName>PopulateCache.PdsfAccessToken</DisplayName>
+  <DisplayName>PopulateCache.PdsAccessToken</DisplayName>
   <Properties/>
   <Scope>Exclusive</Scope>
   <CacheKey>
-    <KeyFragment>pdsfAccessToken</KeyFragment>
+    <KeyFragment>pdsAccessToken</KeyFragment>
   </CacheKey>
   <ExpirySettings>
     <TimeoutInSec>300</TimeoutInSec>
   </ExpirySettings>
-  <Source>pdsfAccessToken</Source>
+  <Source>pdsAccessToken</Source>
 </PopulateCache>
