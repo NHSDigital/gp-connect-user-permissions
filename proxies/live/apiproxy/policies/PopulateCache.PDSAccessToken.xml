@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PopulateCache async="false" continueOnError="false" enabled="true" name="PopulateCache.PdsfAccessToken">
+<PopulateCache async="false" continueOnError="false" enabled="true" name="PopulateCache.PDSAccessToken">
   <DisplayName>PopulateCache.PDSAccessToken</DisplayName>
   <Properties/>
   <Scope>Exclusive</Scope>
