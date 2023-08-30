@@ -4,10 +4,10 @@
   <Properties/>
   <Scope>Exclusive</Scope>
   <CacheKey>
-    <KeyFragment>pdsAccessToken</KeyFragment>
+    <KeyFragment>PDSAccessToken</KeyFragment>
   </CacheKey>
   <ExpirySettings>
     <TimeoutInSec>300</TimeoutInSec>
   </ExpirySettings>
-  <Source>pdsAccessToken</Source>
+  <Source>PDSAccessToken</Source>
 </PopulateCache>
