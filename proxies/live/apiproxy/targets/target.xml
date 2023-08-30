@@ -56,7 +56,7 @@
         <Name>KeyValueMapOperations.GetSecureVariables</Name>
       </Step>
       <Step>
-        <Name>GenerateJWT.GPCLoginClientAssertion</Name>
+        <Name>GenerateJWT.GPCPFSLoginClientAssertion</Name>
       </Step>
       <Step>
         <Name>ServiceCallout.AuthenticateAgainstGPC</Name>
