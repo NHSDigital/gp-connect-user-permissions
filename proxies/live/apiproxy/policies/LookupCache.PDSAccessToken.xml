@@ -6,5 +6,5 @@
   <CacheKey>
     <KeyFragment>PDSAccessToken</KeyFragment>
   </CacheKey>
-  <AssignTo>PDSCachedAccessToken</AssignTo>
+  <AssignTo>PDSAccessToken</AssignTo>
 </LookupCache>
