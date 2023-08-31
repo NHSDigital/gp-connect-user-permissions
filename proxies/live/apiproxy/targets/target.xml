@@ -27,7 +27,6 @@
       </Step>
       <Step>
         <Name>ServiceCallout.AuthenticateForPDS</Name>
-        <Condition>lookupcache.LookupCache.PDSAccessToken.cachehit = false</Condition>
       </Step>
       <Step>
         <Name>JavaScript.GetPDSAccessToken</Name>
