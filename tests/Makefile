@@ -7,7 +7,7 @@ PYTEST_CMD = APIGEE_ACCESS_TOKEN=$(APIGEE_ACCESS_TOKEN) poetry run pytest -s -v 
 
 PYTEST_CMD = APIGEE_ACCESS_TOKEN=$(APIGEE_ACCESS_TOKEN) poetry run pytest -s -v --color=yes --api-name=gp-connect-user-permissions --proxy-name=$(PROXY_NAME)
 PYTEST_CMD_INT = APIGEE_ENVIRONMENT=int APIGEE_ACCESS_TOKEN=$(APIGEE_ACCESS_TOKEN) DEFAULT_CLIENT_ID=$(DEFAULT_CLIENT_ID) DEFAULT_CLIENT_SECRET=$(DEFAULT_CLIENT_SECRET)\
-	PROXY_NAME=gp-connect-user-permissions-int SERVICE_BASE_PATH=gp-connect-user-permissions/FHIR/STU3\
+	PROXY_NAME=gp-connect-user-permissions-int SERVICE_BASE_PATH=gp-connect/patient-facing/user-permissions\
 	poetry run pytest -s -v --color=yes -m mock_provider_int --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME --apigee-app-id=$(APIGEE_APP_ID) --apigee-organization=nhsd-prod
 
 run:

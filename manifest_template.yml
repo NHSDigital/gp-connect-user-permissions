@@ -28,6 +28,11 @@ APIGEE_ENVIRONMENTS:
   - name: int
     display_name: Integration Testing
     has_mock_auth: true
+  - name: prod
+    approval_type: manual
+    display_name: Production
+    quota: '7800'
+    ratelimit: '15000pm'
 ---
 meta:
   api:
@@ -44,7 +49,7 @@ apigee:
   - name: {{ ENV.name }}
     products:
       - name: {{ NAME }}
-        approvalType: auto
+        approvalType: {{ ENV.approval_type | default('auto') }}
         attributes:
           - name: access
             value: public

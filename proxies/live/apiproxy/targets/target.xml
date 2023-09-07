@@ -5,10 +5,40 @@
         <Name>OauthV2.VerifyAccessToken</Name>
       </Step>
       <Step>
+        <Name>FlowCallout.ApplyRateLimiting</Name>
+      </Step>
+      <Step>
         <Name>DecodeJWT.DecodeIDToken</Name>
       </Step>
       <Step>
-        <Name>FlowCallout.ApplyRateLimiting</Name>
+        <Name>KeyValueMapOperations.GetPDSConfig</Name>
+      </Step>
+      <Step>
+        <Name>KeyValueMapOperations.GetPDSSecureVariables</Name>
+      </Step>
+      <Step>
+         <Name>JavaScript.SetPDSConfig</Name>
+      </Step>
+      <Step>
+          <Name>GenerateJWT.PDSClientAssertion</Name>
+      </Step>
+      <Step>
+        <Name>LookupCache.PDSAccessToken</Name>
+      </Step>
+      <Step>
+        <Name>ServiceCallout.AuthenticateForPDS</Name>
+        <Condition>lookupcache.LookupCache.PDSAccessToken.cachehit == false</Condition>
+      </Step>
+      <Step>
+        <Name>JavaScript.GetPDSAccessToken</Name>
+        <Condition>lookupcache.LookupCache.PDSAccessToken.cachehit == false</Condition>
+      </Step>
+      <Step>
+        <Name>PopulateCache.PDSAccessToken</Name>
+        <Condition>lookupcache.LookupCache.PDSAccessToken.cachehit == false</Condition>
+      </Step>
+      <Step>
+        <Name>ServiceCallout.GetODSCode</Name>
       </Step>
       <Step>
         <Name>JavaScript.CreateKVMKeyNames</Name>

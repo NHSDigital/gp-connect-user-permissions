@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GenerateJWT async="false" continueOnError="false" enabled="true" name="GenerateJWT.PDSClientAssertion">
+    <DisplayName>GenerateJWT.PDSClientAssertion</DisplayName>
+    <Algorithm>RS512</Algorithm>
+    <PrivateKey>
+        <Value ref="private.pds_jwt"/>
+        <Id ref="pds_kid_config"/>
+    </PrivateKey>
+    <Subject ref="pds_client_id_config"/>
+    <Issuer ref="pds_client_id_config"/>
+    <Audience ref="pds_audience_config"/>
+    <ExpiresIn>5m</ExpiresIn>
+    <OutputVariable>pds_client_assertion</OutputVariable>
+</GenerateJWT>

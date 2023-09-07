@@ -1,7 +1,8 @@
 summary: |
   The patient has multiple pending requests. The first request is to get
   `manage` permissions for the `appointments` service. The second request is
-  to get `detailed` permissions to the historical medical record.
+  to get `detailed` permissions to the historical medical record. The final request is 
+  to get `manage` permissions for the prescriptions service.
 value:
   medicalRecord:
     effectiveDate: "2022-11-01"
@@ -29,3 +30,9 @@ value:
       permissionType: medicalRecord
       medicalRecordType: historical
       accessLevel: detailed
+    - status: pending
+      createdDateTime: "2022-11-01T23:59:59+00:00"
+      message: Requires review by a healthcare worker.
+      permissionType: prescriptions
+      accessLevel: manage
+
