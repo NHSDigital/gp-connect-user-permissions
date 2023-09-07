@@ -1,0 +1,16 @@
+summary: A rejected error response
+value:
+  resourceType: OperationOutcome
+  meta:
+    lastUpdated: "2022-05-14T11:35:00+00:00"
+  issue:
+    - severity: error
+      code: value
+      details:
+        coding:
+          - system: https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode
+            version: "1"
+            code: INVALID_UPDATE
+            display: Update is invalid
+        text: "Request rejected due to requested access being below the users current level for prescriptions."
+

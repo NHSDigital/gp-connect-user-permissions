@@ -20,5 +20,4 @@ properties:
     description: The status of the request.
     enum:
       - pending
-      - rejected
     example: pending
