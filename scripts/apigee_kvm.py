@@ -127,8 +127,7 @@ def main():
         print("Operation not supported")
         exit(1)
 
-    content = json.loads(res)
-    print(content)
+    print(res)
 
 
 if __name__ == '__main__':
