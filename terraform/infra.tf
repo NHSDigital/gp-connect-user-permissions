@@ -6,7 +6,7 @@ data "terraform_remote_state" "gp-connect-pfs-user-permissions-infra" {
   backend = "s3"
   config = {
     bucket = "${var.project_name}-infra-terraform-state"
-    key    = "env://dev/state"
+    key    = "env:/dev/state"
     region = "eu-west-2"
   }
 }
