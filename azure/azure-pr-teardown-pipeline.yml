@@ -50,11 +50,12 @@ jobs:
           make init
           # tf_vars has the client id, secret, and keycloak env required by default so we pass null values here to
           # prevent terraform from hanging waiting for an input for these values
-          terraform workspace select $(WORKSPACE) && make init && terraform destroy -auto-approve -force /
-          -var="client_id=$(client_id)" -var="client_secret=$(client_secret)" /
-          -var="keycloak_environment=$(keycloak_environment)" && /
-          terraform workspace select default && terraform workspace delete $(WORKSPACE)
+          terraform workspace select $(WORKSPACE)
+          make init && make destroy aws_account_no=${account_id} environment=$(WORKSPACE) \
+            client_id=$(client_id) client_secret=$(client_secret) \
+            keycloak_environment=$(keycloak_environment)
         displayName: Destroy terraform PR workspace and linked resources
+        retryCountOnTaskFailure: 2
 
       - template: ./templates/remove-kvm-entry.yml
         parameters:

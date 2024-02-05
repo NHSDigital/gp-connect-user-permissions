@@ -66,7 +66,8 @@ class ApigeeKvm:
         if res.status_code == 200:
             return res.content
         if res.status_code == 404:
-            return None
+            # Return an empty JSON object when KVM is not found
+            return b'{}'
         else:
             print(f"Bad response from apigee: status code: {res.status_code} content: {res.content}")
             exit(1)

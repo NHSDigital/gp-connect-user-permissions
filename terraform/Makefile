@@ -29,8 +29,8 @@ clean:
 
 destroy: workspace
 	$(tf_cmd) destroy $(tf_vars) -auto-approve -var="client_id=$(client_id)" -var="client_secret=$(client_secret)" -var="keycloak_environment=$(keycloak_environment)"
-	teraform workspace select default
-	terraform workspace delete $(environment)
+	$(tf_cmd) workspace select default
+	$(tf_cmd) workspace delete $(environment)
 
 output:
 	$(tf_cmd) output -raw $(name)
