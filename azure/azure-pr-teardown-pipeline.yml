@@ -47,13 +47,10 @@ jobs:
           account_id="$(aws sts get-caller-identity --query Account --output text)"
 
           cd terraform
-          make init
-          # tf_vars has the client id, secret, and keycloak env required by default so we pass null values here to
-          # prevent terraform from hanging waiting for an input for these values
+          # tf_vars has the client id, secret, and keycloak env required for int env
           terraform workspace select $(WORKSPACE)
           make init && make destroy aws_account_no=${account_id} environment=$(WORKSPACE) \
-            client_id=$(client_id) client_secret=$(client_secret) \
-            keycloak_environment=$(keycloak_environment)
+            client_id= client_secret= keycloak_environment=
         displayName: Destroy terraform PR workspace and linked resources
         retryCountOnTaskFailure: 2
 
