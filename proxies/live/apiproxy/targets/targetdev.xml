@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TargetEndpoint name="gp-connect-user-permissions-internal-dev-target">
+    <PreFlow>
+        <Request>
+            <Step>
+                <Name>OauthV2.VerifyAccessToken</Name>
+            </Step>
+            <Step>
+                <Name>FlowCallout.ApplyRateLimiting</Name>
+            </Step>
+            <Step>
+                <Name>DecodeJWT.DecodeIDToken</Name>
+            </Step>
+            <Step>
+                <Name>KeyValueMapOperations.GetPDSConfig</Name>
+            </Step>
+            <Step>
+                <Name>KeyValueMapOperations.GetPDSSecureVariables</Name>
+            </Step>
+            <Step>
+                <Name>JavaScript.SetPDSConfig</Name>
+            </Step>
+            <Step>
+                <Name>GenerateJWT.PDSClientAssertion</Name>
+            </Step>
+            <Step>
+                <Name>LookupCache.PDSAccessToken</Name>
+            </Step>
+            <Step>
+                <Name>ServiceCallout.AuthenticateForPDS</Name>
+                <Condition>lookupcache.LookupCache.PDSAccessToken.cachehit == false</Condition>
+            </Step>
+            <Step>
+                <Name>JavaScript.GetPDSAccessToken</Name>
+                <Condition>lookupcache.LookupCache.PDSAccessToken.cachehit == false</Condition>
+            </Step>
+            <Step>
+                <Name>PopulateCache.PDSAccessToken</Name>
+                <Condition>lookupcache.LookupCache.PDSAccessToken.cachehit == false</Condition>
+            </Step>
+            <Step>
+                <Name>ServiceCallout.GetODSCode</Name>
+            </Step>
+            <Step>
+                <Name>JavaScript.CreateKVMKeyNames</Name>
+            </Step>
+            <Step>
+                <Name>KeyValueMapOperations.GetEndpoints</Name>
+            </Step>
+            <Step>
+                <Name>KeyValueMapOperations.GetConfig</Name>
+            </Step>
+            <Step>
+                <Name>JavaScript.SetEndpoints</Name>
+            </Step>
+            <Step>
+                <Name>KeyValueMapOperations.GetSecureVariables</Name>
+            </Step>
+            <Step>
+                <Name>GenerateJWT.GPCPFSLoginClientAssertion</Name>
+            </Step>
+            <Step>
+                <Name>ServiceCallout.AuthenticateAgainstGPCPFSInternalDev</Name>
+            </Step>
+            <Step>
+                <Name>JavaScript.GetGPCAuthCode</Name>
+            </Step>
+            <Step>
+                <Name>RaiseFault.404TargetNotFound</Name>
+                <Condition>endpointNotFound == true</Condition>
+            </Step>
+        </Request>
+    </PreFlow>
+    <FaultRules>
+        <FaultRule name="access_token_expired">
+            <Step>
+                <Name>ExtractVariables.OAuthErrorFaultString</Name>
+            </Step>
+            <Step>
+                <Name>AssignMessage.OAuthPolicyErrorResponse</Name>
+            </Step>
+            <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
+        </FaultRule>
+        <FaultRule name="gpc_access_token_expired">
+            <Step>
+                <Name>AssignMessage.GPCAuthErrorResponse</Name>
+            </Step>
+            <Condition>GPCPFSAuthResponse.status.code=="500"</Condition>
+        </FaultRule>
+    </FaultRules>
+    <!--
+  To point to a named target server as this is how it SHOULD be implemented:
+  For example:
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+    </SSLInfo>
+    <LoadBalancer>
+      <Server name="gp-connect-access-record-fhir" />
+    </LoadBalancer>
+  </HTTPTargetConnection>
+-->
+    <HTTPTargetConnection>
+        <URL>https://mocktarget.apigee.net</URL>
+        <Properties>
+            <Property name="supports.http10">true</Property>
+            <Property name="request.retain.headers">User-Agent,Referer,Accept-Language</Property>
+            <Property name="retain.queryparams">apikey</Property>
+        </Properties>
+        <SSLInfo>
+            <Enabled>true</Enabled>
+        </SSLInfo>
+    </HTTPTargetConnection>
+</TargetEndpoint>
