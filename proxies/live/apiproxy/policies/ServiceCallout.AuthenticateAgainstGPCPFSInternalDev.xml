@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ServiceCallout async="false" continueOnError="false" enabled="true" name="ServiceCallout.AuthenticateAgainstGPC">
-    <DisplayName>ServiceCallout.AuthenticateAgainstGPC</DisplayName>
+<ServiceCallout async="false" continueOnError="false" enabled="true" name="ServiceCallout.AuthenticateAgainstGPCPFSInternalDev">
+    <DisplayName>ServiceCallout.AuthenticateAgainstGPCPFSInternalDev</DisplayName>
     <Properties/>
-    <Request clearPayload="true" variable="GPCAuthRequest">
+    <Request clearPayload="true" variable="GPCPFSAuthRequest">
         <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
         <Set>
             <Verb>POST</Verb>
@@ -25,16 +25,8 @@
             </FormParams>
         </Set>
     </Request>
-    <Response>GPCAuthResponse</Response>
+    <Response>GPCPFSAuthResponse</Response>
     <HTTPTargetConnection>
-        <SSLInfo>
-            <Enabled>true</Enabled>
-            <ClientAuthEnabled>true</ClientAuthEnabled>
-            <KeyStore>ref://gpc-client</KeyStore>
-            <KeyAlias>cert</KeyAlias>
-            <TrustStore>ref://identity-service-truststore</TrustStore>
-        </SSLInfo>
-        <TrustStore>ref://identity-service-truststore</TrustStore>
         <URL>https://{GPCAuthHostname}{GPCAuthHostpath}</URL>
     </HTTPTargetConnection>
     <Timeout>20000</Timeout>
