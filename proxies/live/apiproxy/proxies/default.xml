@@ -50,7 +50,7 @@
           <Name>AssignMessage.AddInteractionID</Name>
         </Step>
       </Request>
-      <Condition>((proxy.pathsuffix MatchesPath "/Patient/9000000009") and (request.verb = "GET"))</Condition>
+      <Condition>((proxy.pathsuffix MatchesPath "/Patient/*") and (request.verb = "GET")) or ((proxy.pathsuffix MatchesPath "/Patient/*") and (request.verb = "POST"))</Condition>
     </Flow>
   </Flows>
   <PostClientFlow name="PostClientFlow">
