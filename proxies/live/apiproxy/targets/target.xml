@@ -84,7 +84,7 @@
      <Step>
          <Name>AssignMessage.GPCAuthErrorResponse</Name>
       </Step>
-            <Condition>GPCAuthResponse.status.code=="500"</Condition>
+            <Condition>GPCPFSAuthResponse.status.code=="500"</Condition>
     </FaultRule>
   </FaultRules>
   <!--
