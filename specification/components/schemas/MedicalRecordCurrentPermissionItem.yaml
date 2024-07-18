@@ -1,15 +1,11 @@
 type: object
 description: |
   An object representing the level of permission a patient has to the
-  current medical record along with the maximum level of access that
-  could be requested.
+  current medical record.
 
   The current medical record is anything at or after the `effectiveDate`.
 required:
   - accessLevel
-  - accessLevelMax
 properties:
   accessLevel:
     $ref: "MedicalRecordAccessLevelEnum.yaml"
-  accessLevelMax:
-    $ref: "MedicalRecordAccessLevelMaxEnum.yaml"

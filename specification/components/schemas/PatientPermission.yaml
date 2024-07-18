@@ -1,20 +1,11 @@
 type: object
 description: |
-  Contains the permissions the patient has to their medical record and the
-  appointments and prescriptions services.
+  Contains the permissions the patient has to their medical record and prescriptions services.
 
-  Each permission has two properties, an `accessLevel` and an
-  `accessLevelMax`.
+  Each permission has one property, `accessLevel`
 
   `accessLevel` describes the current level of permission
   the patient has.
-
-  `accessLevelMax` describes the maximum level of permission the patient
-  may request. This _can_ be different than the absolute maximum level of
-  permission possible. For example, if a patient has an `accessLevel` of
-  `summary` and an `accessLevelMax` of `detailed` for their current
-  medical record they can make a request to increase their level of
-  access to `detailed` but not `documents` or `full`.
 
   Medical record access levels are split into `current` and
   `historical` with an `effectiveDate` for when the current
@@ -27,13 +18,10 @@ description: |
   patient to help them understand the status of their requests.
 required:
   - medicalRecord
-  - appointments
   - prescriptions
 properties:
   medicalRecord:
     $ref: "MedicalRecordPermission.yaml"
-  appointments:
-    $ref: "AppointmentsPermission.yaml"
   prescriptions:
     $ref: "PrescriptionsPermission.yaml"
   requests:
@@ -43,9 +31,8 @@ properties:
       yet to be processed.
     items:
       description: |
-        A request could be for the medical record, appointments service
+        A request could be for the medical record
         or prescriptions service.
       anyOf:
         - $ref: "MedicalRecordPermissionRequest.yaml"
-        - $ref: "AppointmentsPermissionRequest.yaml"
         - $ref: "PrescriptionsPermissionRequest.yaml"

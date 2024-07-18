@@ -7,13 +7,9 @@ value:
     effectiveDate: "2022-11-01"
     current:
       accessLevel: full
-      accessLevelMax: full
     historical:
       accessLevel: summary
-      accessLevelMax: detailed
   appointments:
     accessLevel: manage
-    accessLevelMax: manage
   prescriptions:
     accessLevel: manage
-    accessLevelMax: manage
