@@ -1,9 +1,0 @@
-summary: Pending request for detailed access to historical medical record.
-value:
-  permissionType: medicalRecord
-  medicalRecordType: historical
-  accessLevel: detailed
-  status: pending
-  message: >-
-    Request received to update historical medical record access to detailed.
-  createdDateTime: "2022-11-01T00:00:00+00:00"

@@ -5,8 +5,6 @@ description: |
   an `effectiveDate`, representing the date when the current level of
   access started.
 
-  Alongside `accessLevel` is `accessLevelMax` which represents the
-  highest level of permission that could be requested.
 required:
   - current
   - effectiveDate

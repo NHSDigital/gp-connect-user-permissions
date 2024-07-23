@@ -1,4 +1,0 @@
-summary: Request manage access to prescriptions service.
-value:
-  permissionType: prescriptions
-  accessLevel: manage

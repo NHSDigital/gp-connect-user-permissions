@@ -1,19 +1,13 @@
 summary: |
-  The patient has full permission to their current medical record, the
-  appointments and prescriptions service and summary permission to their
-  historical medical record.
+  The patient has full permission to their current medical record and
+  prescriptions service and summary permission to their historical medical
+  record.
 value:
   medicalRecord:
     effectiveDate: "2022-11-01"
     current:
       accessLevel: full
-      accessLevelMax: full
     historical:
       accessLevel: summary
-      accessLevelMax: detailed
-  appointments:
-    accessLevel: manage
-    accessLevelMax: manage
   prescriptions:
     accessLevel: manage
-    accessLevelMax: manage
