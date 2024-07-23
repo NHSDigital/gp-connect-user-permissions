@@ -17,7 +17,7 @@ info:
     medical record and a selection of services provided at their GP practice.
 
     You can:
-    
+
     - get a patient's permissions
 
     You cannot:
@@ -136,9 +136,9 @@ info:
 
     For more details on sandbox testing, or to try out the sandbox using our
     "Try this API" feature, see the documentation for each endpoint.
-    
+
     Alternatively, you can try out the sandbox using our Postman collection:
-    
+
     [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/34036044-57060177-4760-4184-8af5-fd3d7c268327?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D34036044-57060177-4760-4184-8af5-fd3d7c268327%26entityType%3Dcollection%26workspaceId%3Dbad72f85-20d6-41c3-bd55-f30bf83f8c63)
 
     ### Integration testing (not yet available)
@@ -226,12 +226,12 @@ paths:
           description: |
             An error occurred as follows:
 
-            | HTTP status | Error code             | Description                                                                                                                               |
-            | ----------- | ----------             | -----------                                                                                                                               |
-            | 400         | INVALID_RESOURCE_ID    | Invalid NHS number.
-            | 404         | PATIENT_NOT_FOUND      | The patient's NHS number in the provider system is not associated with a NHS number status indicator code of 'Number present and verified'                               |
-            | 404         | PATIENT_NOT_FOUND      | The request is for the permissions of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)                                               |
-            | 404         | PATIENT_NOT_FOUND      | The request is for the permissions of an inactive or deceased patient                                                                                                                                |
+            | HTTP status | Error code             | Description                                                                                                                                |
+            | ----------- | ----------             | -----------                                                                                                                                |
+            | 400         | INVALID_RESOURCE_ID    | Invalid NHS number.                                                                                                                        |
+            | 404         | PATIENT_NOT_FOUND      | The patient's NHS number in the provider system is not associated with a NHS number status indicator code of 'Number present and verified' |
+            | 404         | PATIENT_NOT_FOUND      | The request is for the permissions of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)                 |
+            | 404         | PATIENT_NOT_FOUND      | The request is for the permissions of an inactive or deceased patient                                                                      |
           content:
             application/fhir+json:
               schema:
@@ -239,7 +239,7 @@ paths:
               examples:
                 InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
-                  
+
 components:
   headers:
     X-Correlation-ID:
