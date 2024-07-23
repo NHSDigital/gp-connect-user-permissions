@@ -1,4 +1,0 @@
-type: object
-allOf:
-  - $ref: "BaseRequest.yaml"
-  - $ref: "PrescriptionsPermissionUpdate.yaml"
