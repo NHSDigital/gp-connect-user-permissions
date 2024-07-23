@@ -108,9 +108,6 @@ properties:
             text:
               type: string
               description: Plain text representation of the concept, this should be used in order to display the rejection reason to the user.
-              example: 
-                Rejected same or below: Request rejected due to requested access being {the same as/below} the users current level for {current medicalRecord/historical medicalRecord/appointments/prescriptions}
-                Rejected above max: Request rejected due to requested access being above the maximum practice set level for {current medicalRecord/historical medicalRecord/appointments/prescriptions}
             diagnostics:
               type: string
               description: |
