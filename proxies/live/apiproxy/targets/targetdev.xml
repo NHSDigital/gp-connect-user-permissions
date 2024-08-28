@@ -87,7 +87,18 @@
             </Step>
             <Condition>GPCPFSAuthResponse.status.code=="500"</Condition>
         </FaultRule>
+        <FaultRule name="pds_error">
+            <Step>
+                <Name>AssignMessage.PDSErrorResponse</Name>
+            </Step>
+            <Condition>PDSResponse.status.code!=200</Condition>
+        </FaultRule>
     </FaultRules>
+    <DefaultFaultRule>
+        <Step>
+            <Name>AssignMessage.Errors.CatchAllMessage</Name>
+        </Step>
+    </DefaultFaultRule>
     <!--
   To point to a named target server as this is how it SHOULD be implemented:
   For example:
