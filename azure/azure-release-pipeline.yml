@@ -38,17 +38,17 @@ extends:
           GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-encrypted
         post_deploy:
           - template: ./templates/post-deploy.yml
-      - environment: internal-dev-sandbox
-        proxy_path: sandbox
-        jinja_templates:
-          GP_CONNECT_ENDPOINTS: just-dummy-value-for-successful-build
-          GP_CONNECT_CONFIG: just-dummy-value-for-successful-build
-          GP_CONNECT_CONFIG_ENCRYPTED: just-dummy-value-for-successful-build
-        post_deploy:
-          - template: ./templates/post-deploy.yml
+      # - environment: internal-dev-sandbox
+      #   proxy_path: sandbox
+      #   jinja_templates:
+      #     GP_CONNECT_ENDPOINTS: just-dummy-value-for-successful-build
+      #     GP_CONNECT_CONFIG: just-dummy-value-for-successful-build
+      #     GP_CONNECT_CONFIG_ENCRYPTED: just-dummy-value-for-successful-build
+      #   post_deploy:
+      #     - template: ./templates/post-deploy.yml
       - environment: sandbox
         depends_on:
-          - internal_dev_sandbox
+          - internal_dev
         proxy_path: sandbox
         jinja_templates:
           GP_CONNECT_ENDPOINTS: just-dummy-value-for-successful-build
@@ -71,5 +71,3 @@ extends:
           GP_CONNECT_ENDPOINTS: gp-connect-user-permissions-endpoints
           GP_CONNECT_CONFIG: gp-connect-user-permissions-config
           GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-encrypted
-        post_deploy:
-          - template: ./templates/post-deploy.yml
