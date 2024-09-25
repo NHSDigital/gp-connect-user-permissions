@@ -23,7 +23,7 @@
     </Request>
     <Response>PDSAuthResponse</Response>
     <HTTPTargetConnection>
-        <URL>https://int.api.service.nhs.uk/oauth2/token</URL>
+        <URL>https://{pds_base_url}/oauth2/token</URL>
     </HTTPTargetConnection>
     <Timeout>20000</Timeout>
 </ServiceCallout>
