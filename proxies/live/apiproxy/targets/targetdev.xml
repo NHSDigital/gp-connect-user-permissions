@@ -95,9 +95,13 @@
         </FaultRule>
     </FaultRules>
     <DefaultFaultRule>
-        <Step>
-            <Name>AssignMessage.Errors.CatchAllMessage</Name>
-        </Step>
+    <Step>
+      <Name>ExtractVariables.ResponseVariables</Name>
+    </Step>
+    <Step>      
+      <Name>AssignMessage.Errors.CatchAllMessage</Name>
+      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
+    </Step>
     </DefaultFaultRule>
     <!--
   To point to a named target server as this is how it SHOULD be implemented:

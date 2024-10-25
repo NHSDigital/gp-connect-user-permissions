@@ -95,7 +95,11 @@
   </FaultRules>
   <DefaultFaultRule>
     <Step>
+      <Name>ExtractVariables.ResponseVariables</Name>
+    </Step>
+    <Step>      
       <Name>AssignMessage.Errors.CatchAllMessage</Name>
+      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
     </Step>
   </DefaultFaultRule>
   <!--
