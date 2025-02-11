@@ -92,6 +92,12 @@
       </Step>
       <Condition>PDSResponse.status.code!=200</Condition>
     </FaultRule>
+    <FaultRule name="ods_not_found">
+      <Step>
+          <Name>AssignMessage.ODSNotFoundErrorResponse</Name>
+      </Step>
+      <Condition>endpoints = null</Condition>
+    </FaultRule>
   </FaultRules>
   <DefaultFaultRule>
     <Step>
