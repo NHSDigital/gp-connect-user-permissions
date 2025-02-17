@@ -161,7 +161,7 @@ For more information about deploying ECS containers see the [API Producer Zone c
 
 #### `manifest_template.yml`:
 
-This file defines 2 dictionaries of fields that are required for the Apigee deployment. For more info see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Manifest.yml+reference ).
+This file defines 2 dictionaries of fields that are required for the Apigee deployment. For more info see the [API Producer Zone confluence](https://nhsd-confluence.digital.nhs.uk/display/APM/Manifest.yml+reference).
 
 #### Package management:
 
