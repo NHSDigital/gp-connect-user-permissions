@@ -17,7 +17,7 @@ from token_validator.src.validate_access_token import validate_access_token
     {
         "access": "patient",
         "level": "P9",
-        "login_form": {"username": "9449305552"},
+        "login_form": {"username": "9734644475"},
     }
 )
 def test_valid_token(_test_app_credentials, apigee_environment, _jwt_keys, _keycloak_client_credentials):
@@ -36,7 +36,7 @@ def test_valid_token(_test_app_credentials, apigee_environment, _jwt_keys, _keyc
     {
         "access": "patient",
         "level": "P9",
-        "login_form": {"username": "9449305552"},
+        "login_form": {"username": "9734644475"},
     }
 )
 def test_invalid_token(
@@ -54,7 +54,7 @@ def test_invalid_token(
     {
         "access": "patient",
         "level": "P9",
-        "login_form": {"username": "9449305552"},
+        "login_form": {"username": "9734644475"},
     }
 )
 def test_happy_path(
@@ -81,7 +81,7 @@ def test_happy_path(
     {
         "access": "patient",
         "level": "P9",
-        "login_form": {"username": "9449305552"},
+        "login_form": {"username": "9734644475"},
     }
 )
 def test_401_invalid_token(
@@ -110,7 +110,7 @@ def get_access_token(environment, client_credentials):
         realm=f"NHS-Login-mock-{environment}",
         client_id=client_credentials["nhs-login"]["client_id"],
         client_secret=client_credentials["nhs-login"]["client_secret"],
-        login_form={"username": "9449305552"},
+        login_form={"username": "9734644475"},
     )
     authenticator = KeycloakUserAuthenticator(config=config)
     id_token = authenticator.get_token()["access_token"]
