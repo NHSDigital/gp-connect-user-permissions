@@ -3,24 +3,19 @@
     <Set>
         <StatusCode>400</StatusCode>
         <Payload contentType="application/json">
-      {
-        "resourceType": "OperationOutcome",
-        "issue": [
-          {
-            "severity": "error",
-            "code": "Bad Request",
-            "details": {
-              "coding": [
+        {
+            "resourceType": "OperationOutcome",
+            "issue": [
                 {
-                  "code": "BAD_REQUEST",
-                  "display": "ODS code not found"
-                },
-            "diagnostics" : "ODS Code Mismatch: The ODS code retrieved from PDS is not configured in APIM."
-              ]
-            }
-          }
-        ]
-      }
+                    "severity": "error",
+                    "code": "Bad Request",
+                    "details": {
+                        "coding": [{"code": "BAD_REQUEST", "display": "ODS code not found"}]
+                    },
+                    "diagnostics": "ODS Code Mismatch: The ODS code retrieved from PDS is not configured in APIM.",
+                }
+            ],
+        }
     </Payload>
     </Set>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
