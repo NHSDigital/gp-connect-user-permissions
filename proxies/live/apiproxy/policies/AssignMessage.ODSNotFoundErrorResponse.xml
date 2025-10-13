@@ -12,9 +12,9 @@
                     "details": {
                         "coding": [{"code": "BAD_REQUEST", "display": "ODS code not found"}]
                     },
-                    "diagnostics": "ODS Code Mismatch: The ODS code retrieved from PDS is not configured in APIM.",
+                    "diagnostics": "ODS Code Mismatch: The ODS code retrieved from PDS is not configured in APIM."
                 }
-            ],
+            ]
         }
     </Payload>
     </Set>
