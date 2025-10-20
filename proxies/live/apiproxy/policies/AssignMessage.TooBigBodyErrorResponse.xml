@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.AssignMessage.TooBigErrorResponse">
+    <Set>
+        <StatusCode>400</StatusCode>
+        <Payload contentType="application/json">
+        {
+            "resourceType": "OperationOutcome",
+            "issue": [
+                {
+                    "severity": "error",
+                    "code": "Bad Request",
+                    "details": {
+                        "coding": [{"code": "BAD_REQUEST", "display": "Too Big Error"}]
+                    },
+                    "diagnostics": "ODS Code Mismatch: The ODS code retrieved from PDS is not configured in APIM."
+                }
+            ]
+        }
+    </Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response"/>
+</AssignMessage>

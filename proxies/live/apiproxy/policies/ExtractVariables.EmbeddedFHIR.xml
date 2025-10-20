@@ -1,0 +1,9 @@
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="ExtractVariables.EmbeddedFHIR">
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <JSONPayload>
+    <Variable name="embeddedFHIR" type="string">
+      <JSONPath>$.issue[0].diagnostics</JSONPath>
+    </Variable>
+  </JSONPayload>
+  <Source clearPayload="false">error</Source>
+</ExtractVariables>

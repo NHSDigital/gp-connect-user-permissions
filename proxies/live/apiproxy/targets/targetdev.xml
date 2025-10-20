@@ -87,6 +87,15 @@
             </Step>
             <Condition>GPCPFSAuthResponse.status.code=="500"</Condition>
         </FaultRule>
+        <FaultRule name="gpc_token_auth_failed_400">
+            <Step>
+                <Name>AssignMessage.GPCAuthError400Response</Name>
+            </Step>
+            <Condition>
+                (fault.name = "ExecutionFailed" and 
+                ServiceCallout.AuthenticateAgainstGPCPFSInternalDev.status.code = 400)
+            </Condition>
+        </FaultRule>
         <FaultRule name="pds_error">
             <Step>
                 <Name>AssignMessage.PDSErrorResponse</Name>
@@ -98,6 +107,19 @@
                 <Name>AssignMessage.ODSNotFoundErrorResponse</Name>
             </Step>
             <Condition>endpoints = null</Condition>
+        </FaultRule>
+        <FaultRule name="UnwrapEmbeddedFHIR">
+            <Step>
+                <Name>ExtractVariables.EmbeddedFHIR</Name>
+            </Step>
+            <Step>
+                <Name>AssignMessage.Errors.UseEmbeddedFHIR</Name>
+            </Step>
+            <Condition>
+                contains(error.content, '"resourceType":"OperationOutcome"') 
+                and contains(error.content, '"diagnostics":"{') 
+                and contains(extractvariables.EmbeddedFHIR.embeddedFHIR, '"resourceType":"OperationOutcome"')
+            </Condition>
         </FaultRule>
     </FaultRules>
     <DefaultFaultRule>

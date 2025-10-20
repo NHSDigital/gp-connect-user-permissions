@@ -1,0 +1,7 @@
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Errors.UseEmbeddedFHIR">
+  <Set>
+    <Payload contentType="application/json">{extractvariables.EmbeddedFHIR.embeddedFHIR}</Payload>
+    <StatusCode>{extractvariables.EmbeddedStatusCode.statusCode}</StatusCode>
+    <AssignTo createNew="false" transport="http" type="response"/>
+  </Set>
+</AssignMessage>

@@ -1,0 +1,8 @@
+<ExtractVariables name="ExtractVariables.EmbeddedStatusCode">
+  <JSONPayload>
+    <Variable name="statusCode" type="string">
+      <JSONPath>$.issue[0].code</JSONPath>
+    </Variable>
+  </JSONPayload>
+  <Source clearPayload="false">error</Source>
+</ExtractVariables>
