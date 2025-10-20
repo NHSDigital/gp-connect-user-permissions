@@ -10,9 +10,9 @@
                     "severity": "error",
                     "code": "Bad Request",
                     "details": {
-                        "coding": [{"code": "BAD_REQUEST", "display": "Too Big Error"}]
+                        "coding": [{"code": "BAD_REQUEST", "display": "Response body exceeded buffer limit"}]
                     },
-                    "diagnostics": "ODS Code Mismatch: The ODS code retrieved from PDS is not configured in APIM."
+                    "diagnostics": "Body buffer overflow: response exceeded 10MB limit"
                 }
             ]
         }
