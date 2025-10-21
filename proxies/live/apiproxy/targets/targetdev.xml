@@ -117,7 +117,8 @@
             </Step>
             <Condition>
                 contains(error.content, '"resourceType":"OperationOutcome"') 
-                and contains(error.content, '"diagnostics":"{') 
+                and contains(error.content, '"diagnostics":"{')
+                and notnull(extractvariables.EmbeddedFHIR.embeddedFHIR)
                 and contains(extractvariables.EmbeddedFHIR.embeddedFHIR, '"resourceType":"OperationOutcome"')
             </Condition>
         </FaultRule>
