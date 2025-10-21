@@ -6,8 +6,10 @@ try {
   var diagnostics = null;
 
   // Safely access response.issue[0].diagnostics
-  if (response && response.issue && response.issue.length > 0) {
-    diagnostics = response.issue[0].diagnostics;
+  if (response && response.resourceType === "OperationOutcome" &&
+    response.issue && response.issue.length > 0 &&
+    response.issue[0].diagnostics) {
+   diagnostics = response.issue[0].diagnostics;
 
     // Try to parse diagnostics as JSON
     var innerJson = JSON.parse(diagnostics);

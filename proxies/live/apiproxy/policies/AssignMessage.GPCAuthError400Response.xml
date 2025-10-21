@@ -13,7 +13,7 @@
                         "coding": [{"code": "400", 
                         "display": "Bad Request"}]
                     },
-                    "diagnostics": "diagnostics": "%fault.faultstring#"
+                    "diagnostics": "%fault.faultstring#"
                 }
             ]
         }

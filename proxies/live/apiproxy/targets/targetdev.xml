@@ -93,7 +93,7 @@
             </Step>
             <Condition>
                 (fault.name = "ExecutionFailed" and 
-                ServiceCallout.AuthenticateAgainstGPCPFSInternalDev.status.code = 400)
+                ServiceCallout.AuthenticateAgainstGPCPFSInternalDev.status.code = 500)
             </Condition>
         </FaultRule>
         <FaultRule name="pds_error">
