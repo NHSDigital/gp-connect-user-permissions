@@ -1,4 +1,4 @@
-<Javascript name="JJavascript.UnwrapDiagnostics">
+<Javascript name="Javascript.UnwrapDiagnostics">
   <Properties/>
   <ResourceURL>jsc://unwrapDiagnostics.js</ResourceURL>
 </Javascript>
