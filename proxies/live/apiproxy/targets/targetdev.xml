@@ -116,10 +116,10 @@
                 <Name>AssignMessage.Errors.UseEmbeddedFHIR</Name>
             </Step>
             <Condition>
-                contains(error.content, '\"resourceType\":\"OperationOutcome\"') and
-                contains(error.content, '\"diagnostics\":\"{') and
-                notempty(extractvariables.EmbeddedFHIR.embeddedFHIR) and
-                contains(extractvariables.EmbeddedFHIR.embeddedFHIR, '\"resourceType\":\"OperationOutcome\"')
+            contains(error.content, &quot;resourceType&quot;:&quot;OperationOutcome&quot;) and
+            contains(error.content, &quot;diagnostics&quot;:&quot;{&quot;) and
+            extractvariables.EmbeddedFHIR.embeddedFHIR != "" and
+            contains(extractvariables.EmbeddedFHIR.embeddedFHIR, &quot;resourceType&quot;:&quot;OperationOutcome&quot;)
             </Condition>
         </FaultRule>
     </FaultRules>
