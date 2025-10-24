@@ -24,7 +24,7 @@ if (parsed && parsed.resourceType === "OperationOutcome") {
   context.setVariable("response.header.X-Error-Handled", "passthrough");
 } else if (parsed) {
   // Check if fault.faultstring contains a stringified OperationOutcome
-  var faultString = parsed.fault?.faultstring;
+  var faultString = parsed.fault && parsed.fault.faultstring;
   var nested = tryParseJSON(faultString);
 
   if (nested && nested.resourceType === "OperationOutcome") {
