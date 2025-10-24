@@ -1,28 +1,11 @@
 <AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Errors.CatchAllResponse">
   <DisplayName>Send Catch-All Response</DisplayName>
-  <Condition>error.handled = false or (ExtractVariables.ResponseVariables.failed = true)</Condition>
+  <Condition>error.handled = false and (ExtractVariables.ResponseVariables.failed = false)</Condition>
   <Set>
     <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
-    {
-        "resourceType": "OperationOutcome",
-        "issue": [
-            {
-            "severity": "error",
-            "code": "%error.status.code#",
-            "details": {
-                "coding": [
-                {
-                    "code": "%error.status.code#",
-                    "display": "%error.reason.phrase#"
-                }
-                ]
-            },
-            "diagnostics": "%error.content#"
-            }
-        ]
-    }
+      %error.content#
     </Payload>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
-    <AssignTo createNew="false" transport="https" type="response"/>
+    <AssignTo createNew="false" transport="http" type="response"/>
   </Set>
 </AssignMessage>
