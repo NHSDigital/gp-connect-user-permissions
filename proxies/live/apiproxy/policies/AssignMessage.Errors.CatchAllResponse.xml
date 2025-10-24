@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Errors.CatchAllMessage">
-  <DisplayName>Fallback Catch-All</DisplayName>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Errors.CatchAllResponse">
+  <DisplayName>Send Catch-All Response</DisplayName>
   <Condition>error.handled = false or (ExtractVariables.ResponseVariables.failed = true)</Condition>
   <Set>
     <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
@@ -24,6 +23,6 @@
     }
     </Payload>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
-    <AssignTo createNew="false" transport="https" type="request"/>
+    <AssignTo createNew="false" transport="https" type="response"/>
   </Set>
 </AssignMessage>

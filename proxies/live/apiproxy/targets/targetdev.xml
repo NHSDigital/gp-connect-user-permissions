@@ -113,13 +113,14 @@
     <Step>
       <Name>ExtractVariables.ResponseVariables</Name>
     </Step>
-    <Step>      
-      <Name>AssignMessage.Errors.CatchAllMessage</Name>
-      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
+    <Step>
+      <Name>Javascript.HandleErrorContent</Name>
     </Step>
     <Step>
-      <Name>Javascript.UnwrapDiagnostics</Name>
-      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
+      <Name>AssignMessage.Errors.CatchAllMessage</Name>
+    </Step>
+    <Step>          
+      <Name>AssignMessage.Errors.CatchAllResponse</Name>
     </Step>
     </DefaultFaultRule>
     <!--
