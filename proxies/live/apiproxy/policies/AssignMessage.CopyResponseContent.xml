@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<AssignMessage continueOnError="false" enabled="true" <AssignMessage name="AssignMessage.CopyResponseContent">
+<AssignMessage continueOnError="false" enabled="true" name="AssignMessage.CopyResponseContent">
   <DisplayName>Copy Response Content</DisplayName>
   <Condition>response.content != null and message.content = null</Condition>
   <AssignTo createNew="false" type="response"/>
