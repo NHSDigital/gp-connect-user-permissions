@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage continueOnError="false" enabled="true" <AssignMessage name="AssignMessage.CopyResponseContent">
+  <DisplayName>Copy Response Content</DisplayName>
+  <Condition>response.content != null and message.content = null</Condition>
+  <AssignTo createNew="false" type="response"/>
+  <Set>
+    <Payload variable="response.content"/>
+    <Headers>
+      <Header name="Content-Type">application/json</Header>
+    </Headers>
+    <StatusCode>%response.status.code#</StatusCode>
+    <ReasonPhrase>%response.reason.phrase#</ReasonPhrase>
+  </Set>
+</AssignMessage>

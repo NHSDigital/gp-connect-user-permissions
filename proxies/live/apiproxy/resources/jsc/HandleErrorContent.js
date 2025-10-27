@@ -30,7 +30,7 @@ if (raiseFaultTriggered || responseAlreadySet) {
     context.setVariable("response.status.code", statusCode);
     context.setVariable("response.reason.phrase", reasonPhrase);
     context.setVariable("error.handled.in.HandleErrorContent", true);
-    context.setVariable("response.header.X-Error-Handled", "passthrough");
+    context.setVariable("Error-Handled", "passthrough");
   }
 
   // If error.content is a fault object, check for nested OperationOutcome
@@ -45,7 +45,7 @@ if (raiseFaultTriggered || responseAlreadySet) {
       context.setVariable("response.status.code", statusCode);
       context.setVariable("response.reason.phrase", reasonPhrase);
       context.setVariable("error.handled.in.HandleErrorContent", true);
-      context.setVariable("response.header.X-Error-Handled", "unwrapped-nested");
+      context.setVariable("Error-Handled", "unwrapped-nested");
     }
 
     // Otherwise, wrap fault string or full object into a clean OperationOutcome
@@ -76,7 +76,7 @@ if (raiseFaultTriggered || responseAlreadySet) {
       context.setVariable("response.status.code", statusCode);
       context.setVariable("response.reason.phrase", reasonPhrase);
       context.setVariable("error.handled.in.HandleErrorContent", true);
-      context.setVariable("response.header.X-Error-Handled", "wrapped");
+      context.setVariable("Error-Handled", "wrapped");
     }
   }
 
@@ -106,6 +106,6 @@ if (raiseFaultTriggered || responseAlreadySet) {
     context.setVariable("response.status.code", statusCode);
     context.setVariable("response.reason.phrase", reasonPhrase);
     context.setVariable("error.handled.in.HandleErrorContent", true);
-    context.setVariable("response.header.X-Error-Handled", "fallback-empty");
+    context.setVariable("Error-Handled", "fallback-empty");
   }
 }

@@ -117,6 +117,9 @@
       <Name>Javascript.HandleErrorContent</Name>
     </Step>
     <Step>
+     <Name>AssignMessage.CopyResponseContent<Name>
+    </Step>
+    <Step>
       <Name>AssignMessage.Errors.CatchAllMessage</Name>
     </Step>
     <Step>          
