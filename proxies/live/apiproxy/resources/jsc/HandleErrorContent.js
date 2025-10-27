@@ -20,7 +20,7 @@ if (parsed && parsed.resourceType === "OperationOutcome") {
   context.setVariable("response.header.Content-Type", "application/json");
   context.setVariable("response.status.code", statusCode);
   context.setVariable("response.reason.phrase", reasonPhrase);
-  context.setVariable("error.handled", true);
+  context.setVariable("error.handled.in.HandleErrorContent", true);
   context.setVariable("response.header.X-Error-Handled", "passthrough");
 } else if (parsed) {
   // Check if fault.faultstring contains a stringified OperationOutcome

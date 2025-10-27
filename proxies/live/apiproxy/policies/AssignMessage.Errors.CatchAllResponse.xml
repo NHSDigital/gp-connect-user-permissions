@@ -1,9 +1,9 @@
-<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Errors.CatchAllResponse">
+<AssignMessage name="AssignMessage.Errors.CatchAllResponse" enabled="true">
   <DisplayName>Send Catch-All Response</DisplayName>
-  <Condition>error.handled = false and (ExtractVariables.ResponseVariables.failed = false)</Condition>
+  <Condition>error.handled = true</Condition>
   <Set>
     <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
-      %error.content#
+      %response.content#
     </Payload>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
     <AssignTo createNew="false" transport="http" type="response"/>
