@@ -1,0 +1,11 @@
+<AssignMessage name="AssignMessage.Errors.CatchAllResponse" enabled="true">
+  <DisplayName>Send Catch-All Response</DisplayName>
+  <Condition>error.handled.in.HandleErrorContent = true</Condition>
+  <Set>
+    <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
+      %response.content#
+    </Payload>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response"/>
+  </Set>
+</AssignMessage>
