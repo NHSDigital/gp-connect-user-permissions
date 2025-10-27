@@ -117,10 +117,10 @@
       <Name>Javascript.HandleErrorContent</Name>
     </Step>
     <Step>
-      <Name>AssignMessage.Errors.CatchAllMessage</Name>
+      <Name>AssignMessage.Errors.CatchAllResponse</Name>
     </Step>
     <Step>          
-      <Name>AssignMessage.Errors.CatchAllResponse</Name>
+      <Name>AssignMessage.Errors.CatchAllMessage</Name>
     </Step>
     </DefaultFaultRule>
     <!--
