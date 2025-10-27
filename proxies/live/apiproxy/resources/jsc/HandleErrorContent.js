@@ -1,5 +1,7 @@
 var errorContent = context.getVariable("error.content");
-var statusCode = context.getVariable("error.status.code") || "500";
+var rawStatus = context.getVariable("error.status.code");
+var statusCode = parseInt(rawStatus, 10) || 500;
+context.setVariable("response.status.code", statusCode);
 var reasonPhrase = context.getVariable("error.reason.phrase") || "Internal Server Error";
 
 // Check if RaiseFault was triggered or a custom response already exists
