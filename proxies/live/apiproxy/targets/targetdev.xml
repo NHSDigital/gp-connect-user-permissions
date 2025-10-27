@@ -121,6 +121,7 @@
     </Step>
     <Step>          
       <Name>AssignMessage.Errors.CatchAllMessage</Name>
+      <Condition>error.handled = false</Condition>
     </Step>
     </DefaultFaultRule>
     <!--

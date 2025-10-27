@@ -8,6 +8,7 @@ var responseAlreadySet = context.getVariable("response.content") !== null;
 
 // Default to not handled
 context.setVariable("error.handled.in.HandleErrorContent", false);
+context.setVariable("error.handled", false);
 
 function tryParseJSON(str) {
   try {
@@ -30,6 +31,7 @@ if (raiseFaultTriggered || responseAlreadySet) {
     context.setVariable("response.status.code", statusCode);
     context.setVariable("response.reason.phrase", reasonPhrase);
     context.setVariable("error.handled.in.HandleErrorContent", true);
+    context.setVariable("error.handled", true);
     context.setVariable("response.header.X-Error-Handled", "passthrough");
   }
 
@@ -45,7 +47,8 @@ if (raiseFaultTriggered || responseAlreadySet) {
       context.setVariable("response.status.code", statusCode);
       context.setVariable("response.reason.phrase", reasonPhrase);
       context.setVariable("error.handled.in.HandleErrorContent", true);
-      context.setVariable("response.header.X-Error-Handled", "unwrapped-nested");
+      context.setVariable("error.handled", true);
+      context.setVariable("error.handled.source", "unwrapped-nested");;
     }
 
     // Otherwise, wrap fault string or full object into a clean OperationOutcome
@@ -76,12 +79,20 @@ if (raiseFaultTriggered || responseAlreadySet) {
       context.setVariable("response.status.code", statusCode);
       context.setVariable("response.reason.phrase", reasonPhrase);
       context.setVariable("error.handled.in.HandleErrorContent", true);
-      context.setVariable("response.header.X-Error-Handled", "wrapped");
+      context.setVariable("error.handled", true);
+      context.setVariable("error.handled.source", "wrapped");
     }
   }
 
-  // If error.content is empty or invalid, return a fallback OperationOutcome with blank diagnostics
+  // If error.content is empty or invalid, return a fallback OperationOutcome with diagnostics
   else {
+    var diagnostics;
+    if (typeof errorContent === "string") {
+      diagnostics = errorContent;
+    } else {
+      diagnostics = JSON.stringify(errorContent || {});
+    }
+
     var fallbackEmpty = {
       resourceType: "OperationOutcome",
       issue: [
@@ -96,7 +107,7 @@ if (raiseFaultTriggered || responseAlreadySet) {
               }
             ]
           },
-          diagnostics: ""
+          diagnostics: diagnostics
         }
       ]
     };
@@ -106,6 +117,7 @@ if (raiseFaultTriggered || responseAlreadySet) {
     context.setVariable("response.status.code", statusCode);
     context.setVariable("response.reason.phrase", reasonPhrase);
     context.setVariable("error.handled.in.HandleErrorContent", true);
-    context.setVariable("response.header.X-Error-Handled", "fallback-empty");
+    context.setVariable("error.handled", true);
+    context.setVariable("error.handled.source", "fallback-empty");
   }
 }
