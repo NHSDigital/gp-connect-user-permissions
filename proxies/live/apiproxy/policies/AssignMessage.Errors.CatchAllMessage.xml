@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.Errors.CatchAllMessage">
   <DisplayName>Fallback Catch-All</DisplayName>
-  <Condition>error.handled.in.HandleErrorContent = false and 
-  ExtractVariables.ResponseVariables.failed = false and
-  raisefault.failed != true
+  <Condition>error.handled.in.HandleErrorContent = false
   </Condition>
   <Set>
     <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
