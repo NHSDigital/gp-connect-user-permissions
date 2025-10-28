@@ -111,9 +111,6 @@
     </FaultRules>
     <DefaultFaultRule>
     <Step>
-      <Name>ExtractVariables.ResponseVariables</Name>
-    </Step>
-    <Step>
       <Name>Javascript.HandleErrorContent</Name>
     </Step>
     <Step>
