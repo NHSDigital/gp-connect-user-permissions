@@ -19,7 +19,7 @@ function tryParseJSON(str) {
 
 // Skip handling if RaiseFault ran or a custom AssignMessage response is already set
 if (raiseFaultTriggered || responseAlreadySet) {
-  context.setVariable("response.header.X-Error-Handled", "skipped-due-to-raisefault-or-custom-response");
+  context.setVariable("Error-Handled", "skipped-due-to-raisefault-or-custom-response");
 } else {
   var parsed = tryParseJSON(errorContent);
 
