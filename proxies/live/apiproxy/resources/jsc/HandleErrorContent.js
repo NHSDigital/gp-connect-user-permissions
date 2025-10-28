@@ -2,110 +2,93 @@ var errorContent = context.getVariable("error.content");
 var statusCode = context.getVariable("error.status.code") || "500";
 var reasonPhrase = context.getVariable("error.reason.phrase") || "Internal Server Error";
 
-// Check if RaiseFault was triggered or a custom response already exists
-var raiseFaultTriggered = context.getVariable("raisefault.failed") === true;
-var responseAlreadySet = context.getVariable("response.content") !== null;
+// Check if a response is already set
+var responseAlreadySet = !!context.getVariable("response.content");
 
 // Default to not handled
 context.setVariable("error.handled.in.HandleErrorContent", false);
 
+// Helper to parse JSON safely
 function tryParseJSON(str) {
-  try {
-    return JSON.parse(str);
-  } catch (e) {
-    return null;
-  }
+  try { return JSON.parse(str); } 
+  catch (e) { return null; }
 }
 
-// Skip handling if RaiseFault ran or a custom AssignMessage response is already set
-if (raiseFaultTriggered || responseAlreadySet) {
-  context.setVariable("Error-Handled", "skipped-due-to-raisefault-or-custom-response");
+// Only skip if a response already exists
+if (responseAlreadySet) {
+    context.setVariable("Error-Handled", "skipped-due-to-existing-response");
 } else {
-  var parsed = tryParseJSON(errorContent);
+    var parsed = tryParseJSON(errorContent);
+    var responseContent = null;
 
-  // If error.content is already a valid OperationOutcome, pass it through
-  if (parsed && parsed.resourceType === "OperationOutcome") {
-    context.setVariable("response.content", JSON.stringify(parsed));
-    context.setVariable("response.header.Content-Type", "application/json");
-    context.setVariable("response.status.code", statusCode);
-    context.setVariable("response.reason.phrase", reasonPhrase);
-    context.setVariable("error.handled.in.HandleErrorContent", true);
-    context.setVariable("Error-Handled", "passthrough");
-  }
-
-  // If error.content is a fault object, check for nested OperationOutcome
-  else if (parsed) {
-    var faultString = parsed.fault && parsed.fault.faultstring;
-    var nested = tryParseJSON(faultString);
-
-    // If nested OperationOutcome found, unwrap and use it
-    if (nested && nested.resourceType === "OperationOutcome") {
-      context.setVariable("response.content", JSON.stringify(nested));
-      context.setVariable("response.header.Content-Type", "application/json");
-      context.setVariable("response.status.code", statusCode);
-      context.setVariable("response.reason.phrase", reasonPhrase);
-      context.setVariable("error.handled.in.HandleErrorContent", true);
-      context.setVariable("Error-Handled", "unwrapped-nested");
-    }
-
-    // Otherwise, wrap fault string or full object into a clean OperationOutcome
-    else {
-      var diagnostics = faultString || JSON.stringify(parsed);
-
-      var fallback = {
-        resourceType: "OperationOutcome",
-        issue: [
-          {
-            severity: "error",
-            code: statusCode,
-            details: {
-              coding: [
+    // Already a FHIR OperationOutcome
+    if (parsed && parsed.resourceType === "OperationOutcome") {
+        responseContent = parsed;
+        context.setVariable("Error-Handled", "passthrough");
+    } 
+    // RaiseFault or Apigee fault JSON
+    else if (parsed && parsed.fault && parsed.fault.faultstring) {
+        responseContent = {
+            resourceType: "OperationOutcome",
+            issue: [
                 {
-                  code: statusCode,
-                  display: reasonPhrase
+                    severity: "error",
+                    code: statusCode.toString(),
+                    details: {
+                        coding: [
+                            { code: statusCode.toString(), display: reasonPhrase }
+                        ]
+                    },
+                    diagnostics: parsed.fault.faultstring
                 }
-              ]
-            },
-            diagnostics: diagnostics
-          }
-        ]
-      };
-
-      context.setVariable("response.content", JSON.stringify(fallback));
-      context.setVariable("response.header.Content-Type", "application/json");
-      context.setVariable("response.status.code", statusCode);
-      context.setVariable("response.reason.phrase", reasonPhrase);
-      context.setVariable("error.handled.in.HandleErrorContent", true);
-      context.setVariable("Error-Handled", "wrapped");
-    }
-  }
-
-  // If error.content is empty or invalid, return a fallback OperationOutcome with blank diagnostics
-  else {
-    var fallbackEmpty = {
-      resourceType: "OperationOutcome",
-      issue: [
-        {
-          severity: "error",
-          code: statusCode,
-          details: {
-            coding: [
-              {
-                code: statusCode,
-                display: reasonPhrase
-              }
             ]
-          },
-          diagnostics: ""
-        }
-      ]
-    };
+        };
+        context.setVariable("Error-Handled", "transformed-raisefault");
+    } 
+    // Other JSON with faultstring
+    else if (parsed && parsed.faultstring) {
+        responseContent = {
+            resourceType: "OperationOutcome",
+            issue: [
+                {
+                    severity: "error",
+                    code: statusCode.toString(),
+                    details: {
+                        coding: [
+                            { code: statusCode.toString(), display: reasonPhrase }
+                        ]
+                    },
+                    diagnostics: parsed.faultstring
+                }
+            ]
+        };
+        context.setVariable("Error-Handled", "transformed-faultstring");
+    } 
+    // Fallback for unparsable or empty content
+    else {
+        responseContent = {
+            resourceType: "OperationOutcome",
+            issue: [
+                {
+                    severity: "error",
+                    code: statusCode.toString(),
+                    details: {
+                        coding: [
+                            { code: statusCode.toString(), display: reasonPhrase }
+                        ]
+                    },
+                    diagnostics: errorContent || ""
+                }
+            ]
+        };
+        context.setVariable("Error-Handled", "fallback-empty");
+    }
 
-    context.setVariable("response.content", JSON.stringify(fallbackEmpty));
-    context.setVariable("response.header.Content-Type", "application/json");
+    // Set the response content and headers
+    context.setVariable("response.content", JSON.stringify(responseContent));
+    context.setVariable("response.header.Content-Type", "application/fhir+json");
     context.setVariable("response.status.code", statusCode);
     context.setVariable("response.reason.phrase", reasonPhrase);
     context.setVariable("error.handled.in.HandleErrorContent", true);
-    context.setVariable("Error-Handled", "fallback-empty");
-  }
 }
+
