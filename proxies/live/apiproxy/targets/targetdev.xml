@@ -111,13 +111,19 @@
     </FaultRules>
     <DefaultFaultRule>
     <Step>
+      <Name>ExtractVariables.ResponseVariables</Name>
+    </Step>
+    <Step>
       <Name>Javascript.HandleErrorContent</Name>
+      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
     </Step>
     <Step>
       <Name>AssignMessage.Errors.CatchAllMessage</Name>
+      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
     </Step>
     <Step>          
       <Name>AssignMessage.Errors.CatchAllResponse</Name>
+      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
     </Step>
     </DefaultFaultRule>
     <!--
