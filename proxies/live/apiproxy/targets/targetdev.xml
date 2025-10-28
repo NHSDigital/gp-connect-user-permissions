@@ -118,8 +118,13 @@
       <Condition>(error.handled.in.HandleErrorContent = true)</Condition>
     </Step>
     <Step>
+      <Name>ExtractVariables.ResponseVariables</Name>
+      <Condition>(error.handled.in.HandleErrorContent = false)</Condition>
+    </Step>
+    <Step>
       <Name>AssignMessage.Errors.CatchAllMessage</Name>
       <Condition>(error.handled.in.HandleErrorContent = false)</Condition>
+      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
     </Step>
     </DefaultFaultRule>
     <!--
