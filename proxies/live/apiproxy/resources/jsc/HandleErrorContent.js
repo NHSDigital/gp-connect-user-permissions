@@ -5,7 +5,7 @@ var reasonPhrase = context.getVariable("error.reason.phrase") || "Internal Serve
 // Default to not handled
 context.setVariable("error.handled.in.HandleErrorContent", false);
 
-// --- Helper: safely parse JSON ---
+// ---Safely parse JSON ---
 function tryParseJSON(str) {
   try { return JSON.parse(str); }
   catch (e) { return null; }
@@ -19,12 +19,6 @@ var responseContent;
 if (parsed && parsed.resourceType === "OperationOutcome") {
     responseContent = parsed;
     context.setVariable("Error-Handled", "passthrough");
-    context.setVariable("Error-Handled", "fallback-empty");
-    context.setVariable("response.content", JSON.stringify(responseContent));
-    context.setVariable("response.header.Content-Type", "application/fhir+json");
-    context.setVariable("response.status.code", statusCode);
-    context.setVariable("response.reason.phrase", reasonPhrase);
-    context.setVariable("error.handled.in.HandleErrorContent", true);
 }
 
 // --- Apigee RaiseFault / ServiceCallout format ---
@@ -43,12 +37,7 @@ else if (parsed && parsed.fault && parsed.fault.faultstring) {
         ]
     };
     context.setVariable("Error-Handled", "transformed-raisefault");
-    context.setVariable("Error-Handled", "fallback-empty");
-    context.setVariable("response.content", JSON.stringify(responseContent));
-    context.setVariable("response.header.Content-Type", "application/fhir+json");
-    context.setVariable("response.status.code", statusCode);
-    context.setVariable("response.reason.phrase", reasonPhrase);
-    context.setVariable("error.handled.in.HandleErrorContent", true);
+
 }
 
 // --- Other JSON with faultstring ---
@@ -67,12 +56,6 @@ else if (parsed && parsed.faultstring) {
         ]
     };
     context.setVariable("Error-Handled", "transformed-faultstring");
-    context.setVariable("Error-Handled", "fallback-empty");
-    context.setVariable("response.content", JSON.stringify(responseContent));
-    context.setVariable("response.header.Content-Type", "application/fhir+json");
-    context.setVariable("response.status.code", statusCode);
-    context.setVariable("response.reason.phrase", reasonPhrase);
-    context.setVariable("error.handled.in.HandleErrorContent", true);
 }
 
 // --- Fallback for non-JSON or empty content ---
@@ -91,9 +74,11 @@ else {
         ]
     };
     context.setVariable("Error-Handled", "fallback-empty");
-    context.setVariable("response.content", JSON.stringify(responseContent));
+}
+
+    context.setVariable("handled.error.output", JSON.stringify(responseContent));
+    context.setVariable("handleErrorSucceeded", true);
     context.setVariable("response.header.Content-Type", "application/fhir+json");
     context.setVariable("response.status.code", statusCode);
     context.setVariable("response.reason.phrase", reasonPhrase);
     context.setVariable("error.handled.in.HandleErrorContent", true);
-}
