@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <AssignMessage name="AssignMessage.Errors.CatchAllResponse" enabled="true">
-    <DisplayName>Send Catch-All Response</DisplayName>
     <Set>
         <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
       %handled.error.output#
