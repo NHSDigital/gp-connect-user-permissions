@@ -87,6 +87,15 @@
             </Step>
             <Condition>GPCPFSAuthResponse.status.code=="500"</Condition>
         </FaultRule>
+        <FaultRule name="gpc_token_auth_failed_400">
+            <Step>
+                <Name>AssignMessage.GPCAuthError400Response</Name>
+            </Step>
+            <Condition>
+                (fault.name = "ExecutionFailed" and 
+                ServiceCallout.AuthenticateAgainstGPCPFSInternalDev.status.code = 500)
+            </Condition>
+        </FaultRule>
         <FaultRule name="pds_error">
             <Step>
                 <Name>AssignMessage.PDSErrorResponse</Name>
@@ -99,14 +108,19 @@
             </Step>
             <Condition>endpoints = null</Condition>
         </FaultRule>
+        <FaultRule name="body_buffer_overflow">
+            <Step>
+                <Name>AssignMessage.TooBigErrorResponse</Name>
+            </Step>
+            <Condition>fault.errorcode = "protocol.http.TooBigBody"</Condition>
+        </FaultRule>
     </FaultRules>
     <DefaultFaultRule>
     <Step>
-      <Name>ExtractVariables.ResponseVariables</Name>
+      <Name>Javascript.HandleErrorContent</Name>
     </Step>
-    <Step>      
-      <Name>AssignMessage.Errors.CatchAllMessage</Name>
-      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
+    <Step>          
+      <Name>AssignMessage.Errors.CatchAllResponse</Name>
     </Step>
     </DefaultFaultRule>
     <!--

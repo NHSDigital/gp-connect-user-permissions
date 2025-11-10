@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.ODSNotFoundErrorResponse">
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.GPCAuthError400Response">
     <Set>
         <StatusCode>400</StatusCode>
         <Payload contentType="application/json">
@@ -8,11 +8,12 @@
             "issue": [
                 {
                     "severity": "error",
-                    "code": "Bad Request",
+                    "code": "400",
                     "details": {
-                        "coding": [{"code": "BAD_REQUEST", "display": "ODS code not found"}]
+                        "coding": [{"code": "400", 
+                        "display": "Bad Request"}]
                     },
-                    "diagnostics": "ODS Code Mismatch: The ODS code retrieved from PDS is not configured in APIM."
+                    "diagnostics": "%fault.faultstring#"
                 }
             ]
         }

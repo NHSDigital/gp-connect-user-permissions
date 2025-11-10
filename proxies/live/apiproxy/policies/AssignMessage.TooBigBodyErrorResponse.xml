@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.ODSNotFoundErrorResponse">
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.TooBigErrorResponse">
     <Set>
         <StatusCode>400</StatusCode>
         <Payload contentType="application/json">
@@ -10,9 +10,9 @@
                     "severity": "error",
                     "code": "Bad Request",
                     "details": {
-                        "coding": [{"code": "BAD_REQUEST", "display": "ODS code not found"}]
+                        "coding": [{"code": "BAD_REQUEST", "display": "Response body exceeded buffer limit"}]
                     },
-                    "diagnostics": "ODS Code Mismatch: The ODS code retrieved from PDS is not configured in APIM."
+                    "diagnostics": "Body buffer overflow: response exceeded 10MB limit"
                 }
             ]
         }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AssignMessage.Errors.CatchAllResponse" enabled="true">
+    <Set>
+        <Payload contentType="application/json" variablePrefix="%" variableSuffix="#">
+      %handled.error.output#
+    </Payload>
+        <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+        <AssignTo createNew="false" transport="http" type="response"/>
+    </Set>
+    <Set>
+        <Variable name="catchAllResponseSent">true</Variable>
+    </Set>
+</AssignMessage>
