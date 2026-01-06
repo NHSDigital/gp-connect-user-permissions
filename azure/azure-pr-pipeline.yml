@@ -8,7 +8,7 @@ resources:
     - repository: common
       type: github
       name: NHSDigital/api-management-utils
-      ref: refs/heads/task-5686
+      ref: refs/heads/edge
       endpoint: NHSDigital
   pipelines:
   - pipeline: build_pipeline
@@ -31,7 +31,6 @@ extends:
   parameters:
     service_name: ${{ variables.service_name }}
     short_service_name: ${{ variables.short_service_name }}
-    python_version: ${{ variables.python_version }}
     service_base_path: ${{ variables.service_base_path }}
     apigee_deployments:
       - environment: internal-dev
