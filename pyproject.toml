@@ -1,6 +1,3 @@
-[project]
-python = "^3.8"
-
 [tool.poetry]
 name = "gp-connect-user-permissions"
 version = "0.0.1-alpha"
