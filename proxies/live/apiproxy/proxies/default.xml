@@ -9,7 +9,7 @@
       </Step>
       <Step>
         <Name>FlowCallout.CompositeTokenCheckOptIN</Name>
-        <Condition>(delegatedaccess.enabled ) = true or (delegatedaccess.enabled ) = false</Condition>
+        <Condition>not (proxy.pathsuffix MatchesPath "/_ping")</Condition>
       </Step>
       <Step>
         <Name>JavaScript.ValidateNHSNumber</Name>
