@@ -8,7 +8,6 @@ import requests
 import pytest
 import os
 from os import getenv
-from .example_loader import load_example
 
 
 @pytest.fixture()
