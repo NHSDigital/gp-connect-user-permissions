@@ -8,6 +8,16 @@
         <Name>FlowCallout.ApplyRateLimiting</Name>
       </Step>
       <Step>
+        <Name>AM-Enable-DelegatedAccess</Name>
+      </Step>
+      <Step>
+        <Name>FlowCallout.CompositeTokenCheckOptIN</Name>
+        <Condition>(delegatedaccess.enabled ) = true or (delegatedaccess.enabled ) = false</Condition>
+      </Step>
+      <Step>
+        <Name>JavaScript.ValidateNHSNumber</Name>
+      </Step>
+      <Step>
         <Name>DecodeJWT.DecodeIDToken</Name>
       </Step>
       <Step>
