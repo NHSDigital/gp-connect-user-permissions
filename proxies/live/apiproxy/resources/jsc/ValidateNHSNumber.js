@@ -1,10 +1,10 @@
 //print("nhsd.actor.nhs_number   : " + context.getVariable("nhsd.actor.nhs_number"));
-print("nhsd.subject.nhs_number : " + context.getVariable("nhsd.subject.nhs_number"));
+//print("nhsd.subject.nhs_number : " + context.getVariable("nhsd.subject.nhs_number"));
 
 // ---- Subject NHS number (from composite ID shared flow) ----
 var subNHS = context.getVariable("nhsd.subject.nhs_number");
 
-print(subNHS);
+//print(subNHS);
 if (subNHS) {
     var requestNHS = null;
     var pathSuffix = context.getVariable("proxy.pathsuffix");
