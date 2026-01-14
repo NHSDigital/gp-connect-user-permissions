@@ -12,17 +12,7 @@ if (subNHS) {
         requestNHS = parts.length ? parts[parts.length - 1] : null;
         //print("NHS from route: " + requestNHS);
         requestNHS = requestNHS.trim();
-        if(requestNHS) {
-            if(requestNHS !== subNHS) {
-                context.setVariable('trigger.raiseNHSNumberFault', true);
-                var errorObject = { error: 'invalid_token', errorDescription: "NHS ID could not be validated", statusCode: 401, reasonPhrase: "Unauthorized" };
-                context.setVariable('validation.errorMessage', errorObject.error);
-                context.setVariable('validation.errorDescription', errorObject.errorDescription);
-                context.setVariable('validation.statusCode', errorObject.statusCode);
-                context.setVariable('validation.reasonPhrase', errorObject.reasonPhrase);
-            }
-        }
-        else {
+        if(requestNHS !== subNHS) {
             context.setVariable('trigger.raiseNHSNumberFault', true);
             var errorObject = { error: 'invalid_token', errorDescription: "NHS ID could not be validated", statusCode: 401, reasonPhrase: "Unauthorized" };
             context.setVariable('validation.errorMessage', errorObject.error);

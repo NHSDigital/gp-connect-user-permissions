@@ -13,6 +13,7 @@
       </Step>
       <Step>
         <Name>JavaScript.ValidateNHSNumber</Name>
+        <Condition>not (proxy.pathsuffix MatchesPath "/_ping" or proxy.pathsuffix MatchesPath "/_status")</Condition>
       </Step>
       <Step>
         <Name>RaiseFault.401InvalidNHSNumber</Name>
