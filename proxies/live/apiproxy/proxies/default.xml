@@ -4,6 +4,21 @@
       <Step>
         <Name>FlowCallout.GetEnvironmentKeyValueMapData</Name>
       </Step>
+      <Step>
+        <Name>AM-Enable-DelegatedAccess</Name>
+      </Step>
+      <Step>
+        <Name>FlowCallout.CompositeTokenCheckOptIN</Name>
+        <Condition>not (proxy.pathsuffix MatchesPath "/_ping" or proxy.pathsuffix MatchesPath "/_status")</Condition>
+      </Step>
+      <Step>
+        <Name>JavaScript.ValidateNHSNumber</Name>
+        <Condition>not (proxy.pathsuffix MatchesPath "/_ping" or proxy.pathsuffix MatchesPath "/_status")</Condition>
+      </Step>
+      <Step>
+        <Name>RaiseFault.401InvalidNHSNumber</Name>
+        <Condition>(trigger.raiseNHSNumberFault = true)</Condition>
+      </Step>
     </Request>
   </PreFlow>
   <Flows>
