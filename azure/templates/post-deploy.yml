@@ -81,9 +81,9 @@ steps:
            python scripts/apigee_kvm.py --env $APIGEE_ENVIRONMENT --access-token $(secret.AccessToken) populate-interaction-ids gp-connect-user-permissions-endpoints-pr-$pr_no --ods H81109 --provider-endpoint $domain_name --oauth-endpoint $oauth_endpoint
          fi
      fi
-   displayName: Deploy mock provider
-   workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)"
-   retryCountOnTaskFailure: 2
+    displayName: Deploy mock provider
+    workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)"
+    retryCountOnTaskFailure: 2
 
   - bash: |
       set -e
