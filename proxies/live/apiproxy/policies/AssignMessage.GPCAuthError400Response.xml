@@ -8,7 +8,7 @@
             "issue": [
                 {
                     "severity": "error",
-                    "code": "400",
+                    "code": "exception",
                     "details": {
                         "coding": [{"code": "400", 
                         "display": "Bad Request"}]
