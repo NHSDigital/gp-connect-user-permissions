@@ -26,7 +26,7 @@ resource "null_resource" "push_token_validator_image" {
     interpreter = ["bash", "-c"]
     command = <<EOF
       aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.eu-west-2.amazonaws.com
-      docker build -t ${local.validator_ecr_tag} -f ${local.validator_path}/Dockerfile ${local.validator_path}
+      DOCKER_BUILDKIT=0 docker build -t ${local.validator_ecr_tag} -f ${local.validator_path}/Dockerfile ${local.validator_path}
       docker push ${local.validator_ecr_tag}
       EOF
     working_dir = "."

@@ -98,12 +98,6 @@
       </Step>
       <Condition>endpoints = null</Condition>
     </FaultRule>
-    <FaultRule name="body_buffer_overflow">
-      <Step>
-          <Name>AssignMessage.TooBigErrorResponse</Name>
-      </Step>
-      <Condition>fault.errorcode = "protocol.http.TooBigBody"</Condition>
-    </FaultRule>
   </FaultRules>
   <DefaultFaultRule>
     <Step>

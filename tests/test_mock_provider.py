@@ -20,4 +20,4 @@ def test_mock_receiver_patient_record_path(nhsd_apim_proxy_url, nhsd_apim_auth_h
         f"{nhsd_apim_proxy_url}/Patient/9000000009",
         headers=headers
     )
-    assert resp.status_code == 500
+    assert resp.status_code == 200
