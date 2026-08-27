@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-Enable-DelegatedAccess">
+    <DisplayName>AM-Enable-DelegatedAccess</DisplayName>
+    <AssignVariable>
+        <Name>delegatedaccess.enabled</Name>
+        <Value>true</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

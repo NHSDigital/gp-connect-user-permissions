@@ -19,4 +19,4 @@ COPY --from=0  /specification  /usr/src/prism/packages/cli/gp-connect-user-permi
 COPY --from=0  /updated-spec.json  /usr/src/prism/packages/cli/gp-connect-user-permissions/specification/gp-connect-user-permissions.json
 
 #Running command of mock with OAS file
-CMD ["mock" , "-h", "0.0.0.0", "-p" ,"9000" ,"gp-connect-user-permissions/specification/gp-connect-user-permissions.json"]
+CMD ["mock" , "-h", "0.0.0.0", "-p" ,"9000" , "--multiprocess=false", "gp-connect-user-permissions/specification/gp-connect-user-permissions.json"]
