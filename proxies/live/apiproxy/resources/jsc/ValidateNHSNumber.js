@@ -24,8 +24,10 @@ else if (httpverb == 'POST') {
     var reqContent = context.getVariable("request.content");
     var jsonContent = JSON.parse(reqContent);
     var postNHSnumber = null;
-    for (var p of jsonContent.parameter) {
-        if (p.name === "patientNHSNumber" && p.valueIdentifier?.value) {
+    var p;
+    for (var i = 0; i < jsonContent.parameter.length; i++) {
+        p = jsonContent.parameter[i];
+        if (p.name === "patientNHSNumber" && p.valueIdentifier && p.valueIdentifier.value) {
             postNHSnumber = p.valueIdentifier.value;
             break;
         }
