@@ -84,6 +84,8 @@ steps:
     displayName: Deploy mock provider
     workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)"
     retryCountOnTaskFailure: 2
+    env:
+       PYTHONWARNINGS: "ignore::SyntaxWarning"
 
   - bash: |
       set -e
